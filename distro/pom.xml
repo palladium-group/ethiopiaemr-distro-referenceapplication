@@ -26,7 +26,7 @@
     <!-- OpenMRS Modules community maintained modules -->
     <addresshierarchy.version>2.20.0</addresshierarchy.version>
     <appframework.version>2.18.0</appframework.version>
-    <appointments.version>2.0.0</appointments.version>
+    <appointments.version>2.1.0-20250318.070530-1</appointments.version>
     <appui.version>1.18.0</appui.version>
     <attachments.version>3.6.0</attachments.version>
     <bedmanagement.version>6.2.0-SNAPSHOT</bedmanagement.version>
@@ -36,7 +36,7 @@
     <dataexchange.version>1.3.9-SNAPSHOT</dataexchange.version>
     <emrapi.version>2.2.0</emrapi.version>
     <event.version>2.10.0</event.version>
-    <fhir2.version>2.3.0</fhir2.version>
+    <fhir2.version>2.7.0</fhir2.version>
     <groovy.version>2.4.0-SNAPSHOT</groovy.version>
     <htmlformentry.version>5.4.0</htmlformentry.version>
     <htmlwidgets.version>1.11.0</htmlwidgets.version>
@@ -48,32 +48,32 @@
     <metadatasharing.version>1.10.0</metadatasharing.version>
     <o3forms.version>2.3.0</o3forms.version>
     <openconceptlab.version>2.4.0</openconceptlab.version>
-    <openmrs.version>2.6.15</openmrs.version>
+    <openmrs.version>2.7.5</openmrs.version>
     <ordertemplates.version>1.0.2</ordertemplates.version>
-    <queue.version>2.6.0</queue.version>
+    <queue.version>2.9.0-SNAPSHOT</queue.version>
     <reporting.version>1.27.0</reporting.version>
     <reportingcompatibility.version>2.0.9</reportingcompatibility.version>
     <reportingrest.version>1.15.0</reportingrest.version>
     <serialization-xstream.version>0.2.16</serialization-xstream.version>
-    <teleconsultation.version>2.0.0-20230831.113926-1</teleconsultation.version>
+    <teleconsultation.version>2.1.0-20250318.154145-1</teleconsultation.version>
     <uicommons.version>2.26.0</uicommons.version>
     <uiframework.version>3.25.0</uiframework.version>
-    <webservices.rest.version>2.50.0-SNAPSHOT</webservices.rest.version>
+    <webservices.rest.version>3.0.0-SNAPSHOT</webservices.rest.version>
 
     <!-- KenyaEMR Modules -->
     <afyastat.version>1.2.3-SNAPSHOT</afyastat.version>
     <facilityreporting.version>1.2.2-SNAPSHOT</facilityreporting.version>
     <hivtestingservices.version>1.5.6</hivtestingservices.version>
-    <insuranceclaims.version>1.0.5-SNAPSHOT</insuranceclaims.version>
+    <insuranceclaims.version>1.1.4-SNAPSHOT</insuranceclaims.version>
     <jasperreport.version>2.1.0-SNAPSHOT</jasperreport.version>
     <kenyacore.version>3.0.2-SNAPSHOT</kenyacore.version>
-    <kenyaemr.cashier.version>4.2.3-SNAPSHOT</kenyaemr.cashier.version>
-    <kenyaemr.version>19.2.0</kenyaemr.version>
+    <kenyaemr.cashier.version>4.2.4</kenyaemr.cashier.version>
+    <kenyaemr.version>19.3.0-SNAPSHOT</kenyaemr.version>
     <kenyaemrCharts.version>1.6.8</kenyaemrCharts.version>
     <kenyaemrextras.version>1.4.4-SNAPSHOT</kenyaemrextras.version>
-    <kenyaemrIL.version>1.3.6-SNAPSHOT</kenyaemrIL.version>
-    <kenyaemrml.version>1.4.1-SNAPSHOT</kenyaemrml.version>
-    <kenyaemrorderentry.version>1.6.7</kenyaemrorderentry.version>
+    <kenyaemrIL.version>1.3.9-SNAPSHOT</kenyaemrIL.version>
+    <kenyaemrml.version>1.4.1</kenyaemrml.version>
+    <kenyaemrorderentry.version>1.7.0-SNAPSHOT</kenyaemrorderentry.version>
     <kenyaui.version>3.0.1-SNAPSHOT</kenyaui.version>
     <kenyakeypop.version>1.4.1-SNAPSHOT</kenyakeypop.version>
     <prep.version>1.4.3</prep.version>
