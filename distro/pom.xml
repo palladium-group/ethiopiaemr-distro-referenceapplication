@@ -24,7 +24,7 @@
     <distro.spaConfigDir>${distro.baseDir}/spa_config</distro.spaConfigDir>
 
     <!-- OpenMRS Modules community maintained modules -->
-    <addresshierarchy.version>2.20.0</addresshierarchy.version>
+    <addresshierarchy.version>2.21.0</addresshierarchy.version>
     <appframework.version>2.18.0</appframework.version>
     <appointments.version>2.1.0-20250318.070530-1</appointments.version>
     <appui.version>1.18.0</appui.version>
@@ -34,27 +34,26 @@
     <covid19.version>1.0.5</covid19.version>
     <crossborder2.version>1.0.2</crossborder2.version>
     <dataexchange.version>1.3.9-SNAPSHOT</dataexchange.version>
-    <emrapi.version>2.2.0</emrapi.version>
-    <event.version>2.10.0</event.version>
-    <fhir2.version>2.7.0</fhir2.version>
+    <emrapi.version>2.3.0-SNAPSHOT</emrapi.version>
+    <event.version>3.0.0</event.version>
+    <fhir2.version>2.8.0</fhir2.version>
     <groovy.version>2.4.0-SNAPSHOT</groovy.version>
     <htmlformentry.version>5.4.0</htmlformentry.version>
     <htmlwidgets.version>1.11.0</htmlwidgets.version>
     <idgen.version>4.15.0-SNAPSHOT</idgen.version>
     <initializer.version>2.9.0</initializer.version>
-    <legacyui.version>1.22.0</legacyui.version>
+    <legacyui.version>2.0.0</legacyui.version>
     <metadatadeploy.version>1.13.1-SNAPSHOT</metadatadeploy.version>
     <metadatamapping.version>1.6.0</metadatamapping.version>
     <metadatasharing.version>1.10.0</metadatasharing.version>
-    <o3forms.version>2.3.0</o3forms.version>
+    <o3forms.version>2.4.0-SNAPSHOT</o3forms.version>
     <openconceptlab.version>2.4.0</openconceptlab.version>
-    <openmrs.version>2.7.5</openmrs.version>
-    <ordertemplates.version>1.0.2</ordertemplates.version>
+    <ordertemplates.version>1.0.3-SNAPSHOT</ordertemplates.version>
     <queue.version>2.9.0-SNAPSHOT</queue.version>
-    <reporting.version>1.27.0</reporting.version>
-    <reportingcompatibility.version>2.0.9</reportingcompatibility.version>
+    <reporting.version>2.0.0</reporting.version>
+    <reportingcompatibility.version>2.10.0</reportingcompatibility.version>
     <reportingrest.version>1.15.0</reportingrest.version>
-    <serialization-xstream.version>0.2.16</serialization-xstream.version>
+    <serialization-xstream.version>0.3.0</serialization-xstream.version>
     <teleconsultation.version>2.1.0-20250318.154145-1</teleconsultation.version>
     <uicommons.version>2.26.0</uicommons.version>
     <uiframework.version>3.25.0</uiframework.version>
@@ -77,9 +76,13 @@
     <kenyaui.version>3.0.1-SNAPSHOT</kenyaui.version>
     <kenyakeypop.version>1.4.1-SNAPSHOT</kenyakeypop.version>
     <prep.version>1.4.3</prep.version>
-    <stockmanagement.version>2.0.3</stockmanagement.version>
+    <stockmanagement.version>3.0.0-SNAPSHOT</stockmanagement.version>
     <vdot.version>1.0.0-SNAPSHOT</vdot.version>
     <orderexpansion.version>1.0.0</orderexpansion.version>
+    
+    <!-- OpenMRS Core platform -->
+    <openmrs.version>2.8.1</openmrs.version>
+
 
     <!-- Content Packages -->
     <ethiopiaemr-package.version>1.0.0-SNAPSHOT</ethiopiaemr-package.version>
