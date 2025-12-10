@@ -51,7 +51,7 @@ services:
   db:
     image: mysql:8.0
     restart: "unless-stopped"
-    command: "--character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --max_allowed_packet=1G"
+    command: "--character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --max_allowed_packet=1G --log-bin-trust-function-creators=1"
     healthcheck:
       test: 'mysql --user=${OMRS_DB_USER:-openmrs} --password=${OMRS_DB_PASSWORD:-openmrs} --execute "SHOW DATABASES;"'
       interval: 3s
@@ -63,10 +63,9 @@ services:
       MYSQL_PASSWORD: ${OMRS_DB_PASSWORD:-openmrs}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-openmrs}
     volumes:
-      - db-data:/var/lib/mysql
+      - ./mysql-data:/var/lib/mysql
       - ./mysql-dump:/docker-entrypoint-initdb.d
 
 volumes:
   openmrs-data: ~
-  db-data: ~
   backend-spa-config: ~

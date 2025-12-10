@@ -39,7 +39,7 @@
     <fhir2.version>3.0.0-SNAPSHOT</fhir2.version>
     <groovy.version>2.4.0-SNAPSHOT</groovy.version>
     <htmlformentry.version>5.4.0</htmlformentry.version>
-    <htmlwidgets.version>1.11.0</htmlwidgets.version>
+    <htmlwidgets.version>2.0.1</htmlwidgets.version>
     <idgen.version>4.15.0-SNAPSHOT</idgen.version>
     <initializer.version>2.9.0</initializer.version>
     <legacyui.version>2.0.0</legacyui.version>
@@ -54,7 +54,7 @@
     <reportingcompatibility.version>2.10.0</reportingcompatibility.version>
     <reportingrest.version>1.15.0</reportingrest.version>
     <serialization-xstream.version>0.4.0-SNAPSHOT</serialization-xstream.version>
-    <teleconsultation.version>2.1.0-SNAPSHOT</teleconsultation.version>
+    <teleconsultation.version>2.1.0-20250318.154145-1</teleconsultation.version>
     <uicommons.version>2.26.0</uicommons.version>
     <uiframework.version>3.25.0</uiframework.version>
     <webservices.rest.version>4.0.0-SNAPSHOT</webservices.rest.version>
