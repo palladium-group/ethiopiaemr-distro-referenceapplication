@@ -6,7 +6,7 @@ on:
 
 env:
   IMAGE_NAMESPACE: ${{ secrets.DOCKERHUB_USERNAME}}
-  PUSH_IMAGE: ${{github.ref == 'refs/heads/main' && secrets.DOCKERHUB_USERNAME != '' && secrets.DOCKERHUB_TOKEN != '' }}
+  PUSH_IMAGE: ${{github.ref == 'refs/heads/ETHIOEMR10-6-configure-cicd' && secrets.DOCKERHUB_USERNAME != '' && secrets.DOCKERHUB_TOKEN != '' }}
 
 jobs:
   docker:
