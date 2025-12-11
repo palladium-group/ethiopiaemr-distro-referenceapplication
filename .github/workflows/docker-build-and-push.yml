@@ -61,7 +61,7 @@ jobs:
           cache-from: type=gha,scope=${{ matrix.service }}
           cache-to: type=gha,mode=max,scope=${{ matrix.service }}
   restart-ethioemr-deployment:
-    name: Restart biftuhc tenant deployments
+    name: Restart Ethioemr tenant deployments
     runs-on: ubuntu-latest
     needs: docker
     steps:
