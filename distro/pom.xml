@@ -536,6 +536,20 @@
       <url>https://mavenrepo.openmrs.org/modules</url>
     </repository>
     <repository>
+      <id>repo.mybahmni.org</id>
+      <name>bahmni-artifactory-snapshots</name>
+      <url>https://repo.mybahmni.org/artifactory/snapshot</url>
+      <snapshots>
+        <enabled>true</enabled>
+        <updatePolicy>always</updatePolicy>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>repo.mybahmni.org-release</id>
+      <name>bahmni-artifactory-release</name>
+      <url>https://repo.mybahmni.org/artifactory/release</url>
+    </repository>
+    <repository>
       <id>openmrs-repo-snapshots</id>
       <name>OpenMRS Snapshots</name>
       <url>https://openmrs.jfrog.io/artifactory/snapshots</url>
