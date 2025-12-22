@@ -26,7 +26,7 @@
     <!-- OpenMRS Modules community maintained modules -->
     <addresshierarchy.version>2.21.0</addresshierarchy.version>
     <appframework.version>2.18.0</appframework.version>
-    <appointments.version>2.1.0-20250318.070530-1</appointments.version>
+    <appointments.version>2.1.0-SNAPSHOT</appointments.version>
     <appui.version>1.18.0</appui.version>
     <attachments.version>3.6.0</attachments.version>
     <bedmanagement.version>6.2.0-SNAPSHOT</bedmanagement.version>
