@@ -51,6 +51,10 @@ COPY nginx.conf /etc/nginx/nginx.conf
 # Copy SPA files to a temporary location
 COPY --from=dev /app/spa /usr/share/nginx/html/openmrs/spa
 
+COPY config-core_demo.json /usr/share/nginx/html/openmrs/spa
+
+CMD ["/usr/local/bin/startup.sh"]
+
 # Mount point for SPA config files
 #VOLUME ["/usr/share/nginx/html"]
 
