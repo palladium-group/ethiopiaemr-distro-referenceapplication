@@ -72,7 +72,6 @@ jobs:
           username: ${{ secrets.VM_USER }}
           password: ${{ secrets.VM_PASSWORD }}
           script: |
-            kubectl rollout restart deployment/biftuhc-backend -n ethioemr-tenant-biftuhc
             kubectl rollout restart deployment/biftuhc-frontend -n ethioemr-tenant-biftuhc
 
             kubectl rollout status deployment/biftuhc-frontend -n ethioemr-tenant-biftuhc
