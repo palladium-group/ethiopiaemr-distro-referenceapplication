@@ -52,7 +52,7 @@ COPY nginx.conf /etc/nginx/nginx.conf
 COPY --from=dev /app/spa /usr/share/nginx/html/openmrs/spa
 
 # Mount point for SPA config files
-VOLUME ["/usr/share/nginx/html"]
+#VOLUME ["/usr/share/nginx/html"]
 
 # Copy SPA files after volume mount
-CMD ["/bin/sh", "-c", "cp -R /tmp/spa/* /usr/share/nginx/html/ && /usr/local/bin/startup.sh"]
+#CMD ["/bin/sh", "-c", "cp -R /usr/share/nginx/html/openmrs/* /usr/share/nginx/html/ && /usr/local/bin/startup.sh"]
