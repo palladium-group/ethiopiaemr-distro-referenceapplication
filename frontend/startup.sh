@@ -5,16 +5,16 @@ set -e
 # so we change "importmap.json" into "$IMPORTMAP_URL" allowing it to be changed by envsubst
 if [ -n "${IMPORTMAP_URL}" ]; then
   if [ -n "$SPA_PATH" ]; then
-    [ -f "/usr/share/nginx/html/index.html"  ] && \
+    [ -f "/usr/share/nginx/html/openmrs/spa/index.html"  ] && \
       sed -i -e 's/\("|''\)$SPA_PATH\/importmap.json\("|''\)/\1$IMPORTMAP_URL\1/g' "/usr/share/nginx/html/openmrs/spa/index.html"
 
-    [ -f "/usr/share/nginx/html/service-worker.js" ] && \
+    [ -f "/usr/share/nginx/html/openmrs/spa/service-worker.js" ] && \
       sed -i -e 's/\("|''\)$SPA_PATH\/importmap.json\("|''\)/\1$IMPORTMAP_URL\1/g' "/usr/share/nginx/html/openmrs/spa/service-worker.js"
   else
-    [ -f "/usr/share/nginx/html/index.html"  ] && \
+    [ -f "/usr/share/nginx/html/openmrs/spa/index.html"  ] && \
       sed -i -e 's/\("|''\)importmap.json\("|''\)/\1$IMPORTMAP_URL\1/g' "/usr/share/nginx/html/openmrs/spa/index.html"
 
-    [ -f "/usr/share/nginx/html/service-worker.js" ] && \
+    [ -f "/usr/share/nginx/html/openmrs/spa/service-worker.js" ] && \
       sed -i -e 's/\("|''\)importmap.json\("|''\)/\1$IMPORTMAP_URL\1/g' "/usr/share/nginx/html/openmrs/spa/service-worker.js"
   fi
 fi
@@ -52,16 +52,16 @@ SPA_PAGE_TITLE=${SPA_PAGE_TITLE:-"Taifa Care - KenyaEMR"}
 # Substitute environment variables in the html file
 # This allows us to override parts of the compiled file at runtime
 if [ -f "/usr/share/nginx/html/openmrs/spa/index.html" ]; then
-  envsubst '${IMPORTMAP_URL} ${SPA_PATH} ${API_URL} ${SPA_CONFIG_URLS} ${SPA_DEFAULT_LOCALE} ${SPA_PAGE_TITLE}' < "/usr/share/nginx/html/index.html" | sponge "/usr/share/nginx/html/index.html"
+  envsubst '${IMPORTMAP_URL} ${SPA_PATH} ${API_URL} ${SPA_CONFIG_URLS} ${SPA_DEFAULT_LOCALE} ${SPA_PAGE_TITLE}' < "/usr/share/nginx/html/openmrs/spa/index.html" | sponge "/usr/share/nginx/html/openmrs/spa/index.html"
 fi
 
 if [ -f "/usr/share/nginx/html/openmrs/spa/service-worker.js" ]; then
-  envsubst '${IMPORTMAP_URL} ${SPA_PATH} ${API_URL}' < "/usr/share/nginx/html/service-worker.js" | sponge "/usr/share/nginx/html/service-worker.js"
+  envsubst '${IMPORTMAP_URL} ${SPA_PATH} ${API_URL}' < "/usr/share/nginx/html/openmrs/spa/service-worker.js" | sponge "/usr/share/nginx/html/openmrs/spa/service-worker.js"
 fi
 
 # Copy favicon.ico from assets to the html folder if it exists
 if [ -f "/usr/share/nginx/html/openmrs/spa/config/assets/kenyahmis-package/favicon.ico" ]; then
-  cp /usr/share/nginx/html/openmrs/spa/config/assets/kenyahmis-package/favicon.ico /usr/share/nginx/html/
+  cp /usr/share/nginx/html/openmrs/spa/config/assets/kenyahmis-package/favicon.ico /usr/share/nginx/html/openmrs/spa
 fi
 
 exec nginx -g "daemon off;"
