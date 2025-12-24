@@ -39,7 +39,8 @@ RUN apk update && \
     apk upgrade && \
     # add more utils for sponge and envsubst
     apk add --no-cache moreutils
-
+    
+RUN rm -rf /usr/share/nginx/html/*
 # Create directory for SPA files
 RUN mkdir -p /usr/share/nginx/html/openmrs/spa
 
