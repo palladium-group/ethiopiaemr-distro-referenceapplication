@@ -41,7 +41,7 @@ RUN apk update && \
     apk add --no-cache moreutils
 
 # Create directory for SPA files
-RUN mkdir -p /usr/share/nginx/html
+RUN mkdir -p /usr/share/nginx/html/openmrs/spa
 
 COPY startup.sh /usr/local/bin/startup.sh
 RUN chmod +x /usr/local/bin/startup.sh
@@ -49,7 +49,7 @@ RUN chmod +x /usr/local/bin/startup.sh
 COPY nginx.conf /etc/nginx/nginx.conf
 
 # Copy SPA files to a temporary location
-COPY --from=dev /app/spa /tmp/spa
+COPY --from=dev /app/spa /usr/share/nginx/html/openmrs/spa
 
 # Mount point for SPA config files
 VOLUME ["/usr/share/nginx/html"]
