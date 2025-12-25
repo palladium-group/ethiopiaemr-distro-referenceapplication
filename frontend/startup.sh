@@ -1,33 +1,67 @@
 #!/bin/sh
 set -e
 
-# 1. Force Export
-export SPA_PATH=${SPA_PATH:-/openmrs/spa}
-export API_URL=${API_URL:-/openmrs}
-export SPA_DEFAULT_LOCALE=${SPA_DEFAULT_LOCALE:-en_GB}
-export SPA_PAGE_TITLE=${SPA_PAGE_TITLE:-"Taifa Care - KenyaEMR"}
+# if we are using the $IMPORTMAP_URL environment variable, we have to make this useful,
+# so we change "importmap.json" into "$IMPORTMAP_URL" allowing it to be changed by envsubst
+if [ -n "${IMPORTMAP_URL}" ]; then
+  if [ -n "$SPA_PATH" ]; then
+    [ -f "/usr/share/nginx/html/index.html"  ] && \
+      sed -i -e 's/\("|''\)$SPA_PATH\/importmap.json\("|''\)/\1$IMPORTMAP_URL\1/g' "/usr/share/nginx/html/index.html"
 
-TARGET_DIR="/usr/share/nginx/html/openmrs/spa"
-TARGET_INDEX="$TARGET_DIR/index.html"
+    [ -f "/usr/share/nginx/html/service-worker.js" ] && \
+      sed -i -e 's/\("|''\)$SPA_PATH\/importmap.json\("|''\)/\1$IMPORTMAP_URL\1/g' "/usr/share/nginx/html/service-worker.js"
+  else
+    [ -f "/usr/share/nginx/html/index.html"  ] && \
+      sed -i -e 's/\("|''\)importmap.json\("|''\)/\1$IMPORTMAP_URL\1/g' "/usr/share/nginx/html/index.html"
 
-# 2. Fix the Base Path in the HTML files
-# This replaces any raw "importmap.json" or "routes.registry.json" 
-# with the full path including /openmrs/spa/
-if [ -f "$TARGET_INDEX" ]; then
-  echo "Fixing paths in $TARGET_INDEX"
-  sed -i "s|importmap.json|${SPA_PATH}/importmap.json|g" "$TARGET_INDEX"
-  sed -i "s|routes.registry.json|${SPA_PATH}/routes.registry.json|g" "$TARGET_INDEX"
-  
-  # Run envsubst
-  envsubst '${IMPORTMAP_URL} ${SPA_PATH} ${API_URL} ${SPA_CONFIG_URLS} ${SPA_DEFAULT_LOCALE} ${SPA_PAGE_TITLE}' < "$TARGET_INDEX" | sponge "$TARGET_INDEX"
-  
-  # Copy to root so the initial load works
-  cp "$TARGET_INDEX" /usr/share/nginx/html/index.html
+    [ -f "/usr/share/nginx/html/service-worker.js" ] && \
+      sed -i -e 's/\("|''\)importmap.json\("|''\)/\1$IMPORTMAP_URL\1/g' "/usr/share/nginx/html/service-worker.js"
+  fi
 fi
 
-# 3. Handle JavaScript/CSS files that might have $SPA_PATH
-# This fixes the PNG and JS/CSS 404s
-find "$TARGET_DIR" -type f -name "*.js" -o -name "*.json" -o -name "*.css" | xargs -I {} sh -c "envsubst '\${SPA_PATH}' < {} | sponge {}"
+# setting the config urls to "" causes an error reported in the console, so if we aren't using
+# the SPA_CONFIG_URLS, we remove it from the source, leaving config urls as []
+if [ -z "$SPA_CONFIG_URLS" ]; then
+  sed -i -e 's/"$SPA_CONFIG_URLS"//' "/usr/share/nginx/html/index.html"
+# otherwise convert the URLs into a Javascript list
+# we support two formats, a comma-separated list or a space separated list
+else
+  old_IFS="$IFS"
+  if echo "$SPA_CONFIG_URLS" | grep , >/dev/null; then
+    IFS=","
+  fi
 
-echo "Starting Nginx..."
+  CONFIG_URLS=
+  for url in $SPA_CONFIG_URLS;
+  do
+    if [ -z "$CONFIG_URLS" ]; then
+      CONFIG_URLS="\"${url}\""
+    else
+      CONFIG_URLS="$CONFIG_URLS,\"${url}\""
+    fi
+  done
+
+  IFS="$old_IFS"
+  export SPA_CONFIG_URLS=$CONFIG_URLS
+  sed -i -e 's/"$SPA_CONFIG_URLS"/$SPA_CONFIG_URLS/' "/usr/share/nginx/html/index.html"
+fi
+
+SPA_DEFAULT_LOCALE=${SPA_DEFAULT_LOCALE:-en_GB}
+SPA_PAGE_TITLE=${SPA_PAGE_TITLE:-"Taifa Care - KenyaEMR"}
+
+# Substitute environment variables in the html file
+# This allows us to override parts of the compiled file at runtime
+if [ -f "/usr/share/nginx/html/index.html" ]; then
+  envsubst '${IMPORTMAP_URL} ${SPA_PATH} ${API_URL} ${SPA_CONFIG_URLS} ${SPA_DEFAULT_LOCALE} ${SPA_PAGE_TITLE}' < "/usr/share/nginx/html/index.html" | sponge "/usr/share/nginx/html/index.html"
+fi
+
+if [ -f "/usr/share/nginx/html/service-worker.js" ]; then
+  envsubst '${IMPORTMAP_URL} ${SPA_PATH} ${API_URL}' < "/usr/share/nginx/html/service-worker.js" | sponge "/usr/share/nginx/html/service-worker.js"
+fi
+
+# Copy favicon.ico from assets to the html folder if it exists
+if [ -f "/usr/share/nginx/html/config/assets/kenyahmis-package/favicon.ico" ]; then
+  cp /usr/share/nginx/html/config/assets/kenyahmis-package/favicon.ico /usr/share/nginx/html/
+fi
+
 exec nginx -g "daemon off;"

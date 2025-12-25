@@ -49,10 +49,10 @@ RUN chmod +x /usr/local/bin/startup.sh
 COPY nginx.conf /etc/nginx/nginx.conf
 
 # Copy SPA files to a temporary location
-COPY --from=dev /app/spa /tmp/spa
+COPY --from=dev /app/spa /usr/share/nginx/html/openmrs/spa
 
 # Mount point for SPA config files
-VOLUME ["/usr/share/nginx/html"]
+# VOLUME ["/usr/share/nginx/html"]
 
 # Copy SPA files after volume mount
-CMD ["/bin/sh", "-c", "cp -R /tmp/spa/* /usr/share/nginx/html/openmrs/spa/ && /usr/local/bin/startup.sh"]
+CMD ["/bin/sh", "-c", "/usr/local/bin/startup.sh"]
