@@ -40,9 +40,8 @@ RUN apk update && \
     # add more utils for sponge and envsubst
     apk add --no-cache moreutils
 
-RUN rm -rf /usr/share/nginx/html/*
 # Create directory for SPA files
-RUN mkdir -p /usr/share/nginx/html/
+RUN mkdir -p /usr/share/nginx/html
 
 COPY startup.sh /usr/local/bin/startup.sh
 RUN chmod +x /usr/local/bin/startup.sh
@@ -50,14 +49,10 @@ RUN chmod +x /usr/local/bin/startup.sh
 COPY nginx.conf /etc/nginx/nginx.conf
 
 # Copy SPA files to a temporary location
-COPY --from=dev /app/spa /usr/share/nginx/html/
-
-COPY config-core_demo.json /usr/share/nginx/html/
-
-CMD ["/usr/local/bin/startup.sh"]
+COPY --from=dev /app/spa /tmp/spa
 
 # Mount point for SPA config files
-#VOLUME ["/usr/share/nginx/html"]
+VOLUME ["/usr/share/nginx/html"]
 
 # Copy SPA files after volume mount
-#CMD ["/bin/sh", "-c", "cp -R /usr/share/nginx/html/openmrs/* /usr/share/nginx/html/ && /usr/local/bin/startup.sh"]
+CMD ["/bin/sh", "-c", "mkdir -p /usr/share/nginx/html/openmrs/spa && cp -R /tmp/spa/* /usr/share/nginx/html/openmrs/spa/ && cp /tmp/spa/index.html /usr/share/nginx/html/ && /usr/local/bin/startup.sh"]
