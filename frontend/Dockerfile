@@ -41,7 +41,7 @@ RUN apk update && \
     apk add --no-cache moreutils
 
 # Create directory for SPA files
-RUN mkdir -p /usr/share/nginx/html
+RUN mkdir -p /usr/share/nginx/html/openmrs/spa
 
 COPY startup.sh /usr/local/bin/startup.sh
 RUN chmod +x /usr/local/bin/startup.sh
