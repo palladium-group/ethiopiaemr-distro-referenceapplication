@@ -55,4 +55,4 @@ COPY --from=dev /app/spa /tmp/spa
 VOLUME ["/usr/share/nginx/html"]
 
 # Copy SPA files after volume mount
-CMD ["/bin/sh", "-c", "mkdir -p /usr/share/nginx/html/openmrs/spa && cp -R /tmp/spa/* /usr/share/nginx/html/openmrs/spa/ && cp /tmp/spa/index.html /usr/share/nginx/html/ && /usr/local/bin/startup.sh"]
+CMD ["/bin/sh", "-c", "cp -R /tmp/spa/* /usr/share/nginx/html/openmrs/spa/ && /usr/local/bin/startup.sh"]
