@@ -9,10 +9,10 @@ ARG APP_SHELL_VERSION=next
 RUN mkdir -p /app
 WORKDIR /app
 
-COPY spa-assemble-config.json .
-COPY spa-build-config.json .
-COPY rename-packages.sh .
-COPY favicon.ico .
+COPY frontend/spa-assemble-config.json .
+COPY frontend/spa-build-config.json .
+COPY frontend/rename-packages.sh .
+COPY frontend/favicon.ico .
 
 ARG CACHE_BUST
 RUN npx --legacy-peer-deps openmrs@${APP_SHELL_VERSION:-next} \
@@ -43,16 +43,35 @@ RUN apk update && \
 # Create directory for SPA files
 RUN mkdir -p /usr/share/nginx/html/openmrs/spa
 
-COPY startup.sh /usr/local/bin/startup.sh
+COPY frontend/startup.sh /usr/local/bin/startup.sh
 RUN chmod +x /usr/local/bin/startup.sh
 
-COPY nginx.conf /etc/nginx/nginx.conf
+COPY frontend/nginx.conf /etc/nginx/nginx.conf
 
 # Copy SPA files to a temporary location
 COPY --from=dev /app/spa /usr/share/nginx/html/openmrs/spa
 
-# Mount point for SPA config files
-# VOLUME ["/usr/share/nginx/html"]
+# Copy SPA config files from backend build (if available)
+# These configs come from the backend distro build and are placed in spa-configs during CI/CD
+# The configs directory structure: spa-configs/configs/, spa-configs/assets/, spa-configs/overrides/
+# Ensure directories exist first
+RUN mkdir -p /usr/share/nginx/html/openmrs/spa/configs \
+             /usr/share/nginx/html/openmrs/spa/assets \
+             /usr/share/nginx/html/openmrs/spa/overrides \
+             /usr/share/nginx/html/config
+
+# Copy spa-configs from build context (present in CI/CD builds from backend distro build)
+# This directory will contain the configs, assets, and overrides subdirectories
+# Path is relative to build context (root directory)
+# The files need to be accessible at /openmrs/spa/config/... URLs, so we copy to both locations
+COPY frontend/spa-configs /tmp/spa-configs
+RUN if [ -d /tmp/spa-configs ] && [ "$(ls -A /tmp/spa-configs 2>/dev/null)" ]; then \
+        cp -r /tmp/spa-configs/* /usr/share/nginx/html/openmrs/spa/ && \
+        mkdir -p /usr/share/nginx/html/openmrs/spa/config && \
+        cp -r /tmp/spa-configs/* /usr/share/nginx/html/openmrs/spa/config/ && \
+        cp -r /tmp/spa-configs/* /usr/share/nginx/html/config/ && \
+        rm -rf /tmp/spa-configs; \
+    fi
 
 # Copy SPA files after volume mount
 CMD ["/bin/sh", "-c", "/usr/local/bin/startup.sh"]

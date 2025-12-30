@@ -2,16 +2,43 @@ name: Build and Push Docker Images
 
 on:
   push:
-    branches: [main, ETHIOEMR10-6-configure-cicd]
+    branches: [main, ETHIOEMR10-6-configure-cicd, fix/attempt]
 
 env:
   IMAGE_NAMESPACE: ${{ secrets.DOCKERHUB_USERNAME }}
-  PUSH_IMAGE: ${{ github.ref == 'refs/heads/ETHIOEMR10-6-configure-cicd' && secrets.DOCKERHUB_USERNAME != '' && secrets.DOCKERHUB_TOKEN != '' }}
+  PUSH_IMAGE: ${{ github.ref == 'refs/heads/ETHIOEMR10-6-configure-cicd' || github.ref == 'refs/heads/fix/attempt' && secrets.DOCKERHUB_USERNAME != '' && secrets.DOCKERHUB_TOKEN != '' }}
 
 jobs:
+  build-backend-distro:
+    name: Build Backend Distro
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: "21"
+          cache: "maven"
+
+      - name: Build distro to generate SPA configs
+        run: mvn --batch-mode --update-snapshots --activate-profiles distro clean package -Dskip.validation=true
+
+      - name: Upload SPA configs as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: spa-configs
+          path: distro/target/sdk-distro/web/openmrs_spa/*
+          retention-days: 1
+
   docker:
     name: Build and Push Images
     runs-on: ubuntu-latest
+    needs: build-backend-distro
     permissions:
       contents: read
     strategy:
@@ -21,11 +48,24 @@ jobs:
             context: .
             file: ./Dockerfile
           - service: frontend
-            context: ./frontend
+            context: .
             file: ./frontend/Dockerfile
+            needs-spa-configs: true
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Download SPA configs (frontend only)
+        if: ${{ matrix.needs-spa-configs }}
+        uses: actions/download-artifact@v4
+        with:
+          name: spa-configs
+          path: ./frontend/spa-configs
+      
+      - name: Ensure spa-configs directory exists
+        if: ${{ matrix.needs-spa-configs }}
+        run: |
+          mkdir -p ./frontend/spa-configs
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
