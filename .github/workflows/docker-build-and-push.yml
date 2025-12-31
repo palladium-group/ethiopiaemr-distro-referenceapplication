@@ -98,8 +98,7 @@ jobs:
           push: ${{ env.PUSH_IMAGE == 'true' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=gha,scope=${{ matrix.service }}
-          cache-to: type=gha,mode=max,scope=${{ matrix.service }}
+          no-cache: true
   restart-ethioemr-deployment:
     name: Restart Ethioemr tenant deployments
     runs-on: ubuntu-latest
