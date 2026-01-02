@@ -26,7 +26,7 @@
     <!-- OpenMRS Modules community maintained modules -->
     <addresshierarchy.version>2.21.0</addresshierarchy.version>
     <appframework.version>2.18.0</appframework.version>
-    <appointments.version>2.1.0-20250318.070530-1</appointments.version>
+    <appointments.version>2.1.0-SNAPSHOT</appointments.version>
     <appui.version>1.18.0</appui.version>
     <attachments.version>3.6.0</attachments.version>
     <bedmanagement.version>6.2.0-SNAPSHOT</bedmanagement.version>
@@ -534,6 +534,20 @@
       <id>openmrs-mod-repo</id>
       <name>OpenMRS Module Repository</name>
       <url>https://mavenrepo.openmrs.org/modules</url>
+    </repository>
+    <repository>
+      <id>repo.mybahmni.org</id>
+      <name>bahmni-artifactory-snapshots</name>
+      <url>https://repo.mybahmni.org/artifactory/snapshot</url>
+      <snapshots>
+        <enabled>true</enabled>
+        <updatePolicy>always</updatePolicy>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>repo.mybahmni.org-release</id>
+      <name>bahmni-artifactory-release</name>
+      <url>https://repo.mybahmni.org/artifactory/release</url>
     </repository>
     <repository>
       <id>openmrs-repo-snapshots</id>

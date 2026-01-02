@@ -2,8 +2,9 @@
 set -e
 
 # Set default values
-SPA_DEFAULT_LOCALE="${SPA_DEFAULT_LOCALE:-am}"
+SPA_DEFAULT_LOCALE="${SPA_DEFAULT_LOCALE:-en}"
 SPA_PATH="${SPA_PATH:-/openmrs/spa}"
+SPA_PAGE_TITLE="${SPA_PAGE_TITLE:-EthiopiaEMR}"
 
 # Convert SPA_CONFIG_URLS (comma-separated) to JSON array
 CONFIG_LIST=""
@@ -32,14 +33,11 @@ echo "  SPA_DEFAULT_LOCALE=${SPA_DEFAULT_LOCALE}"
 echo "  SPA_PAGE_TITLE=${SPA_PAGE_TITLE}"
 
 # Replace placeholders in index.html and service-worker.js
-for file in /usr/share/nginx/html/openmrs/spa/index.html /usr/share/nginx/html/openmrs/spa/service-worker.js; do
+for file in /usr/share/nginx/html/index.html /usr/share/nginx/html/service-worker.js; do
   if [ -f "$file" ]; then
     # First do envsubst replacement
     envsubst '${IMPORTMAP_URL} ${SPA_PATH} ${API_URL} ${SPA_CONFIG_URLS_JSON} ${SPA_CONFIG_URLS} ${SPA_DEFAULT_LOCALE} ${SPA_PAGE_TITLE}' < "$file" | \
     # Fix nested array issue: replace configUrls: ["["url1","url2"]"] with configUrls: ["url1","url2"]
-    # This handles the case where the template has configUrls: ["${SPA_CONFIG_URLS}"] and SPA_CONFIG_URLS is already a JSON array
-    # Step 1: Remove the [" after configUrls: [
-    # Step 2: Remove the "] before the final ]
     sed 's|configUrls: \["\[|configUrls: \[|g' | \
     sed 's|"\]"\]|"\]|g' | \
     sponge "$file"
@@ -47,10 +45,9 @@ for file in /usr/share/nginx/html/openmrs/spa/index.html /usr/share/nginx/html/o
 done
 
 # Copy favicon if it exists
-FAVICON="/usr/share/nginx/html/openmrs/spa/config/assets/ethiopiaemr-package/favicon.ico"
+FAVICON="/usr/share/nginx/html/config/assets/ethiopiaemr-package/favicon.ico"
 if [ -f "$FAVICON" ]; then
-  cp "$FAVICON" /usr/share/nginx/html/openmrs/spa/
+  cp "$FAVICON" /usr/share/nginx/html/
 fi
 
-# Start nginx
 exec nginx -g "daemon off;"

@@ -47,3 +47,14 @@ COPY --from=dev  /openmrs/distribution/openmrs_config /openmrs/distribution/open
 
 # Copy SPA files to a location that can be mounted by the frontend container
 COPY --from=dev /openmrs/distribution/spa-config /openmrs/distribution/spa-config
+
+# Copy Liquibase SQL files into image
+COPY liquibase /liquibase
+
+# Copy startup script
+COPY fix-liquibase-sql.sh /fix-liquibase-sql.sh
+
+# Make script executable
+RUN chmod +x /fix-liquibase-sql.sh
+
+ENTRYPOINT ["/fix-liquibase-sql.sh"]

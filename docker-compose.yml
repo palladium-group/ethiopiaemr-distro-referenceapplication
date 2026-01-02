@@ -10,6 +10,9 @@ services:
       - "80:80"
 
   frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.local
     image: openmrs/openmrs-reference-application-3-frontend:${TAG:-qa}
     restart: "unless-stopped"
     environment:
