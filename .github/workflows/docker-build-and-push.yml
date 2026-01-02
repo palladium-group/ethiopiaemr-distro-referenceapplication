@@ -2,11 +2,11 @@ name: Build and Push Docker Images
 
 on:
   push:
-    branches: [main, ETHIOEMR10-6-configure-cicd, fix/attempt]
+    branches: [main]
 
 env:
   IMAGE_NAMESPACE: ${{ secrets.DOCKERHUB_USERNAME }}
-  PUSH_IMAGE: ${{ github.ref == 'refs/heads/ETHIOEMR10-6-configure-cicd' || github.ref == 'refs/heads/fix/attempt' && secrets.DOCKERHUB_USERNAME != '' && secrets.DOCKERHUB_TOKEN != '' }}
+  PUSH_IMAGE: ${{ github.ref == 'refs/heads/main' && secrets.DOCKERHUB_USERNAME != '' && secrets.DOCKERHUB_TOKEN != '' }}
 
 jobs:
   build-backend-distro:
@@ -111,7 +111,23 @@ jobs:
           username: ${{ secrets.VM_USER }}
           password: ${{ secrets.VM_PASSWORD }}
           script: |
-            kubectl rollout restart deployment/biftuhc-frontend -n ethioemr-tenant-biftuhc
+            kubectl rollout restart deployment/adamahospital-frontend -n ethioemr-tenant-adamahospital
+            kubectl rollout restart deployment/adamahospital-backend -n ethioemr-tenant-adamahospital
 
-            kubectl rollout status deployment/biftuhc-frontend -n ethioemr-tenant-biftuhc
-            kubectl rollout status deployment/biftuhc-backend -n ethioemr-tenant-biftuhc
+            kubectl rollout restart deployment/anolehc-frontend -n ethioemr-tenant-anolehc
+            kubectl rollout restart deployment/anolehc-backend -n ethioemr-tenant-anolehc
+
+            kubectl rollout restart deployment/biftuhc-frontend -n ethioemr-tenant-biftuhc
+            kubectl rollout restart deployment/biftuhc-backend -n ethioemr-tenant-biftuhc
+
+            kubectl rollout restart deployment/bokuhc-frontend -n ethioemr-tenant-bokuhc
+            kubectl rollout restart deployment/bokuhc-backend -n ethioemr-tenant-bokuhc
+
+            kubectl rollout restart deployment/dembelahc-frontend -n ethioemr-tenant-dembelahc
+            kubectl rollout restart deployment/dembelahc-backend -n ethioemr-tenant-dembelahc
+
+            kubectl rollout restart deployment/gedahc-frontend -n ethioemr-tenant-gedahc
+            kubectl rollout restart deployment/gedahc-backend -n ethioemr-tenant-gedahc
+
+
+            
