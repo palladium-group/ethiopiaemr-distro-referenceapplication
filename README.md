@@ -75,6 +75,13 @@ To help maintain organization, please follow these naming conventions:
 - Use `-core_demo` suffix for demo data files
 - Use `-core_data` suffix for core configuration files
 
+## Frontend Configuration
+
+Please note that we maintain separate files for running Distro locally versus deploying it to Kubernetes:
+
+*   **Local Use**: Refer to `Dockerfile.local` when running the application on your local machine.
+*   **Kubernetes Deployment**: Refer to `Dockerfile` for configuration specific to the Kubernetes environment.
+
 ## Troubleshooting
 
 If you encounter any issues:
