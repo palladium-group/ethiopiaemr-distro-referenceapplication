@@ -29,3 +29,4 @@ services:
       MYSQL_USER: ${OPENMRS_DB_USER:-openmrs}
       MYSQL_PASSWORD: ${OPENMRS_DB_PASSWORD:-openmrs}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-openmrs}
+      
