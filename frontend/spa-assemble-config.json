@@ -35,7 +35,7 @@
     "@kenyaemr/esm-patient-flags-app": "next",
     "@kenyaemr/esm-version-app": "next",
     "@kenyaemr/esm-care-panel-app": "next",
-    "@kenyaemr/esm-billing-app": "next",
+    "@palladium-ethiopia/esm-billing-app": "next",
     "@kenyaemr/esm-patient-clinical-view-app": "next",
     "@kenyaemr/esm-bed-management-app": "next",
     "@kenyaemr/esm-shr-app": "next",

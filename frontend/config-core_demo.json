@@ -37,7 +37,7 @@
     "patientListForAdmissionUrl": "/ws/rest/v1/kenyaemr/sql?q=bedManagement.sqlGet.patientListForAdmission",
     "admissionLocationTagUuid": "0815e0b2-1182-4157-9340-bee371ea41e4"
   },
-  "@kenyaemr/esm-billing-app": {
+  "@palladium-ethiopia/esm-billing-app": {
     "extensionSlots": {
       "billing-dashboard-slot": {}
     },
