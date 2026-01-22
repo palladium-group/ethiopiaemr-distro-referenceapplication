@@ -26,6 +26,17 @@ RUN cp -R /openmrs_distro/distro/target/sdk-distro/web/openmrs_modules /openmrs/
 RUN cp -R /openmrs_distro/distro/target/sdk-distro/web/openmrs_owas /openmrs/distribution/openmrs_owas/
 RUN cp -R /openmrs_distro/distro/target/sdk-distro/web/openmrs_config /openmrs/distribution/openmrs_config/
 
+# Move contents from any subdirectory directly under addresshierarchy
+RUN AH_DIR="/openmrs/distribution/openmrs_config/addresshierarchy" && \
+    if [ -d "${AH_DIR}" ]; then \
+        for subdir in "${AH_DIR}"/*; do \
+            if [ -d "${subdir}" ]; then \
+                mv "${subdir}"/* "${AH_DIR}"/ 2>/dev/null || true; \
+                rm -rf "${subdir}"; \
+            fi; \
+        done; \
+    fi
+
 # Copy SPA files to a shared location
 RUN mkdir -p /openmrs/distribution/spa-config
 RUN cp -R /openmrs_distro/distro/target/sdk-distro/web/openmrs_spa/* /openmrs/distribution/spa-config/
@@ -44,6 +55,17 @@ COPY --from=dev /openmrs/distribution/openmrs-distro.properties /openmrs/distrib
 COPY --from=dev /openmrs/distribution/openmrs_modules /openmrs/distribution/openmrs_modules
 COPY --from=dev /openmrs/distribution/openmrs_owas /openmrs/distribution/openmrs_owas
 COPY --from=dev  /openmrs/distribution/openmrs_config /openmrs/distribution/openmrs_config
+
+# Ensure contents from any subdirectory are moved directly under addresshierarchy (already done in dev stage, but verify)
+RUN AH_DIR="/openmrs/distribution/openmrs_config/addresshierarchy" && \
+    if [ -d "${AH_DIR}" ]; then \
+        for subdir in "${AH_DIR}"/*; do \
+            if [ -d "${subdir}" ]; then \
+                mv "${subdir}"/* "${AH_DIR}"/ 2>/dev/null || true; \
+                rm -rf "${subdir}"; \
+            fi; \
+        done; \
+    fi
 
 # Copy SPA files to a location that can be mounted by the frontend container
 COPY --from=dev /openmrs/distribution/spa-config /openmrs/distribution/spa-config
