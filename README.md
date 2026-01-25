@@ -1,6 +1,6 @@
 # Ethiopia EMR Reference Application
 
-[![Build and Publish](https://github.com/palladiumkenya/ethiopia-distro-referenceapplication/actions/workflows/ethiopia-distro-build.yml/badge.svg)](https://github.com/palladiumkenya/ethiopia-distro-referenceapplication/actions/workflows/ethiopia-distro-build.yml)
+[![Build and Publish](https://github.com/palladium-group/ethiopiaemr-distro-referenceapplication/actions/workflows/ci.yml/badge.svg)](https://github.com/palladium-group/ethiopiaemr-distro-referenceapplication/actions/workflows/ci.yml)
 
 This project holds the build configuration for the Ethiopia EMR reference application.
 
@@ -48,7 +48,212 @@ Default credentials:
 - Username: admin
 - Password: Admin123
 
+---
 
+## Local Development with OpenMRS SDK
+
+You can run this distribution locally using the OpenMRS SDK for development and testing purposes.
+
+### Prerequisites
+
+- Java 8 or 11
+- Maven 3.x
+- MySQL 5.7+ or MariaDB 10.x
+- [OpenMRS SDK](https://wiki.openmrs.org/display/docs/OpenMRS+SDK) installed
+
+### Building the Distribution
+
+```bash
+# Clone the repository
+git clone https://github.com/palladiumkenya/ethiopia-distro-referenceapplication.git
+cd ethiopia-distro-referenceapplication
+
+# Build the distribution (without optional modules)
+mvn -U -P distro clean install
+
+# Build with the SPA module (required for OpenMRS 3.x frontend)
+mvn -U -P distro,with-spa clean install
+```
+
+### Running Locally with OpenMRS SDK
+
+#### Option 1: Fresh Installation (New Database)
+
+```bash
+# Setup a new server using the built distribution
+mvn openmrs-sdk:setup -DserverId=ethiopiaemr \
+  -Ddistro=distro/target/distro.properties
+
+# Run the server
+mvn openmrs-sdk:run -DserverId=ethiopiaemr
+```
+
+The SDK will interactively prompt you for database connection details. To skip prompts, provide all parameters:
+
+```bash
+mvn openmrs-sdk:setup -DserverId=ethiopiaemr \
+  -Ddistro=distro/target/distro.properties \
+  -DdbDriver=mysql \
+  -DdbUri=jdbc:mysql://localhost:3306/openmrs_ethiopia \
+  -DdbUser=openmrs \
+  -DdbPassword=openmrs
+```
+
+#### Option 2: Using an Existing Database
+
+If you have an existing Ethiopia EMR database running on MySQL/MariaDB:
+
+```bash
+# Setup server pointing to existing database
+mvn openmrs-sdk:setup -DserverId=ethiopiaemr \
+  -Ddistro=distro/target/distro.properties \
+  -DdbUri=jdbc:mysql://localhost:3306/openmrs
+
+# Run the server
+mvn openmrs-sdk:run -DserverId=ethiopiaemr
+```
+
+The SDK will prompt you for database credentials during setup. Alternatively, you can specify them inline:
+
+```bash
+mvn openmrs-sdk:setup -DserverId=ethiopiaemr \
+  -Ddistro=distro/target/distro.properties \
+  -DdbDriver=mysql \
+  -DdbUri=jdbc:mysql://localhost:3306/openmrs \
+  -DdbUser=openmrs \
+  -DdbPassword=openmrs
+```
+
+#### Option 3: Importing a Database Dump
+
+If you have a SQL dump file (e.g., from a production backup):
+
+```bash
+# 1. Create the database
+mysql -u root -p -e "CREATE DATABASE openmrs_ethiopia CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;"
+
+# 2. Import the SQL dump
+mysql -u root -p openmrs_ethiopia < /path/to/your/database_dump.sql
+
+# 3. Setup the SDK server pointing to the imported database
+mvn openmrs-sdk:setup -DserverId=ethiopiaemr \
+  -Ddistro=distro/target/distro.properties \
+  -DdbUri=jdbc:mysql://localhost:3306/openmrs_ethiopia
+
+# 4. Run the server
+mvn openmrs-sdk:run -DserverId=ethiopiaemr
+```
+
+**Important notes for existing/imported databases:**
+- Ensure your database is compatible with OpenMRS Platform 2.x
+- Back up your database before running with new modules
+- The Initializer module will apply any new configurations on startup
+- Check the server logs for any migration or compatibility issues
+- Grant appropriate MySQL privileges to the database user
+
+#### Running the Server
+
+```bash
+# Start the server
+mvn openmrs-sdk:run -DserverId=ethiopiaemr
+
+# Or run in debug mode (port 1044)
+mvn openmrs-sdk:run -DserverId=ethiopiaemr -Ddebug
+```
+
+#### Accessing the Application
+
+After starting the server:
+- Legacy Admin UI: http://localhost:8080/openmrs
+- OpenMRS 3.x Frontend: http://localhost:8080/openmrs/spa
+
+> **Important:** The O3 frontend URL will only work if you built the distribution with the SPA module (`-P with-spa`). Without it, only the Legacy UI will be accessible.
+
+---
+
+## Optional Modules
+
+Some modules are optional and can be conditionally included based on your deployment needs.
+
+### SPA Module
+
+The **SPA module** (`openmrs-module-spa`) serves the OpenMRS 3.x frontend directly from the OpenMRS backend.
+
+**When is the SPA module needed?**
+
+| Deployment Method | SPA Module Required | Reason |
+|-------------------|---------------------|--------|
+| **Docker Compose** (with gateway) | No | The nginx gateway serves the frontend separately |
+| **Local SDK** (without gateway) | Yes | Backend must serve the O3 frontend directly |
+
+For **local development using OpenMRS SDK** without the Docker gateway, you must include the SPA module to access the modern O3 user interface:
+
+| Build Command | SPA Module | O3 Frontend Available (Local SDK) |
+|--------------|------------|----------------------------------|
+| `mvn -U -P distro install` | Not included | No |
+| `mvn -U -P distro,with-spa install` | Included | Yes |
+
+> **Note:** When running with Docker Compose, the gateway (nginx) routes `/openmrs/spa` requests to the separate frontend container, so the SPA module is not required in the backend.
+
+#### Including Optional Modules
+
+```bash
+# Include SPA module using profile
+mvn -U -P distro,with-spa clean install
+
+# Or using property
+mvn -U -P distro clean install -Dinclude.spa=true
+
+# Include multiple optional modules
+mvn -U -P distro,with-spa,with-cohort clean install
+
+# Override module version
+mvn -U -P distro,with-spa clean install -Dspa.version=2.0.0
+```
+
+### Adding New Optional Modules
+
+To add a new optional module to this distribution:
+
+1. **Add properties** in `distro/pom.xml`:
+   ```xml
+   <properties>
+     <mymodule.version></mymodule.version>
+     <omod.mymodule.entry></omod.mymodule.entry>
+   </properties>
+   ```
+
+2. **Add a profile** in `distro/pom.xml`:
+   ```xml
+   <profile>
+     <id>with-mymodule</id>
+     <activation>
+       <property>
+         <name>include.mymodule</name>
+         <value>true</value>
+       </property>
+     </activation>
+     <properties>
+       <mymodule.version>X.Y.Z</mymodule.version>
+       <omod.mymodule.entry>omod.mymodule=${mymodule.version}</omod.mymodule.entry>
+     </properties>
+     <dependencies>
+       <dependency>
+         <groupId>org.openmrs.module</groupId>
+         <artifactId>mymodule-omod</artifactId>
+         <version>${mymodule.version}</version>
+         <scope>provided</scope>
+       </dependency>
+     </dependencies>
+   </profile>
+   ```
+
+3. **Add placeholder** in `distro/distro.properties`:
+   ```properties
+   ${omod.mymodule.entry}
+   ```
+
+---
 
 ## Overview
 
