@@ -34,7 +34,7 @@
     <dataexchange.version>1.3.9-SNAPSHOT</dataexchange.version>
     <emrapi.version>3.2.1</emrapi.version>
     <event.version>4.0.0-SNAPSHOT</event.version>
-    <fhir2.version>3.0.0-SNAPSHOT</fhir2.version>
+    <fhir2.version>2.9.0-SNAPSHOT</fhir2.version>
     <groovy.version>2.4.0-SNAPSHOT</groovy.version>
     <htmlformentry.version>5.4.0</htmlformentry.version>
     <htmlwidgets.version>2.0.1</htmlwidgets.version>
@@ -63,12 +63,12 @@
     <jasperreport.version>2.1.0-SNAPSHOT</jasperreport.version>
     <kenyacore.version>3.0.2-SNAPSHOT</kenyacore.version>
     <kenyaemr.cashier.version>4.2.4</kenyaemr.cashier.version>
-    <kenyaemr.version>19.3.0-SNAPSHOT</kenyaemr.version>
+    <kenyaemr.version>19.3.1-SNAPSHOT</kenyaemr.version>
     <kenyaemrCharts.version>1.6.8</kenyaemrCharts.version>
     <kenyaemrextras.version>1.4.4-SNAPSHOT</kenyaemrextras.version>
     <kenyaemrIL.version>1.3.9-SNAPSHOT</kenyaemrIL.version>
     <kenyaemrml.version>1.4.1</kenyaemrml.version>
-    <kenyaemrorderentry.version>1.7.0-SNAPSHOT</kenyaemrorderentry.version>
+    <kenyaemrorderentry.version>1.7.1-SNAPSHOT</kenyaemrorderentry.version>
     <kenyaui.version>3.0.1-SNAPSHOT</kenyaui.version>
     <kenyakeypop.version>1.4.1-SNAPSHOT</kenyakeypop.version>
     <prep.version>1.4.3</prep.version>
