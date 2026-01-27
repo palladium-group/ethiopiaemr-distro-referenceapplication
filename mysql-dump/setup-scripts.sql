@@ -84,6 +84,10 @@ DEALLOCATE PREPARE stmt;
 SET FOREIGN_KEY_CHECKS = 0;
 ALTER TABLE openmrs.stockmgmt_user_role_scope
 MODIFY COLUMN role VARCHAR(50) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL;
+truncate table location;
+truncate table form;
+truncate table form_resource;
+truncate table clob_datatype_storage;
 SET FOREIGN_KEY_CHECKS = 1;
 
 -- Final Privilege Configuration

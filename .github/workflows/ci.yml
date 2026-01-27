@@ -24,6 +24,26 @@ jobs:
           java-version: ${{ matrix.java }}
           cache: "maven"
 
+      - name: Set settings.xml
+        uses: s4u/maven-settings-action@v3.0.0
+        with:
+          servers: |
+            [{
+              "id": "mks-repo",
+              "username": "${{ secrets.MAVEN_USERNAME }}",
+              "password": "${{ secrets.MAVEN_TOKEN }}"
+            },
+            {
+              "id": "mks-repo-snapshots",
+              "username": "${{ secrets.MAVEN_USERNAME }}",
+              "password": "${{ secrets.MAVEN_TOKEN }}"
+            },
+            {
+              "id": "github-palladiumkennya-initializer",
+              "username": "${{ github.actor }}",
+              "password": "${{ secrets.PAT_ACCESS_TOKEN }}"
+            }]
+
       - name: Build and Test
         run: mvn --batch-mode --update-snapshots --activate-profiles distro clean package -Dskip.validation=true
 
@@ -55,6 +75,11 @@ jobs:
               "id": "mks-repo-snapshots",
               "username": "${{ secrets.MAVEN_USERNAME }}",
               "password": "${{ secrets.MAVEN_TOKEN }}"
+            },
+            {
+              "id": "github-palladiumkennya-initializer",
+              "username": "${{ github.actor }}",
+              "password": "${{ secrets.PAT_ACCESS_TOKEN }}"
             }]
 
       - name: Publish Distribution
