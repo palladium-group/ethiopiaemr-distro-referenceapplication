@@ -4,15 +4,15 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.ethiopiaemr</groupId>
   <artifactId>distro-emr</artifactId>
-  <name>Package and Run KenyaEMR</name>
+  <name>Package and Run EthiopiaEMR</name>
   <description>Convenient project to build an EthiopiaEMR distribution and run it</description>
 
   <version>1.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <organization>
-    <name>Palladium Group (KenyaHMIS III Project)</name>
-    <url>https://palladium.com/</url>
+    <name>Palladium Group (EthiopiaEMR Project)</name>
+    <url>https://thepalladiumgroup.com/</url>
   </organization>
 
   <scm>

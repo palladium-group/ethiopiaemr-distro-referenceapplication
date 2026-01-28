@@ -128,6 +128,3 @@ jobs:
 
             kubectl rollout restart deployment/gedahc-frontend -n ethioemr-tenant-gedahc
             kubectl rollout restart deployment/gedahc-backend -n ethioemr-tenant-gedahc
-
-
-            
