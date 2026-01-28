@@ -77,10 +77,26 @@
     
     <!-- OpenMRS Core platform -->
     <openmrs.version>2.8.3-SNAPSHOT</openmrs.version>
+    <!-- Docker base image tag for openmrs-core -->
+    <docker.openmrs-core.tag>2.8.x</docker.openmrs-core.tag>
 
 
     <!-- Content Packages -->
     <ethiopiaemr-package.version>1.0.0-SNAPSHOT</ethiopiaemr-package.version>
+
+    <!-- ========================================================== -->
+    <!-- Optional Module Versions (empty by default = not included) -->
+    <!-- ========================================================== -->
+    <!-- To include an optional module, either:                     -->
+    <!--   1. Activate its profile: mvn install -P with-spa         -->
+    <!--   2. Set property: mvn install -Dinclude.spa=true          -->
+    <!-- ========================================================== -->
+    <spa.version></spa.version>
+    <cohort.version></cohort.version>
+
+    <!-- Conditional entries for distro.properties (empty = excluded) -->
+    <omod.spa.entry></omod.spa.entry>
+    <omod.cohort.entry></omod.cohort.entry>
   </properties>
 
   <dependencies>
@@ -419,6 +435,28 @@
           </execution>
         </executions>
       </plugin>
+      <!-- Replace Docker base image in generated Dockerfile -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>3.1.0</version>
+        <executions>
+          <execution>
+            <id>replace-docker-base-image</id>
+            <phase>package</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <target>
+                <replace file="${project.build.directory}/sdk-distro/web/Dockerfile"
+                         token="FROM openmrs/openmrs-core:nightly-amazoncorretto-11"
+                         value="FROM openmrs/openmrs-core:${docker.openmrs-core.tag}"/>
+              </target>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-assembly-plugin</artifactId>
@@ -465,6 +503,65 @@
         </plugins>
       </build>
     </profile>
+
+    <!-- ================================================================== -->
+    <!-- Optional Module Profiles                                           -->
+    <!-- ================================================================== -->
+    <!-- Usage: mvn install -P with-spa                                     -->
+    <!--    or: mvn install -Dinclude.spa=true                              -->
+    <!-- Multiple profiles: mvn install -P with-spa,with-cohort             -->
+    <!-- ================================================================== -->
+
+    <!-- SPA Module Profile -->
+    <!-- Required for OpenMRS 3.x frontend - see README.md for details -->
+    <profile>
+      <id>with-spa</id>
+      <activation>
+        <property>
+          <name>include.spa</name>
+          <value>true</value>
+        </property>
+      </activation>
+      <properties>
+        <spa.version>3.0.0-SNAPSHOT</spa.version>
+        <omod.spa.entry>omod.spa=${spa.version}</omod.spa.entry>
+      </properties>
+      <dependencies>
+        <dependency>
+          <groupId>org.openmrs.module</groupId>
+          <artifactId>spa-omod</artifactId>
+          <version>${spa.version}</version>
+          <scope>provided</scope>
+        </dependency>
+      </dependencies>
+    </profile>
+
+    <!-- Cohort Module Profile (example for additional optional modules) -->
+    <profile>
+      <id>with-cohort</id>
+      <activation>
+        <property>
+          <name>include.cohort</name>
+          <value>true</value>
+        </property>
+      </activation>
+      <properties>
+        <cohort.version>3.0.0</cohort.version>
+        <omod.cohort.entry>omod.cohort=${cohort.version}</omod.cohort.entry>
+      </properties>
+      <dependencies>
+        <dependency>
+          <groupId>org.openmrs.module</groupId>
+          <artifactId>cohort-omod</artifactId>
+          <version>${cohort.version}</version>
+          <scope>provided</scope>
+        </dependency>
+      </dependencies>
+    </profile>
+
+    <!-- ================================================================== -->
+    <!-- Add more optional module profiles below following the same pattern -->
+    <!-- ================================================================== -->
   </profiles>
 
   <repositories>
