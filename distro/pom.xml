@@ -39,7 +39,7 @@
     <htmlformentry.version>5.4.0</htmlformentry.version>
     <htmlwidgets.version>2.0.1</htmlwidgets.version>
     <idgen.version>4.15.0-SNAPSHOT</idgen.version>
-    <initializer.version>2.9.0</initializer.version>
+    <initializer.version>2.11.1-SNAPSHOT</initializer.version>
     <legacyui.version>2.0.0</legacyui.version>
     <metadatadeploy.version>1.13.1-SNAPSHOT</metadatadeploy.version>
     <metadatamapping.version>2.0.0-SNAPSHOT</metadatamapping.version>
@@ -74,7 +74,6 @@
     <prep.version>1.4.3</prep.version>
     <stockmanagement.version>3.0.0-SNAPSHOT</stockmanagement.version>
     <orderexpansion.version>1.0.0</orderexpansion.version>
-    
     <!-- OpenMRS Core platform -->
     <openmrs.version>2.8.3-SNAPSHOT</openmrs.version>
     <!-- Docker base image tag for openmrs-core -->
@@ -565,6 +564,17 @@
   </profiles>
 
   <repositories>
+    <repository>
+      <id>github-palladiumkennya-initializer</id>
+      <name>Palladium Kenya Initializer Module Repository</name>
+      <url>https://maven.pkg.github.com/palladiumkenya/openmrs-module-initializer</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+    </repository>
     <repository>
       <id>mks-repo</id>
       <name>Mekom Solutions Nexus Releases</name>

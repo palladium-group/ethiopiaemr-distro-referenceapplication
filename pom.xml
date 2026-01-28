@@ -149,6 +149,17 @@
       </releases>
     </repository>
     <repository>
+      <id>github-palladiumkennya-initializer</id>
+      <name>Palladium Kenya Initializer Module Repository</name>
+      <url>https://maven.pkg.github.com/palladiumkenya/openmrs-module-initializer</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+    </repository>
+    <repository>
       <id>mks-nexus-public</id>
       <url>https://nexus.mekomsolutions.net/repository/maven-public/</url>
     </repository>
