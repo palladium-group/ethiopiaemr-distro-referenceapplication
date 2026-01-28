@@ -30,6 +30,70 @@ mkdir -p mysql-dump
 docker compose build
 ```
 
+### Building Docker images with Maven settings secret (for custom Initializer module)
+
+When building Docker images locally, the backend now needs access to a Maven `settings.xml`
+that contains a GitHub Personal Access Token (PAT) so it can download the custom Initializer
+module and related artifacts.
+
+1. **Create Maven settings file with PAT**
+
+   Create or update `~/.m2/settings.xml` with your GitHub PAT configured for the relevant
+   repositories. For example:
+
+   The distro POM already declares the GitHub repository; you only need to supply
+   credentials. Use a `<server>` whose `id` matches the repository id in the POM
+   (`github-palladiumkennya-initializer`):
+
+   ```xml
+   <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+                                 https://maven.apache.org/xsd/settings-1.0.0.xsd">
+
+     <servers>
+       <server>
+         <id>github-palladiumkennya-initializer</id>
+         <username>YOUR_GITHUB_USERNAME</username>
+         <password>YOUR_GITHUB_PAT</password>
+       </server>
+     </servers>
+   </settings>
+   ```
+
+   You can generate this file with placeholders using:
+
+   ```bash
+   mkdir -p "$HOME/.m2"
+
+   cat > "$HOME/.m2/settings.xml" << 'EOF'
+   <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+                                 https://maven.apache.org/xsd/settings-1.0.0.xsd">
+
+     <servers>
+       <server>
+         <id>github-palladiumkennya-initializer</id>
+         <username>YOUR_GITHUB_USERNAME</username>
+         <password>YOUR_GITHUB_PAT</password>
+       </server>
+     </servers>
+   </settings>
+   EOF
+   ```
+
+2. **Build using Docker BuildKit and secret**
+
+   From the repository root, run:
+
+   ```bash
+   DOCKER_BUILDKIT=1 docker build \
+     --secret id=m2settings,src="$HOME/.m2/settings.xml" \
+     -f Dockerfile \
+     -t ethiopiaemr-backend:local .
+   ```
+
 ### Run the application
 
 ```bash
