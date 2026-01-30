@@ -4,7 +4,7 @@ on:
   pull_request:
     branches: [main]
   push:
-    branches: [main]
+    branches: [main,ci-fix]
 
 jobs:
   build:
@@ -46,7 +46,7 @@ jobs:
   publish:
     name: Publish Distribution
     needs: build
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' || github.ref == 'refs/heads/ci-fix'
     runs-on: ubuntu-latest
     permissions:
       contents: read
