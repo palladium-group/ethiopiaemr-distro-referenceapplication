@@ -21,6 +21,7 @@ RUN --mount=type=secret,id=m2settings,target=/usr/share/maven/ref/settings-docke
         mvn $MVN_ARGS_SETTINGS install -Dskip.validation=true; \
     fi
 
+
 RUN cp /openmrs_distro/distro/target/sdk-distro/web/openmrs_core/openmrs.war /openmrs/distribution/openmrs_core/
 
 RUN cp /openmrs_distro/distro/target/sdk-distro/web/openmrs-distro.properties /openmrs/distribution/
