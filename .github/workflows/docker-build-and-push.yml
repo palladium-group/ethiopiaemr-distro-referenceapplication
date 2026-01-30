@@ -2,7 +2,7 @@ name: Build and Push Docker Images
 
 on:
   push:
-    branches: [main,fix/brokenCI]
+    branches: [main]
 
 jobs:
   build-backend-distro:
@@ -147,3 +147,17 @@ jobs:
           script: |
             kubectl rollout restart deployment/adamahospital-frontend -n ethioemr-tenant-adamahospital
             kubectl rollout restart deployment/adamahospital-backend -n ethioemr-tenant-adamahospital
+            kubectl rollout restart deployment/anolehc-frontend -n ethioemr-tenant-anolehc
+            kubectl rollout restart deployment/anolehc-backend -n ethioemr-tenant-anolehc
+
+            kubectl rollout restart deployment/biftuhc-frontend -n ethioemr-tenant-biftuhc
+            kubectl rollout restart deployment/biftuhc-backend -n ethioemr-tenant-biftuhc
+
+            kubectl rollout restart deployment/bokuhc-frontend -n ethioemr-tenant-bokuhc
+            kubectl rollout restart deployment/bokuhc-backend -n ethioemr-tenant-bokuhc
+
+            kubectl rollout restart deployment/dembelahc-frontend -n ethioemr-tenant-dembelahc
+            kubectl rollout restart deployment/dembelahc-backend -n ethioemr-tenant-dembelahc
+
+            kubectl rollout restart deployment/gedahc-frontend -n ethioemr-tenant-gedahc
+            kubectl rollout restart deployment/gedahc-backend -n ethioemr-tenant-gedahc

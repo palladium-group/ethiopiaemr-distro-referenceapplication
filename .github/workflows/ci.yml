@@ -10,6 +10,10 @@ jobs:
   build:
     name: Build and Test
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    env:
+      MAVEN_SETTINGS_XML: ${{ secrets.MAVEN_SETTINGS_XML }}
     strategy:
       matrix:
         java: ["8"]
@@ -24,34 +28,28 @@ jobs:
           java-version: ${{ matrix.java }}
           cache: "maven"
 
-      - name: Set settings.xml
-        uses: s4u/maven-settings-action@v3.0.0
-        with:
-          servers: |
-            [{
-              "id": "mks-repo",
-              "username": "${{ secrets.MAVEN_USERNAME }}",
-              "password": "${{ secrets.MAVEN_TOKEN }}"
-            },
-            {
-              "id": "mks-repo-snapshots",
-              "username": "${{ secrets.MAVEN_USERNAME }}",
-              "password": "${{ secrets.MAVEN_TOKEN }}"
-            },
-            {
-              "id": "github-palladiumkennya-initializer",
-              "username": "${{ github.actor }}",
-              "password": "${{ secrets.PAT_ACCESS_TOKEN }}"
-            }]
+      - name: Write Maven settings (from secret)
+        if: ${{ env.MAVEN_SETTINGS_XML != '' }}
+        run: |
+          cat > /tmp/maven-settings.xml <<'EOF'
+          ${{ env.MAVEN_SETTINGS_XML }}
+          EOF
 
       - name: Build and Test
-        run: mvn --batch-mode --update-snapshots --activate-profiles distro clean package -Dskip.validation=true
+        run: |
+          MVN_SETTINGS_ARG=""
+          if [ -f /tmp/maven-settings.xml ]; then
+            MVN_SETTINGS_ARG="-s /tmp/maven-settings.xml"
+          fi
+          mvn --batch-mode --update-snapshots --activate-profiles distro clean package -Dskip.validation=true $MVN_SETTINGS_ARG
 
   publish:
     name: Publish Distribution
     needs: build
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v4
 
@@ -85,4 +83,4 @@ jobs:
       - name: Publish Distribution
         run: mvn --batch-mode --update-snapshots --activate-profiles distro clean deploy
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
