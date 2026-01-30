@@ -12,6 +12,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+    env:
+      MAVEN_SETTINGS_XML: ${{ secrets.MAVEN_SETTINGS_XML }}
     strategy:
       matrix:
         java: ["8"]
@@ -27,10 +29,10 @@ jobs:
           cache: "maven"
 
       - name: Write Maven settings (from secret)
-        if: ${{ secrets.MAVEN_SETTINGS_XML != '' }}
+        if: ${{ env.MAVEN_SETTINGS_XML != '' }}
         run: |
           cat > /tmp/maven-settings.xml <<'EOF'
-          ${{ secrets.MAVEN_SETTINGS_XML }}
+          ${{ env.MAVEN_SETTINGS_XML }}
           EOF
 
       - name: Build and Test
@@ -48,6 +50,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+    env:
+      MAVEN_SETTINGS_XML: ${{ secrets.MAVEN_SETTINGS_XML }}
     steps:
       - uses: actions/checkout@v4
 
@@ -59,10 +63,10 @@ jobs:
           cache: "maven"
 
       - name: Write Maven settings (from secret)
-        if: ${{ secrets.MAVEN_SETTINGS_XML != '' }}
+        if: ${{ env.MAVEN_SETTINGS_XML != '' }}
         run: |
           cat > /tmp/maven-settings.xml <<'EOF'
-          ${{ secrets.MAVEN_SETTINGS_XML }}
+          ${{ env.MAVEN_SETTINGS_XML }}
           EOF
 
       - name: Publish Distribution
