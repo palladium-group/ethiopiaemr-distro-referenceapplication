@@ -59,7 +59,7 @@
 
     <!-- KenyaEMR Modules -->
     <facilityreporting.version>1.2.2-SNAPSHOT</facilityreporting.version>
-    <hivtestingservices.version>1.5.6</hivtestingservices.version>
+    <hivtestingservices.version>1.5.7-SNAPSHOT</hivtestingservices.version>
     <jasperreport.version>2.1.0-SNAPSHOT</jasperreport.version>
     <kenyacore.version>3.0.2-SNAPSHOT</kenyacore.version>
     <kenyaemr.cashier.version>4.2.4</kenyaemr.cashier.version>
@@ -71,7 +71,7 @@
     <kenyaemrorderentry.version>1.7.1-SNAPSHOT</kenyaemrorderentry.version>
     <kenyaui.version>3.0.1-SNAPSHOT</kenyaui.version>
     <kenyakeypop.version>1.4.1-SNAPSHOT</kenyakeypop.version>
-    <prep.version>1.4.3</prep.version>
+    <prep.version>1.4.5-SNAPSHOT</prep.version>
     <stockmanagement.version>3.0.0-SNAPSHOT</stockmanagement.version>
     <orderexpansion.version>1.0.0</orderexpansion.version>
     <!-- OpenMRS Core platform -->
