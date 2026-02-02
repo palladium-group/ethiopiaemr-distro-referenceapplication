@@ -62,7 +62,7 @@
     <hivtestingservices.version>1.5.7-SNAPSHOT</hivtestingservices.version>
     <jasperreport.version>2.1.0-SNAPSHOT</jasperreport.version>
     <kenyacore.version>3.0.2-SNAPSHOT</kenyacore.version>
-    <kenyaemr.cashier.version>4.2.4</kenyaemr.cashier.version>
+    <kenyaemr.cashier.version>4.2.5-SNAPSHOT</kenyaemr.cashier.version>
     <kenyaemr.version>19.3.1-SNAPSHOT</kenyaemr.version>
     <kenyaemrCharts.version>1.6.8</kenyaemrCharts.version>
     <kenyaemrextras.version>1.4.4-SNAPSHOT</kenyaemrextras.version>
