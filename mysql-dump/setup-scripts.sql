@@ -88,6 +88,7 @@ truncate table location;
 truncate table form;
 truncate table form_resource;
 truncate table clob_datatype_storage;
+truncate cashier_cash_point;
 SET FOREIGN_KEY_CHECKS = 1;
 
 -- Final Privilege Configuration
