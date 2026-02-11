@@ -74,6 +74,10 @@
     <prep.version>1.4.5-SNAPSHOT</prep.version>
     <stockmanagement.version>3.0.0-SNAPSHOT</stockmanagement.version>
     <orderexpansion.version>1.0.0</orderexpansion.version>
+
+    <!-- EthiopiaEMR Modules -->
+    <ethiopiaemrcustommodule.version>1.0.0-SNAPSHOT</ethiopiaemrcustommodule.version>
+
     <!-- OpenMRS Core platform -->
     <openmrs.version>2.8.3-SNAPSHOT</openmrs.version>
     <!-- Docker base image tag for openmrs-core -->
@@ -384,6 +388,12 @@
       <groupId>org.openmrs.module</groupId>
       <artifactId>dataexchange-omod</artifactId>
       <version>${dataexchange.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.openmrs.module</groupId>
+      <artifactId>ethiopiaemr-custom-module-omod</artifactId>
+      <version>${ethiopiaemrcustommodule.version}</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>
