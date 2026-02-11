@@ -64,6 +64,7 @@
     <kenyacore.version>3.0.2-SNAPSHOT</kenyacore.version>
     <kenyaemr.cashier.version>4.2.5-SNAPSHOT</kenyaemr.cashier.version>
     <kenyaemr.version>19.3.1-SNAPSHOT</kenyaemr.version>
+    <labonfhir.version>1.5.4-SNAPSHOT</labonfhir.version>
     <kenyaemrCharts.version>1.6.8</kenyaemrCharts.version>
     <kenyaemrextras.version>1.4.4-SNAPSHOT</kenyaemrextras.version>
     <kenyaemrIL.version>1.3.9-SNAPSHOT</kenyaemrIL.version>
@@ -125,6 +126,12 @@
       <groupId>org.openmrs.module</groupId>
       <artifactId>fhir2-omod</artifactId>
       <version>${fhir2.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.openmrs.module</groupId>
+      <artifactId>labonfhir-omod</artifactId>
+      <version>${labonfhir.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
