@@ -108,7 +108,7 @@ jobs:
           images: |
             ${{ env.IMAGE_NAMESPACE }}/ethiopiaemr-${{ matrix.service }}
           tags: |
-            type=raw,value=latest
+            type=raw,value=labon-test
             type=sha
 
       - name: Build and push ${{ matrix.service }}
