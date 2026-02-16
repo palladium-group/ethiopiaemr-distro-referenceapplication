@@ -53,7 +53,7 @@ jobs:
       contents: read
     env:
       IMAGE_NAMESPACE: ${{ secrets.DOCKERHUB_USERNAME }}
-      PUSH_IMAGE: ${{ github.ref == 'refs/heads/main' || github.ref == 'refs/add-labon-fhir-module' && secrets.DOCKERHUB_USERNAME != '' && secrets.DOCKERHUB_TOKEN != '' }}
+      PUSH_IMAGE: ${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/add-labon-fhir-module' && secrets.DOCKERHUB_USERNAME != '' && secrets.DOCKERHUB_TOKEN != '' }}
       MAVEN_SETTINGS_XML: ${{ secrets.MAVEN_SETTINGS_XML }}
     strategy:
       matrix:
@@ -108,7 +108,7 @@ jobs:
           images: |
             ${{ env.IMAGE_NAMESPACE }}/ethiopiaemr-${{ matrix.service }}
           tags: |
-            type=raw,value=latest
+            type=raw,value=labon-test
             type=sha
 
       - name: Build and push ${{ matrix.service }}
