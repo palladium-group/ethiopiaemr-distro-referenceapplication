@@ -79,4 +79,7 @@ COPY liquibase /liquibase
 # Copy startup script (with executable permissions)
 COPY --chmod=755 fix-liquibase-sql.sh /fix-liquibase-sql.sh
 
+COPY rebuild-search-index.sh /usr/local/bin/rebuild-search-index.sh
+RUN chmod +x /usr/local/bin/rebuild-search-index.sh
+
 ENTRYPOINT ["/fix-liquibase-sql.sh"]
