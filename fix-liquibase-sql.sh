@@ -43,8 +43,6 @@ else
 fi
 
 echo "[Search Index] Launching search index rebuild trigger in background..."
-# We run this in the background (&) so it can wait for the API to come 
-# alive while this script continues to the 'wait' command below.
 /usr/local/bin/rebuild-search-index.sh &
 # Keep the script running and forward signals to Tomcat
 echo "[Liquibase fix] Setup complete. Tomcat running with PID $TOMCAT_PID"

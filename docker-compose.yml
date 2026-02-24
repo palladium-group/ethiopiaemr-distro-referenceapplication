@@ -84,8 +84,8 @@ services:
       backend:
         condition: service_healthy
     environment:
-      OMRS_DB_USER: ${OMRS_DB_USER:-openmrs}
-      OMRS_DB_PASSWORD: ${OMRS_DB_PASSWORD:-openmrs}
+      OMRS_ADMIN_USER: ${OMRS_ADMIN_USER:-admin}
+      OMRS_ADMIN_PASSWORD: ${OMRS_ADMIN_PASSWORD:-Admin123}
       OMRS_BASE_URL: ${OMRS_BASE_URL:-http://backend:8080/openmrs}
     volumes:
       - ./rebuild-search-index.sh:/rebuild-search-index.sh:ro

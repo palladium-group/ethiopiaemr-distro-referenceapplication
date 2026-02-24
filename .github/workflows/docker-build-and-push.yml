@@ -82,7 +82,7 @@ jobs:
         with:
           name: spa-configs
           path: ./frontend/spa-configs
-      
+
       - name: Ensure spa-configs directory exists
         if: ${{ matrix.needs-spa-configs }}
         run: |
@@ -123,6 +123,7 @@ jobs:
           no-cache: true
           secret-files: |
             m2settings=/tmp/maven-settings.xml
+
       - name: Build and push ${{ matrix.service }} (no Maven settings)
         if: ${{ env.MAVEN_SETTINGS_XML == '' }}
         uses: docker/build-push-action@v5
@@ -133,18 +134,88 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           no-cache: true
+
   restart-ethioemr-deployment:
     name: Restart Ethioemr tenant deployments
     runs-on: ubuntu-latest
     needs: docker
     steps:
-      - name: Restart deployments via SSH
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Restart deployments and submit search-index Job
         uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.VM_HOST }}
           username: ${{ secrets.VM_USER }}
           password: ${{ secrets.VM_PASSWORD }}
+          command_timeout: 2m
           script: |
+            NAMESPACE="ethioemr-tenant-biftuhc"
 
-            kubectl rollout restart deployment/biftuhc-frontend -n ethioemr-tenant-biftuhc
-            kubectl rollout restart deployment/biftuhc-backend -n ethioemr-tenant-biftuhc
+            kubectl rollout restart deployment/biftuhc-frontend -n "$NAMESPACE"
+            kubectl rollout restart deployment/biftuhc-backend  -n "$NAMESPACE"
+            kubectl delete job search-index-init -n "$NAMESPACE" --ignore-not-found=true
+            kubectl apply -f - <<'MANIFEST'
+            apiVersion: batch/v1
+            kind: Job
+            metadata:
+              name: search-index-init
+              namespace: ethioemr-tenant-biftuhc
+            spec:
+              ttlSecondsAfterFinished: 600
+              backoffLimit: 3
+              template:
+                spec:
+                  restartPolicy: OnFailure
+                  containers:
+                    - name: search-index-init
+                      image: curlimages/curl:latest
+                      command: ["sh", "/scripts/rebuild-search-index.sh"]
+                      env:
+                        - name: OMRS_BASE_URL
+                          value: "http://biftuhc-backend:8080/openmrs"
+                        - name: OMRS_ADMIN_USER
+                          valueFrom:
+                            secretKeyRef:
+                              name: ethioemr-openmrs-credentials
+                              key: OMRS_ADMIN_USER
+                        - name: OMRS_ADMIN_PASSWORD
+                          valueFrom:
+                            secretKeyRef:
+                              name: ethioemr-openmrs-credentials
+                              key: OMRS_ADMIN_PASSWORD
+                      volumeMounts:
+                        - name: script
+                          mountPath: /scripts
+                  volumes:
+                    - name: script
+                      configMap:
+                        name: search-index-script
+                        defaultMode: 0755
+            MANIFEST
+      - name: Wait for search-index Job and stream logs
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.VM_HOST }}
+          username: ${{ secrets.VM_USER }}
+          password: ${{ secrets.VM_PASSWORD }}
+          command_timeout: 35m
+          script: |
+            NAMESPACE="ethioemr-tenant-biftuhc"
+
+            # Wait for the Job pod to be scheduled and running
+            kubectl wait --for=condition=ready pod \
+              -l job-name=search-index-init \
+              -n "$NAMESPACE" \
+              --timeout=300s
+
+            # Stream logs — exits when the container finishes
+            kubectl logs -f \
+              -l job-name=search-index-init \
+              -n "$NAMESPACE" \
+              --container search-index-init
+
+            # Final gate: fail this CI step if the Job did not complete successfully
+            kubectl wait --for=condition=complete job/search-index-init \
+              -n "$NAMESPACE" \
+              --timeout=1800s
