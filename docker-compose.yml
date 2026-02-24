@@ -87,11 +87,8 @@ services:
       OMRS_DB_USER: ${OMRS_DB_USER:-openmrs}
       OMRS_DB_PASSWORD: ${OMRS_DB_PASSWORD:-openmrs}
       OMRS_BASE_URL: ${OMRS_BASE_URL:-http://backend:8080/openmrs}
-      TAG: ${TAG:-qa}                    # Image tag — e.g. qa, v1.2.0
-      DEPLOY_ID: ${DEPLOY_ID:-none}      # Git SHA or build timestamp from CI/CD
     volumes:
       - ./rebuild-search-index.sh:/rebuild-search-index.sh:ro
-      - openmrs-data:/openmrs/data       # Persist the digest file across runs
     entrypoint: ["sh", "/rebuild-search-index.sh"]
 
 volumes:
