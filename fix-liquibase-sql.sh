@@ -1,5 +1,6 @@
 #!/bin/sh
 set -e
+trap 'kill -TERM $TOMCAT_PID' TERM INT
 
 echo "[Liquibase fix] Starting OpenMRS with Liquibase SQL fix..."
 
