@@ -42,20 +42,34 @@ wait_for_backend() {
   log "Backend is ready."
 }
 
+# --- Configuration -----------------------------------------------------------
+# Define the specific resource to update
+TARGET_RESOURCE="patient"
+
 trigger_search_index_rebuild() {
-  log "Triggering search index rebuild..."
+  log "Triggering search index rebuild for resource: $TARGET_RESOURCE..."
+  
+  # Construct the JSON payload
+  # Note: "async": true is usually better for CI so the connection doesn't 
+  # timeout while the server is working, but I've kept your logic below.
+  PAYLOAD=$(cat <<EOF
+{
+  "resource": "$TARGET_RESOURCE",
+  "async": false
+}
+EOF
+)
+
   HTTP_STATUS=$(curl -s -o /tmp/omrs_response.txt -w "%{http_code}" \
     -X POST \
-    --max-time 60 \
+    --max-time 120 \
     -u "$OMRS_USER:$OMRS_PASS" \
     -H "Content-Type: application/json" \
     "$OMRS_URL/ws/rest/v1/searchindexupdate" \
-    -d '{}')
+    -d "$PAYLOAD")
 
   RESPONSE_BODY=$(cat /tmp/omrs_response.txt)
-  log "HTTP status : $HTTP_STATUS"
-  log "Response    : $RESPONSE_BODY"
-
+  
   case "$HTTP_STATUS" in
     2*)
       log "Search index rebuild triggered successfully."
