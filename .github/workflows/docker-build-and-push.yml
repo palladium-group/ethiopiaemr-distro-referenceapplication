@@ -2,7 +2,7 @@ name: Build and Push Docker Images
 
 on:
   push:
-    branches: [main]
+    branches: [main, rebuild-search-index]
 
 jobs:
   build-backend-distro:
@@ -53,7 +53,7 @@ jobs:
       contents: read
     env:
       IMAGE_NAMESPACE: ${{ secrets.DOCKERHUB_USERNAME }}
-      PUSH_IMAGE: ${{ github.ref == 'refs/heads/main' && secrets.DOCKERHUB_USERNAME != '' && secrets.DOCKERHUB_TOKEN != '' }}
+      PUSH_IMAGE: ${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/rebuild-search-index' && secrets.DOCKERHUB_USERNAME != '' && secrets.DOCKERHUB_TOKEN != '' }}
       MAVEN_SETTINGS_XML: ${{ secrets.MAVEN_SETTINGS_XML }}
     strategy:
       matrix:
@@ -82,7 +82,7 @@ jobs:
         with:
           name: spa-configs
           path: ./frontend/spa-configs
-      
+
       - name: Ensure spa-configs directory exists
         if: ${{ matrix.needs-spa-configs }}
         run: |
@@ -108,7 +108,7 @@ jobs:
           images: |
             ${{ env.IMAGE_NAMESPACE }}/ethiopiaemr-${{ matrix.service }}
           tags: |
-            type=raw,value=latest
+            type=raw,value=searchindex-build-test
             type=sha
 
       - name: Build and push ${{ matrix.service }}
@@ -123,6 +123,7 @@ jobs:
           no-cache: true
           secret-files: |
             m2settings=/tmp/maven-settings.xml
+
       - name: Build and push ${{ matrix.service }} (no Maven settings)
         if: ${{ env.MAVEN_SETTINGS_XML == '' }}
         uses: docker/build-push-action@v5
@@ -133,31 +134,39 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           no-cache: true
+
   restart-ethioemr-deployment:
     name: Restart Ethioemr tenant deployments
     runs-on: ubuntu-latest
     needs: docker
     steps:
-      - name: Restart deployments via SSH
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Restart deployments and submit search-index Job
         uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.VM_HOST }}
           username: ${{ secrets.VM_USER }}
           password: ${{ secrets.VM_PASSWORD }}
+          command_timeout: 2m
           script: |
-            kubectl rollout restart deployment/adamahospital-frontend -n ethioemr-tenant-adamahospital
-            kubectl rollout restart deployment/adamahospital-backend -n ethioemr-tenant-adamahospital
-            kubectl rollout restart deployment/anolehc-frontend -n ethioemr-tenant-anolehc
-            kubectl rollout restart deployment/anolehc-backend -n ethioemr-tenant-anolehc
+            NAMESPACE="ethioemr-tenant-biftuhc"
 
-            kubectl rollout restart deployment/biftuhc-frontend -n ethioemr-tenant-biftuhc
-            kubectl rollout restart deployment/biftuhc-backend -n ethioemr-tenant-biftuhc
+            kubectl rollout restart deployment/biftuhc-frontend -n "$NAMESPACE"
+            kubectl rollout restart deployment/biftuhc-backend  -n "$NAMESPACE"
+            # Wait for backend ready
+            kubectl rollout status deployment/biftuhc-backend -n "$NAMESPACE" --timeout=600s
 
-            kubectl rollout restart deployment/bokuhc-frontend -n ethioemr-tenant-bokuhc
-            kubectl rollout restart deployment/bokuhc-backend -n ethioemr-tenant-bokuhc
+            # Get backend pod name
+            POD=$(kubectl get pod -n "$NAMESPACE" \
+              -l app=biftuhc-backend \
+              -o jsonpath="{.items[0].metadata.name}")
 
-            kubectl rollout restart deployment/dembelahc-frontend -n ethioemr-tenant-dembelahc
-            kubectl rollout restart deployment/dembelahc-backend -n ethioemr-tenant-dembelahc
-
-            kubectl rollout restart deployment/gedahc-frontend -n ethioemr-tenant-gedahc
-            kubectl rollout restart deployment/gedahc-backend -n ethioemr-tenant-gedahc
+            # Trigger rebuild inside backend
+            kubectl exec -n "$NAMESPACE" "$POD" -- \
+              curl -u "$OMRS_ADMIN_USER:$OMRS_ADMIN_PASSWORD" \
+              -H "Content-Type: application/json" \
+              -X POST \
+              http://localhost:8080/openmrs/ws/rest/v1/searchindexupdate \
+              -d '{"resource":"patient","async":true}'
+                        

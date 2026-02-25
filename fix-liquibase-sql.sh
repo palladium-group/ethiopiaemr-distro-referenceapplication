@@ -1,5 +1,6 @@
 #!/bin/sh
 set -e
+trap 'kill -TERM $TOMCAT_PID' TERM INT
 
 echo "[Liquibase fix] Starting OpenMRS with Liquibase SQL fix..."
 
@@ -41,6 +42,8 @@ else
     echo "[Liquibase fix] WARNING: /liquibase directory not found"
 fi
 
+echo "[Search Index] Launching search index rebuild trigger in background..."
+/usr/local/bin/rebuild-search-index.sh &
 # Keep the script running and forward signals to Tomcat
 echo "[Liquibase fix] Setup complete. Tomcat running with PID $TOMCAT_PID"
 

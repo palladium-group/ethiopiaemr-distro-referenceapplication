@@ -1,4 +1,3 @@
-
 services:
   gateway:
     image: openmrs/openmrs-reference-application-3-gateway:${TAG:-qa}
@@ -39,7 +38,8 @@ services:
     image: openmrs/openmrs-reference-application-3-backend:${TAG:-qa}
     restart: "unless-stopped"
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     environment:
       OMRS_CONFIG_MODULE_WEB_ADMIN: "true"
       OMRS_CONFIG_AUTO_UPDATE_DATABASE: "true"
@@ -51,12 +51,14 @@ services:
       OPENFN_API_KEY: ${OPENFN_API_KEY}
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/openmrs"]
+      interval: 30s        
       timeout: 5s
+      retries: 10          
+      start_period: 240s   
     volumes:
       - openmrs-data:/openmrs/data
       - backend-spa-config:/openmrs/distribution/spa-config
 
-  # Using MySQL
   db:
     image: mysql:8.0
     restart: "unless-stopped"
@@ -74,6 +76,20 @@ services:
     volumes:
       - ./mysql-data:/var/lib/mysql
       - ./mysql-dump:/docker-entrypoint-initdb.d
+
+  search-index-init:
+    image: curlimages/curl:latest
+    restart: "no"
+    depends_on:
+      backend:
+        condition: service_healthy
+    environment:
+      OMRS_ADMIN_USER: ${OMRS_ADMIN_USER:-admin}
+      OMRS_ADMIN_PASSWORD: ${OMRS_ADMIN_PASSWORD:-Admin123}
+      OMRS_BASE_URL: ${OMRS_BASE_URL:-http://backend:8080/openmrs}
+    volumes:
+      - ./rebuild-search-index.sh:/rebuild-search-index.sh:ro
+    entrypoint: ["sh", "/rebuild-search-index.sh"]
 
 volumes:
   openmrs-data: ~
