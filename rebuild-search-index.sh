@@ -51,7 +51,7 @@ trigger_search_index_rebuild() {
   PAYLOAD=$(cat <<EOF
 {
   "resource": "$TARGET_RESOURCE",
-  "async": true
+  "async": false
 }
 EOF
 )
