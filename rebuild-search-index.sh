@@ -48,14 +48,10 @@ TARGET_RESOURCE="patient"
 
 trigger_search_index_rebuild() {
   log "Triggering search index rebuild for resource: $TARGET_RESOURCE..."
-  
-  # Construct the JSON payload
-  # Note: "async": true is usually better for CI so the connection doesn't 
-  # timeout while the server is working, but I've kept your logic below.
   PAYLOAD=$(cat <<EOF
 {
   "resource": "$TARGET_RESOURCE",
-  "async": false
+  "async": true
 }
 EOF
 )
