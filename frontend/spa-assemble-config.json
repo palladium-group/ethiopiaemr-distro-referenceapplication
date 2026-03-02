@@ -14,7 +14,7 @@
     "@openmrs/esm-form-builder-app": "next",
     "@openmrs/esm-patient-immunizations-app": "next",
     "@openmrs/esm-generic-patient-widgets-app": "next",
-    "@openmrs/esm-patient-orders-app": "next",
+    "@palladium-ethiopia/esm-patient-orders-app": "next",
     "@openmrs/esm-patient-attachments-app": "next",
     "@openmrs/esm-patient-medications-app": "next",
     "@openmrs/esm-patient-chart-app": "next",
@@ -46,9 +46,8 @@
     "@kenyaemr/esm-morgue-app": "next",
     "@kenyaemr/esm-express-workflow-app": "next",
     "@kenyaemr/esm-cross-border-app": "next",
-    "@kenyaemr/esm-facility-dashboard-app": "next", 
+    "@kenyaemr/esm-facility-dashboard-app": "next",
     "@palladium-ethiopia/esm-clinical-workflow-app": "next"
-
   },
   "pageTitle": "$SPA_PAGE_TITLE"
 }

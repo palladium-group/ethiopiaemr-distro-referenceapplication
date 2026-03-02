@@ -1009,7 +1009,7 @@
       "clinicianEncounterRole": "a0b03050-c99b-11e0-9572-0800200c9a66"
     }
   },
-  "@openmrs/esm-patient-orders-app": {
+  "@palladium-ethiopia/esm-patient-orders-app": {
     "showReferenceNumberField": false,
     "orderEncounterType": "7df67b83-1b84-4fe2-b1b7-794b4e9bfcc3",
     "extensionSlots": {
