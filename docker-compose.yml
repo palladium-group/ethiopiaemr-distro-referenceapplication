@@ -18,7 +18,7 @@ services:
     environment:
       SPA_PATH: /openmrs/spa
       API_URL: /openmrs
-      SPA_CONFIG_URLS: /openmrs/spa/config/configs/ethiopiaemr-package/openmrs.config.json,/openmrs/spa/config/configs/ethiopiaemr-package/kenyaemr.config.json,/openmrs/spa/config/configs/ethiopiaemr-package/registration/registration.config.json,/openmrs/spa/config/configs/ethiopiaemr-package/translations/translations.json
+      SPA_CONFIG_URLS: /openmrs/spa/config/configs/ethiopiaemr-package/openmrs.config.json,/openmrs/spa/config/configs/ethiopiaemr-package/kenyaemr.config.json,/openmrs/spa/config/configs/ethiopiaemr-package/registration/registration.config.json,/openmrs/spa/config/configs/ethiopiaemr-package/translations/translations.json,/openmrs/spa/config/configs/ethiopiaemr-package/ethiopiaemr.config.json
       SPA_DEFAULT_LOCALE: en
       SPA_PAGE_TITLE: "EthiopiaEMR"
     volumes:
