@@ -716,7 +716,7 @@
           "patient-vitals-info": {
             "Display conditions": {
               "privileges": [
-                "o3: View Patient Chart Vitals & Biometrics Dashboard"
+                "o3: View Patient Vitals and Biometrics"
               ]
             }
           }
@@ -859,7 +859,7 @@
           "results-summary-dashboard": {
             "Display conditions": {
               "privileges": [
-                "o3: View Patient Chart Vitals & Biometrics Dashboard"
+                "o3: View Patient Vitals and Biometrics"
               ]
             }
           }
