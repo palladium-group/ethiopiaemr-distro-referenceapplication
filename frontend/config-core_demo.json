@@ -715,9 +715,7 @@
         "configure": {
           "patient-vitals-info": {
             "Display conditions": {
-              "privileges": [
-                "o3: View Patient Vitals and Biometrics"
-              ]
+              "privileges": ["o3: View Patient Vitals and Biometrics"]
             }
           }
         }
@@ -858,9 +856,7 @@
           },
           "results-summary-dashboard": {
             "Display conditions": {
-              "privileges": [
-                "o3: View Patient Vitals and Biometrics"
-              ]
+              "privileges": ["o3: View Patient Vitals and Biometrics"]
             }
           }
         }
@@ -1092,7 +1088,7 @@
       "privileges": ["o3: Manage Stocks"]
     }
   },
-  "@openmrs/esm-ward-app": {
+  "@kenyaemr/esm-ward-app": {
     "Display conditions": {
       "privileges": ["o3: View Ward Dashboard"]
     }
