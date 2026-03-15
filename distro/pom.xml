@@ -55,7 +55,7 @@
     <teleconsultation.version>2.1.0-20250318.154145-1</teleconsultation.version>
     <uicommons.version>2.26.0</uicommons.version>
     <uiframework.version>3.25.0</uiframework.version>
-    <webservices.rest.version>4.0.0-SNAPSHOT</webservices.rest.version>
+    <webservices.rest.version>3.2.0</webservices.rest.version>
 
     <!-- KenyaEMR Modules -->
     <facilityreporting.version>1.2.2-SNAPSHOT</facilityreporting.version>
