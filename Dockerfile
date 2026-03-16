@@ -49,7 +49,7 @@ RUN cp -R /openmrs_distro/distro/target/sdk-distro/web/openmrs_spa/* /openmrs/di
 
 ### Run Stage
 # Using Temurin-based image (Ubuntu) for production
-FROM openmrs/openmrs-core:2.8.x
+FROM openmrs/openmrs-core:2.8.x-amazoncorretto-21
 
 # Do not copy the war if using the correct openmrs-core image version
 COPY --from=dev /openmrs/distribution/openmrs_core/openmrs.war /openmrs/distribution/openmrs_core/
