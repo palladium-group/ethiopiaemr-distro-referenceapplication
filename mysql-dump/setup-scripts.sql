@@ -94,5 +94,8 @@ SET FOREIGN_KEY_CHECKS = 1;
 -- Final Privilege Configuration
 -- Grant SUPER privilege (powerful - use granular privileges in production if possible)
 
+-- Remove Temperature (concept_id=5088) from Gas Panel – Arterial Blood (concept_set=163602) in concept_set
+START TRANSACTION; DELETE FROM concept_set WHERE concept_set = 163602 AND concept_id = 5088 LIMIT 1; SELECT * FROM concept_set WHERE concept_set = 163602 AND concept_id = 5088; COMMIT;
+
 GRANT SUPER ON *.* TO 'openmrs'@'%';
 FLUSH PRIVILEGES;
