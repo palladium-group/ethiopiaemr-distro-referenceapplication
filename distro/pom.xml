@@ -74,7 +74,7 @@
     <kenyakeypop.version>1.4.1-SNAPSHOT</kenyakeypop.version>
     <prep.version>1.4.5-SNAPSHOT</prep.version>
     <stockmanagement.version>3.0.0-SNAPSHOT</stockmanagement.version>
-    <orderexpansion.version>1.0.0</orderexpansion.version>
+    <orderexpansion.version>1.0.1-SNAPSHOT</orderexpansion.version>
 
     <!-- EthiopiaEMR Modules -->
     <ethiopiaemrcustommodule.version>1.0.0-SNAPSHOT</ethiopiaemrcustommodule.version>
