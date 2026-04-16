@@ -1,0 +1,74 @@
+services:
+
+  # Creates the EIP management database and user for the Orthanc integration
+  mysql-init:
+    image: mysql:8.0
+    container_name: eip-mysql-init
+    env_file:
+      - .env
+    environment:
+      MYSQL_PWD: ${OPENMRS_DB_PASSWORD:-openmrs}
+    command: >
+      bash -c "
+        mysql -h${OPENMRS_DB_HOST:-db} -P${OPENMRS_DB_PORT:-3306} -u${OPENMRS_DB_USER:-root} -e \"
+          CREATE DATABASE IF NOT EXISTS ${EIP_DB_NAME_ORTHANC:-openmrs_eip_mgt_orthanc};
+          CREATE USER IF NOT EXISTS '${EIP_DB_USER_ORTHANC:-openmrs_eip_mgt_orthanc}'@'%' IDENTIFIED BY '${EIP_DB_PASSWORD_ORTHANC:-password}';
+          GRANT ALL PRIVILEGES ON ${EIP_DB_NAME_ORTHANC:-openmrs_eip_mgt_orthanc}.* TO '${EIP_DB_USER_ORTHANC:-openmrs_eip_mgt_orthanc}'@'%';
+          FLUSH PRIVILEGES;
+        \"
+      "
+    networks:
+      - kenyaemr_network
+    restart: on-failure
+
+  # Orthanc - OpenMRS integration service
+  eip-openmrs-orthanc:
+    container_name: ozone-eip-client
+    depends_on:
+      mysql-init:
+        condition: service_completed_successfully
+    env_file:
+      - .env
+    environment:
+      # OpenMRS
+      - OPENMRS_URL=${OPENMRS_URL:-http://host.docker.internal/openmrs}
+      - OPENMRS_USER=${OPENMRS_USER:-admin}
+      - OPENMRS_USERNAME=${OPENMRS_USERNAME:-admin}
+      - OPENMRS_PASSWORD=${OPENMRS_PASSWORD:-Admin123}
+      # OpenMRS FHIR
+      - EIP_FHIR_RESOURCES=${EIP_FHIR_RESOURCES:-Patient,Encounter,Observation}
+      - EIP_FHIR_SERVER_URL=${EIP_FHIR_SERVER_URL:-http://host.docker.internal/openmrs/ws/fhir2/R4}
+      - EIP_FHIR_USERNAME=${EIP_FHIR_USERNAME:-admin}
+      - EIP_FHIR_PASSWORD=${EIP_FHIR_PASSWORD:-Admin123}
+      # Orthanc
+      - ORTHANC_URL=${ORTHANC_URL:-http://host.docker.internal:8042}
+      - ORTHANC_USERNAME=${ORTHANC_USERNAME:-admin}
+      - ORTHANC_PASSWORD=${ORTHANC_PASSWORD:-Admin123}
+      - ORTHANC_PUBLIC_URL=${ORTHANC_PUBLIC_URL:-http://localhost:8042}
+      # EIP management database
+      - EIP_DB_NAME_ORTHANC=${EIP_DB_NAME_ORTHANC:-openmrs_eip_mgt_orthanc}
+      - EIP_DB_USER_ORTHANC=${EIP_DB_USER_ORTHANC:-openmrs_eip_mgt_orthanc}
+      - EIP_DB_PASSWORD_ORTHANC=${EIP_DB_PASSWORD_ORTHANC:-password}
+      # OpenMRS MySQL datasource (used by Debezium CDC)
+      - OPENMRS_DB_HOST=${OPENMRS_DB_HOST:-db}
+      - OPENMRS_DB_PORT=${OPENMRS_DB_PORT:-3306}
+      - OPENMRS_DB_NAME=${OPENMRS_DB_NAME:-openmrs}
+      - OPENMRS_DB_USER=${OPENMRS_DB_USER:-root}
+      - OPENMRS_DB_PASSWORD=${OPENMRS_DB_PASSWORD:-openmrs}
+      - MYSQL_ADMIN_USER=${MYSQL_ADMIN_USER:-debezium}
+      - MYSQL_ADMIN_USER_PASSWORD=${MYSQL_ADMIN_USER_PASSWORD:-debezium}
+      # OAuth2 (disabled by default)
+      - OAUTH_ENABLED=${OAUTH_ENABLED:-false}
+    image: cicdapplication/eip-openmrs-orthanc:latest
+    ports:
+      - "8085:8080"
+    networks:
+      - kenyaemr_network
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: unless-stopped
+
+networks:
+  kenyaemr_network:
+    external: true
+    name: kenyaemr_network
