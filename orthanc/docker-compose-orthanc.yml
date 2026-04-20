@@ -1,0 +1,142 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: orthanc-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: orthanc
+      POSTGRES_USER: orthanc
+      POSTGRES_PASSWORD: Admin123
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U orthanc"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  orthanc:
+    image: orthancteam/orthanc:latest
+    container_name: orthanc
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "${ORTHANC_DICOM_PORT:-4242}:4242"
+      - "${ORTHANC_HTTP_PORT:-8042}:8042"
+    environment:
+      # === Basic settings ===
+      ORTHANC__NAME: "${ORTHANC_NAME:-Orthanc PACS}"
+      ORTHANC__AUTHENTICATION_ENABLED: "true"
+      ORTHANC__REGISTERED_USERS: |
+        {"${ORTHANC_USERNAME:-admin}": "${ORTHANC_PASSWORD:-orthanc}"}
+      ORTHANC__DICOM_AET: "${ORTHANC_AET:-ORTHANC}"
+      ORTHANC__DICOM_PORT: "4242"
+      ORTHANC__DICOM_CHECK_CALLED_AET: "false"
+      ORTHANC__REMOTE_ACCESS_ALLOWED: "true"
+
+      # === Allow unknown modalities to connect ===
+      ORTHANC__DICOM_MODALITIES_IN_DB: "true"
+      ORTHANC__UNKNOWN_SOPS_ARE_CONSIDERED_UNKNOWN: "false"
+
+      # === Registered modalities  ===
+      # ORTHANC__DICOM_MODALITIES: |
+      #   {
+      #     "DMWLT4": {
+      #       "AET": "DMWLT4",
+      #       "Host": "192.168.65.1",
+      #       "Port": 104,
+      #       "AllowFind": true,
+      #       "AllowMove": true,
+      #       "AllowStore": true
+      #     }
+      #   }
+
+      # === PostgreSQL Index ===
+      POSTGRESQL_PLUGIN_ENABLED: "true"
+      ORTHANC__POSTGRESQL__ENABLE_INDEX: "true"
+      ORTHANC__POSTGRESQL__ENABLE_STORAGE: "false"
+      ORTHANC__POSTGRESQL__HOST: "postgres"
+      ORTHANC__POSTGRESQL__PORT: "5432"
+      ORTHANC__POSTGRESQL__DATABASE: "orthanc"
+      ORTHANC__POSTGRESQL__USERNAME: "orthanc"
+      ORTHANC__POSTGRESQL__PASSWORD: "Admin123"
+      ORTHANC__POSTGRESQL__LOCK: "false"
+
+      # === Viewers & Plugins ===
+      STONE_WEB_VIEWER_PLUGIN_ENABLED: "true"
+      OHIF_PLUGIN_ENABLED: "true"
+      VOLVIEW_PLUGIN_ENABLED: "true"   
+
+      # === DICOMweb ===
+      DICOM_WEB_PLUGIN_ENABLED: "true"
+      ORTHANC__DICOM_WEB__ENABLE: "true"
+      ORTHANC__DICOM_WEB__ROOT: "/dicom-web/"
+      ORTHANC__DICOM_WEB__ENABLE_WADO: "true"
+      ORTHANC__DICOM_WEB__WADO_ROOT: "/wado"
+      ORTHANC__DICOM_WEB__SSL_ENABLED: "false"
+      ORTHANC__DICOM_WEB__SERVERS: |
+        {
+          "self": {
+            "Url": "http://orthanc:8042/dicom-web/",
+            "Username": "${ORTHANC_USERNAME:-admin}",
+            "Password": "${ORTHANC_PASSWORD:-orthanc}",
+            "HasDelete": true
+          }
+        }
+
+      # === Worklists Plugin ===
+      WORKLISTS_PLUGIN_ENABLED: "true"
+      ORTHANC__WORKLISTS__ENABLE: "true"
+      ORTHANC__WORKLISTS__DATABASE: "/var/lib/orthanc/worklists"
+
+    volumes:
+      - orthanc-storage:/var/lib/orthanc/db
+      - orthanc-worklists:/var/lib/orthanc/worklists
+
+  # HL7 → Worklist converter
+  hl7-worklist:
+    image: orthancteam/python-orthanc-tools:0.10.0
+    container_name: orthanc-hl7-worklist
+    restart: unless-stopped
+    ports:
+      - "2575:2575"
+    volumes:
+      - orthanc-worklists:/worklists
+    environment:
+      WORKLISTS_DIR: "/worklists"
+    entrypoint:
+      ["python", "-m", "orthanc_tools.hl7_worklist_server_for_orthanc"]
+
+  # Worklist REST API writer (writes .wl files via script)
+  worklist-writer:
+    image: python:3.11-alpine
+    container_name: orthanc-worklist-writer
+    restart: unless-stopped
+    volumes:
+      - orthanc-worklists:/worklists
+      - ./worklist-writer:/app
+    working_dir: /app
+    ports:
+      - "${WORKLIST_WRITER_PORT:-8000}:8000"
+    environment:
+      WORKLISTS_DIR: "/worklists"
+      ORTHANC_URL: "http://orthanc:8042"
+      ORTHANC_USERNAME: "${ORTHANC_USERNAME:-admin}"
+      ORTHANC_PASSWORD: "${ORTHANC_PASSWORD:-orthanc}"
+      PYTHONUNBUFFERED: "1"
+      PIP_DISABLE_PIP_VERSION_CHECK: "1"
+      PIP_NO_CACHE_DIR: "1"
+      WRITER_HOST: "0.0.0.0"
+      WRITER_PORT: "8000"
+    entrypoint: ["sh", "-c", "python -m pip install -q pynetdicom requests pydicom && python /app/app.py"]
+    depends_on:
+      - orthanc
+
+volumes:
+  postgres-data:
+  orthanc-storage:
+  orthanc-worklists:
