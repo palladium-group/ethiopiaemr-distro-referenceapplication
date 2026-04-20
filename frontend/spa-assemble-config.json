@@ -28,6 +28,7 @@
     "@openmrs/esm-help-menu-app": "next",
     "@openmrs/esm-service-queues-app": "next",
     "@openmrs/esm-appointments-app": "next",
+    "@openmrs/esm-patient-programs-app": "next",
     "@palladium-ethiopia/esm-patient-registration-app": "next",
     "@kenyaemr/esm-login-app": "latest",
     "@kenyaemr/esm-patient-flags-app": "next",
