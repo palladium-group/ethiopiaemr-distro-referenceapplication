@@ -26,7 +26,7 @@
     <!-- OpenMRS Modules community maintained modules -->
     <addresshierarchy.version>2.21.0</addresshierarchy.version>
     <appframework.version>2.18.0</appframework.version>
-    <appointments.version>2.1.0-SNAPSHOT</appointments.version>
+    <appointments.version>2.1.0</appointments.version>
     <appui.version>1.18.0</appui.version>
     <attachments.version>4.0.0-SNAPSHOT</attachments.version>
     <bedmanagement.version>6.2.0-SNAPSHOT</bedmanagement.version>
@@ -52,10 +52,10 @@
     <reportingcompatibility.version>2.10.0</reportingcompatibility.version>
     <reportingrest.version>1.15.0</reportingrest.version>
     <serialization-xstream.version>0.4.0-SNAPSHOT</serialization-xstream.version>
-    <teleconsultation.version>2.1.0-20250318.154145-1</teleconsultation.version>
+    <teleconsultation.version>2.0.0</teleconsultation.version>
     <uicommons.version>2.26.0</uicommons.version>
     <uiframework.version>3.25.0</uiframework.version>
-    <webservices.rest.version>3.2.0</webservices.rest.version>
+    <webservices.rest.version>3.3.0</webservices.rest.version>
 
     <!-- KenyaEMR Modules -->
     <facilityreporting.version>1.2.2-SNAPSHOT</facilityreporting.version>
@@ -80,7 +80,7 @@
     <ethiopiaemrcustommodule.version>1.0.0-SNAPSHOT</ethiopiaemrcustommodule.version>
 
     <!-- OpenMRS Core platform -->
-    <openmrs.version>2.8.3-SNAPSHOT</openmrs.version>
+    <openmrs.version>2.8.6</openmrs.version>
     <!-- Docker base image tag for openmrs-core -->
     <docker.openmrs-core.tag>2.8.x</docker.openmrs-core.tag>
 
