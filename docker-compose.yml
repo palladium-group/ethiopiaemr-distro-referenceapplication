@@ -3,6 +3,9 @@ services:
   gateway:
     image: openmrs/openmrs-reference-application-3-gateway:${TAG:-qa}
     restart: "unless-stopped"
+    networks:
+      - default
+      - ethiopiaemr_network
     depends_on:
       - frontend
       - backend
@@ -60,6 +63,9 @@ services:
   db:
     image: mysql:8.0
     restart: "unless-stopped"
+    networks:
+      - default
+      - ethiopiaemr_network
     command: "--character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --max_allowed_packet=1G --log-bin-trust-function-creators=1"
     healthcheck:
       test: 'mysql --user=${OMRS_DB_USER:-openmrs} --password=${OMRS_DB_PASSWORD:-openmrs} --execute "SHOW DATABASES;"'
@@ -82,3 +88,7 @@ volumes:
 secrets:
   m2settings:
     file: ${HOME}/.m2/settings.xml
+
+networks:
+  ethiopiaemr_network:
+    name: ethiopiaemr_network
