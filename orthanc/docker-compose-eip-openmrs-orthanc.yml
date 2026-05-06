@@ -10,7 +10,7 @@ services:
       MYSQL_PWD: ${OPENMRS_DB_PASSWORD:-openmrs}
     command: >
       bash -c "
-        mysql -h${OPENMRS_DB_HOST:-db} -P${OPENMRS_DB_PORT:-3306} -u${OPENMRS_DB_USER:-root} -e \"
+        mysql -h${OPENMRS_DB_HOST:-db} -P${OPENMRS_DB_PORT:-3306} -u${OPENMRS_DB_USER:-openmrs} -e \"
           CREATE DATABASE IF NOT EXISTS ${EIP_DB_NAME_ORTHANC:-openmrs_eip_mgt_orthanc};
           CREATE USER IF NOT EXISTS '${EIP_DB_USER_ORTHANC:-openmrs_eip_mgt_orthanc}'@'%' IDENTIFIED BY '${EIP_DB_PASSWORD_ORTHANC:-password}';
           GRANT ALL PRIVILEGES ON ${EIP_DB_NAME_ORTHANC:-openmrs_eip_mgt_orthanc}.* TO '${EIP_DB_USER_ORTHANC:-openmrs_eip_mgt_orthanc}'@'%';
@@ -18,7 +18,7 @@ services:
         \"
       "
     networks:
-      - kenyaemr_network
+      - ethiopiaemr_network
     restart: on-failure
 
   # Orthanc - OpenMRS integration service
@@ -63,12 +63,12 @@ services:
     ports:
       - "8085:8080"
     networks:
-      - kenyaemr_network
+      - ethiopiaemr_network
     extra_hosts:
       - "host.docker.internal:host-gateway"
     restart: unless-stopped
 
 networks:
-  kenyaemr_network:
+  ethiopiaemr_network:
     external: true
-    name: kenyaemr_network
+    name: ethiopiaemr_network
