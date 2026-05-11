@@ -15,6 +15,7 @@
     "@openmrs/esm-patient-immunizations-app": "next",
     "@openmrs/esm-generic-patient-widgets-app": "next",
     "@palladium-ethiopia/esm-patient-orders-app": "next",
+    "@palladium-ethiopia/esm-patient-medications-ethio-app":"next",
     "@openmrs/esm-patient-attachments-app": "next",
     "@openmrs/esm-patient-medications-app": "next",
     "@openmrs/esm-patient-chart-app": "next",
