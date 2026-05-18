@@ -1,4 +1,5 @@
 name: Build and Push Docker Images
+run-name: Build and Push Docker Images (${{ github.ref == 'refs/heads/main' && 'dev' || 'prod' }})
 
 on:
   push:
@@ -59,7 +60,7 @@ jobs:
           retention-days: 1
 
   docker:
-    name: Build and Push Images
+    name: Build and Push Images (${{ github.ref == 'refs/heads/main' && 'dev' || 'prod' }})
     runs-on: ubuntu-latest
     needs: build-backend-distro
     permissions:
