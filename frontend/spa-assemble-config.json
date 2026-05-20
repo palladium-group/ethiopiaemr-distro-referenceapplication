@@ -54,8 +54,8 @@
     "@kenyaemr/esm-shr-app": "next",
     "@kenyaemr/esm-version-app": "next",
     "@kenyaemr/esm-ward-app": "next",
-    "@kenyaemr/esm-stock-management-app": "next"
-
+    "@kenyaemr/esm-stock-management-app": "next",
+    "@kenyaemr/esm-medication-administration-app": "next"
   },
   "pageTitle": "$SPA_PAGE_TITLE"
 }
