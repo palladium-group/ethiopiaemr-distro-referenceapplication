@@ -75,6 +75,8 @@
     <prep.version>1.4.5-SNAPSHOT</prep.version>
     <stockmanagement.version>3.0.0-SNAPSHOT</stockmanagement.version>
     <orderexpansion.version>1.0.1-SNAPSHOT</orderexpansion.version>
+    <operationtheater.version>1.9.0-SNAPSHOT</operationtheater.version>
+    <atomfeed.version>2.6.3</atomfeed.version>
 
     <!-- EthiopiaEMR Modules -->
     <ethiopiaemrcustommodule.version>1.0.0-SNAPSHOT</ethiopiaemrcustommodule.version>
@@ -403,6 +405,18 @@
       <version>${ethiopiaemrcustommodule.version}</version>
       <scope>provided</scope>
     </dependency>
+    <dependency>
+      <groupId>org.openmrs.module</groupId>
+      <artifactId>operationtheater-omod</artifactId>
+      <version>${operationtheater.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.ict4h.openmrs</groupId>
+      <artifactId>openmrs-atomfeed-omod</artifactId>
+      <version>${atomfeed.version}</version>
+      <scope>provided</scope>
+    </dependency>
   </dependencies>
 
   <build>
@@ -629,6 +643,9 @@
       <id>openmrs-mod-repo</id>
       <name>OpenMRS Module Repository</name>
       <url>https://mavenrepo.openmrs.org/modules</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
     </repository>
     <repository>
       <id>repo.mybahmni.org</id>
@@ -652,7 +669,30 @@
         <enabled>true</enabled>
       </snapshots>
     </repository>
+    <repository>
+      <id>sonatype-oss-snapshots</id>
+      <name>Sonatype OSS Snapshots</name>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+      <snapshots>
+        <enabled>true</enabled>
+        <updatePolicy>always</updatePolicy>
+      </snapshots>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+    </repository>
   </repositories>
+
+  <distributionManagement>
+    <snapshotRepository>
+      <id>nexus-sonatype</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </snapshotRepository>
+    <repository>
+      <id>nexus-sonatype</id>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+    </repository>
+  </distributionManagement>
 
   <pluginRepositories>
     <pluginRepository>
