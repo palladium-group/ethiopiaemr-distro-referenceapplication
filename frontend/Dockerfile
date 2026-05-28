@@ -88,12 +88,10 @@ RUN mkdir -p /usr/share/nginx/html/openmrs/spa/configs \
 # Copy content-package output (assets, configs, overrides) in place of the old
 # spa-configs artifact that previously came from the backend Maven build.
 COPY --from=content-package /content/spa-content /tmp/spa-configs
-RUN if [ -d /tmp/spa-configs ] && [ "$(ls -A /tmp/spa-configs 2>/dev/null)" ]; then \
-        cp -r /tmp/spa-configs/* /usr/share/nginx/html/openmrs/spa/ && \
-        mkdir -p /usr/share/nginx/html/openmrs/spa/config && \
-        cp -r /tmp/spa-configs/* /usr/share/nginx/html/openmrs/spa/config/ && \
-        cp -r /tmp/spa-configs/* /usr/share/nginx/html/config/ && \
-        rm -rf /tmp/spa-configs; \
-    fi
+RUN cp -r /tmp/spa-configs/. /usr/share/nginx/html/openmrs/spa/ && \
+    mkdir -p /usr/share/nginx/html/openmrs/spa/config && \
+    cp -r /tmp/spa-configs/. /usr/share/nginx/html/openmrs/spa/config/ && \
+    cp -r /tmp/spa-configs/. /usr/share/nginx/html/config/ && \
+    rm -rf /tmp/spa-configs
 
 CMD ["/bin/sh", "-c", "/usr/local/bin/startup.sh"]
