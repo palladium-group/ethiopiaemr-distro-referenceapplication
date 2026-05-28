@@ -10,15 +10,12 @@ WORKDIR /content
 COPY frontend/content-package-pom.xml pom.xml
 
 # Download and unpack the content-package from Mekom Nexus.
-# Falls back to empty dirs if credentials are unavailable (e.g. local builds).
+# Build fails if download fails — never ship an empty/unbranded image.
 RUN --mount=type=secret,id=m2settings,target=/root/.m2/settings.xml,required=false \
     mvn -U -ntp dependency:unpack \
         -Dartifact=org.ethiopiaemr.content:ethiopiaemr-package:1.0.0-SNAPSHOT:zip \
         -DoutputDirectory=/content/extracted || \
-    (echo "WARNING: content-package download failed; assets/configs/overrides will be absent" && \
-     mkdir -p /content/extracted/configuration/frontend_configuration/assets \
-              /content/extracted/configuration/frontend_configuration/configs \
-              /content/extracted/configuration/frontend_configuration/overrides)
+    (echo "ERROR: content-package download failed. Ensure MAVEN_SETTINGS_XML secret is set and Nexus is reachable." && exit 1)
 
 # Arrange into the SPA layout expected by the nginx stage:
 #   assets/ethiopiaemr-package/  <- branding assets (logos, favicon)
