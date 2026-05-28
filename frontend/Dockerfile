@@ -1,4 +1,37 @@
-# syntax=docker/dockerfile:1.3
+# syntax=docker/dockerfile:1
+
+#--------------------------------------------
+# Content Package Stage - Downloads and extracts ethiopiaemr-package
+# Provides: assets (branding), configs (JSON), overrides (dist-*)
+#--------------------------------------------
+FROM --platform=$BUILDPLATFORM maven:3.9-eclipse-temurin-21-alpine AS content-package
+
+WORKDIR /content
+COPY frontend/content-package-pom.xml pom.xml
+
+# Download and unpack the content-package from Mekom Nexus.
+# Falls back to empty dirs if credentials are unavailable (e.g. local builds).
+RUN --mount=type=secret,id=m2settings,target=/root/.m2/settings.xml,required=false \
+    mvn -U -ntp dependency:unpack \
+        -Dartifact=org.ethiopiaemr.content:ethiopiaemr-package:1.0.0-SNAPSHOT:zip \
+        -DoutputDirectory=/content/extracted || \
+    (echo "WARNING: content-package download failed; assets/configs/overrides will be absent" && \
+     mkdir -p /content/extracted/configuration/frontend_configuration/assets \
+              /content/extracted/configuration/frontend_configuration/configs \
+              /content/extracted/configuration/frontend_configuration/overrides)
+
+# Arrange into the SPA layout expected by the nginx stage:
+#   assets/ethiopiaemr-package/  <- branding assets (logos, favicon)
+#   configs/                     <- frontend JSON config files
+#   overrides/                   <- dist-* dirs for SPA overrides
+RUN FC=/content/extracted/configuration/frontend_configuration && \
+    mkdir -p /content/spa-content/assets/ethiopiaemr-package \
+             /content/spa-content/configs \
+             /content/spa-content/overrides && \
+    ([ -d "$FC/assets" ] && cp -r "$FC/assets/." /content/spa-content/assets/ethiopiaemr-package/ || true) && \
+    ([ -d "$FC/configs" ] && cp -r "$FC/configs/." /content/spa-content/configs/ || true) && \
+    ([ -d "$FC/overrides" ] && cp -r "$FC/overrides/." /content/spa-content/overrides/ || true)
+
 #--------------------------------------------
 # Dev Stage - Assembles and Builds Frontend
 #--------------------------------------------
@@ -14,7 +47,6 @@ COPY frontend/spa-build-config.json .
 COPY frontend/rename-packages.sh .
 COPY frontend/favicon.ico .
 
-ARG CACHE_BUST
 RUN npx --legacy-peer-deps openmrs@${APP_SHELL_VERSION:-next} \
     assemble --manifest --mode config \
     --config spa-assemble-config.json \
@@ -37,10 +69,8 @@ FROM nginx:1.25-alpine
 
 RUN apk update && \
     apk upgrade && \
-    # add more utils for sponge and envsubst
     apk add --no-cache moreutils
 
-# Create directory for SPA files
 RUN mkdir -p /usr/share/nginx/html/openmrs/spa
 
 COPY frontend/startup.sh /usr/local/bin/startup.sh
@@ -48,23 +78,16 @@ RUN chmod +x /usr/local/bin/startup.sh
 
 COPY frontend/nginx.conf /etc/nginx/nginx.conf
 
-# Copy SPA files to a temporary location
 COPY --from=dev /app/spa /usr/share/nginx/html/openmrs/spa
 
-# Copy SPA config files from backend build (if available)
-# These configs come from the backend distro build and are placed in spa-configs during CI/CD
-# The configs directory structure: spa-configs/configs/, spa-configs/assets/, spa-configs/overrides/
-# Ensure directories exist first
 RUN mkdir -p /usr/share/nginx/html/openmrs/spa/configs \
              /usr/share/nginx/html/openmrs/spa/assets \
              /usr/share/nginx/html/openmrs/spa/overrides \
              /usr/share/nginx/html/config
 
-# Copy spa-configs from build context (present in CI/CD builds from backend distro build)
-# This directory will contain the configs, assets, and overrides subdirectories
-# Path is relative to build context (root directory)
-# The files need to be accessible at /openmrs/spa/config/... URLs, so we copy to both locations
-COPY frontend/spa-configs /tmp/spa-configs
+# Copy content-package output (assets, configs, overrides) in place of the old
+# spa-configs artifact that previously came from the backend Maven build.
+COPY --from=content-package /content/spa-content /tmp/spa-configs
 RUN if [ -d /tmp/spa-configs ] && [ "$(ls -A /tmp/spa-configs 2>/dev/null)" ]; then \
         cp -r /tmp/spa-configs/* /usr/share/nginx/html/openmrs/spa/ && \
         mkdir -p /usr/share/nginx/html/openmrs/spa/config && \
@@ -73,5 +96,4 @@ RUN if [ -d /tmp/spa-configs ] && [ "$(ls -A /tmp/spa-configs 2>/dev/null)" ]; t
         rm -rf /tmp/spa-configs; \
     fi
 
-# Copy SPA files after volume mount
 CMD ["/bin/sh", "-c", "/usr/local/bin/startup.sh"]
