@@ -1,59 +1,56 @@
-name: Build and Push Docker Images
+name: Build & Deploy
+run-name: "${{ github.event_name == 'workflow_dispatch' && format('Manual deploy · {0} by @{1}', github.ref_name, github.actor) || (github.ref == 'refs/heads/main' && format('Deploy latest · {0} by @{1}', github.ref_name, github.actor) || format('Deploy prod · {0} by @{1}', github.ref_name, github.actor)) }}"
 
 on:
   push:
     branches: [main]
+    tags:
+      - "*prod*"
+  workflow_dispatch:
+    inputs:
+      all_tenants:
+        description: 'Deploy to all tenants'
+        type: boolean
+        default: true
+      adamahospital:
+        description: 'Deploy adamahospital'
+        type: boolean
+        default: false
+      anolehc:
+        description: 'Deploy anolehc'
+        type: boolean
+        default: false
+      biftuhc:
+        description: 'Deploy biftuhc'
+        type: boolean
+        default: false
+      bokuhc:
+        description: 'Deploy bokuhc'
+        type: boolean
+        default: false
+      dembelahc:
+        description: 'Deploy dembelahc'
+        type: boolean
+        default: false
+      gedahc:
+        description: 'Deploy gedahc'
+        type: boolean
+        default: false
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  build-backend-distro:
-    name: Build Backend Distro
+  build:
+    name: "Build & push ${{ matrix.service }} (${{ github.ref == 'refs/heads/main' && 'latest' || 'prod' }})"
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    env:
-      MAVEN_SETTINGS_XML: ${{ secrets.MAVEN_SETTINGS_XML }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Set up JDK
-        uses: actions/setup-java@v4
-        with:
-          distribution: "temurin"
-          java-version: "21"
-          cache: "maven"
-
-      - name: Write Maven settings (if provided)
-        if: ${{ env.MAVEN_SETTINGS_XML != '' }}
-        run: |
-          cat > /tmp/maven-settings.xml <<'EOF'
-          ${{ env.MAVEN_SETTINGS_XML }}
-          EOF
-
-      - name: Build distro to generate SPA configs
-        run: |
-          MVN_SETTINGS_ARG=""
-          if [ -f /tmp/maven-settings.xml ]; then
-            MVN_SETTINGS_ARG="-s /tmp/maven-settings.xml"
-          fi
-          mvn --batch-mode --update-snapshots --activate-profiles distro clean package -Dskip.validation=true $MVN_SETTINGS_ARG
-
-      - name: Upload SPA configs as artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: spa-configs
-          path: distro/target/sdk-distro/web/openmrs_spa/*
-          retention-days: 1
-
-  docker:
-    name: Build and Push Images
-    runs-on: ubuntu-latest
-    needs: build-backend-distro
+    timeout-minutes: 120
     permissions:
       contents: read
     env:
       IMAGE_NAMESPACE: ${{ secrets.DOCKERHUB_USERNAME }}
-      PUSH_IMAGE: ${{ github.ref == 'refs/heads/main' && secrets.DOCKERHUB_USERNAME != '' && secrets.DOCKERHUB_TOKEN != '' }}
+      PUSH_IMAGE: ${{ (github.ref == 'refs/heads/main' || (startsWith(github.ref, 'refs/tags/') && contains(github.ref_name, 'prod'))) && secrets.DOCKERHUB_USERNAME != '' && secrets.DOCKERHUB_TOKEN != '' }}
       MAVEN_SETTINGS_XML: ${{ secrets.MAVEN_SETTINGS_XML }}
     strategy:
       matrix:
@@ -64,29 +61,29 @@ jobs:
           - service: frontend
             context: .
             file: ./frontend/Dockerfile
-            needs-spa-configs: true
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify prod tag is on main
+        if: ${{ startsWith(github.ref, 'refs/tags/') && contains(github.ref_name, 'prod') }}
+        run: |
+          git fetch --no-tags origin main:refs/remotes/origin/main
+          if ! git merge-base --is-ancestor "$GITHUB_SHA" origin/main; then
+            echo "Prod Docker images can only be published from commits on main."
+            exit 1
+          fi
 
       - name: Write Maven settings (if provided)
         if: ${{ env.MAVEN_SETTINGS_XML != '' }}
-        run: |
-          cat > /tmp/maven-settings.xml <<'EOF'
-          ${{ env.MAVEN_SETTINGS_XML }}
-          EOF
+        run: printf '%s' "$MAVEN_SETTINGS_XML" > /tmp/maven-settings.xml
 
-      - name: Download SPA configs (frontend only)
-        if: ${{ matrix.needs-spa-configs }}
-        uses: actions/download-artifact@v4
-        with:
-          name: spa-configs
-          path: ./frontend/spa-configs
-      
-      - name: Ensure spa-configs directory exists
-        if: ${{ matrix.needs-spa-configs }}
-        run: |
-          mkdir -p ./frontend/spa-configs
+      - name: Validate Maven settings
+        if: ${{ env.MAVEN_SETTINGS_XML != '' }}
+        run: test -s /tmp/maven-settings.xml
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -108,56 +105,93 @@ jobs:
           images: |
             ${{ env.IMAGE_NAMESPACE }}/ethiopiaemr-${{ matrix.service }}
           tags: |
-            type=raw,value=latest
+            type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' }}
+            type=raw,value=prod,enable=${{ startsWith(github.ref, 'refs/tags/') && contains(github.ref_name, 'prod') }}
             type=sha
 
-      - name: Build and push ${{ matrix.service }}
+      - name: Build and push ${{ matrix.service }} (with Maven settings)
         if: ${{ env.MAVEN_SETTINGS_XML != '' }}
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: ${{ matrix.context }}
           file: ${{ matrix.file }}
           push: ${{ env.PUSH_IMAGE == 'true' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          no-cache: true
           secret-files: |
             m2settings=/tmp/maven-settings.xml
+          cache-from: type=gha,scope=${{ matrix.service }}
+          cache-to: type=gha,mode=max,scope=${{ matrix.service }}
+
       - name: Build and push ${{ matrix.service }} (no Maven settings)
         if: ${{ env.MAVEN_SETTINGS_XML == '' }}
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: ${{ matrix.context }}
           file: ${{ matrix.file }}
           push: ${{ env.PUSH_IMAGE == 'true' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          no-cache: true
-  restart-ethioemr-deployment:
-    name: Restart Ethioemr tenant deployments
+          cache-from: type=gha,scope=${{ matrix.service }}
+          cache-to: type=gha,mode=max,scope=${{ matrix.service }}
+
+  setup:
+    name: Resolve tenant list
     runs-on: ubuntu-latest
-    needs: docker
+    outputs:
+      tenants: ${{ steps.filter.outputs.tenants }}
     steps:
-      - name: Restart deployments via SSH
+      - name: Compute tenants to deploy
+        id: filter
+        run: |
+          if [[ "${{ github.event_name }}" != "workflow_dispatch" ]] || [[ "${{ inputs.all_tenants }}" == "true" ]]; then
+            echo 'tenants=["adamahospital","anolehc","biftuhc","bokuhc","dembelahc","gedahc"]' >> $GITHUB_OUTPUT
+          else
+            TENANTS=()
+            [[ "${{ inputs.adamahospital }}" == "true" ]] && TENANTS+=("adamahospital")
+            [[ "${{ inputs.anolehc }}"      == "true" ]] && TENANTS+=("anolehc")
+            [[ "${{ inputs.biftuhc }}"      == "true" ]] && TENANTS+=("biftuhc")
+            [[ "${{ inputs.bokuhc }}"       == "true" ]] && TENANTS+=("bokuhc")
+            [[ "${{ inputs.dembelahc }}"    == "true" ]] && TENANTS+=("dembelahc")
+            [[ "${{ inputs.gedahc }}"       == "true" ]] && TENANTS+=("gedahc")
+            JSON=$(printf '%s\n' "${TENANTS[@]}" | jq -R . | jq -s -c .)
+            echo "tenants=$JSON" >> $GITHUB_OUTPUT
+          fi
+
+  deploy:
+    name: "Deploy ${{ matrix.tenant }}"
+    runs-on: ubuntu-latest
+    needs: [build, setup]
+    if: ${{ github.ref == 'refs/heads/main' || (startsWith(github.ref, 'refs/tags/') && contains(github.ref_name, 'prod')) || github.event_name == 'workflow_dispatch' }}
+    strategy:
+      max-parallel: 3
+      matrix:
+        tenant: ${{ fromJson(needs.setup.outputs.tenants) }}
+    steps:
+      - name: Compute short SHA
+        id: vars
+        run: echo "short_sha=${GITHUB_SHA::7}" >> $GITHUB_OUTPUT
+
+      - name: Deploy ${{ matrix.tenant }} via SSH
         uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.VM_HOST }}
           username: ${{ secrets.VM_USER }}
           password: ${{ secrets.VM_PASSWORD }}
           script: |
-            kubectl rollout restart deployment/adamahospital-frontend -n ethioemr-tenant-adamahospital
-            kubectl rollout restart deployment/adamahospital-backend -n ethioemr-tenant-adamahospital
-            kubectl rollout restart deployment/anolehc-frontend -n ethioemr-tenant-anolehc
-            kubectl rollout restart deployment/anolehc-backend -n ethioemr-tenant-anolehc
+            NAMESPACE=ethioemr-tenant-${{ matrix.tenant }}
+            FRONTEND_IMAGE=${{ secrets.DOCKERHUB_USERNAME }}/ethiopiaemr-frontend:sha-${{ steps.vars.outputs.short_sha }}
+            BACKEND_IMAGE=${{ secrets.DOCKERHUB_USERNAME }}/ethiopiaemr-backend:sha-${{ steps.vars.outputs.short_sha }}
 
-            kubectl rollout restart deployment/biftuhc-frontend -n ethioemr-tenant-biftuhc
-            kubectl rollout restart deployment/biftuhc-backend -n ethioemr-tenant-biftuhc
+            # Pin to exact SHA
+            kubectl set image deployment/${{ matrix.tenant }}-frontend frontend=$FRONTEND_IMAGE -n $NAMESPACE
+            kubectl set image deployment/${{ matrix.tenant }}-backend  backend=$BACKEND_IMAGE  -n $NAMESPACE
 
-            kubectl rollout restart deployment/bokuhc-frontend -n ethioemr-tenant-bokuhc
-            kubectl rollout restart deployment/bokuhc-backend -n ethioemr-tenant-bokuhc
+            # Force restart so Initializer always runs (even on re-runs with same SHA)
+            RESTARTED_AT=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+            kubectl annotate deployment/${{ matrix.tenant }}-frontend kubectl.kubernetes.io/restartedAt="$RESTARTED_AT" --overwrite -n $NAMESPACE
+            kubectl annotate deployment/${{ matrix.tenant }}-backend  kubectl.kubernetes.io/restartedAt="$RESTARTED_AT" --overwrite -n $NAMESPACE
 
-            kubectl rollout restart deployment/dembelahc-frontend -n ethioemr-tenant-dembelahc
-            kubectl rollout restart deployment/dembelahc-backend -n ethioemr-tenant-dembelahc
-
-            kubectl rollout restart deployment/gedahc-frontend -n ethioemr-tenant-gedahc
-            kubectl rollout restart deployment/gedahc-backend -n ethioemr-tenant-gedahc
+            # Wait for rollout to complete
+            kubectl rollout status deployment/${{ matrix.tenant }}-frontend -n $NAMESPACE --timeout=5m
+            kubectl rollout status deployment/${{ matrix.tenant }}-backend  -n $NAMESPACE --timeout=5m

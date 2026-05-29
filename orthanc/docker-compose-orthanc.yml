@@ -26,7 +26,6 @@ services:
         condition: service_healthy
     ports:
       - "${ORTHANC_DICOM_PORT:-4242}:4242"
-      - "${ORTHANC_HTTP_PORT:-8042}:8042"
     environment:
       # === Basic settings ===
       ORTHANC__NAME: "${ORTHANC_NAME:-Orthanc PACS}"
@@ -37,6 +36,9 @@ services:
       ORTHANC__DICOM_PORT: "4242"
       ORTHANC__DICOM_CHECK_CALLED_AET: "false"
       ORTHANC__REMOTE_ACCESS_ALLOWED: "true"
+
+      # === CORS ===
+      ORTHANC__CORS_ENABLED: "${ORTHANC__CORS_ENABLED:-true}"
 
       # === Allow unknown modalities to connect ===
       ORTHANC__DICOM_MODALITIES_IN_DB: "true"
@@ -69,9 +71,11 @@ services:
       # === Viewers & Plugins ===
       STONE_WEB_VIEWER_PLUGIN_ENABLED: "true"
       OHIF_PLUGIN_ENABLED: "true"
-      VOLVIEW_PLUGIN_ENABLED: "true"   
+      VOLVIEW_PLUGIN_ENABLED: "true"
 
       # === DICOMweb ===
+      ORTHANC__OHIF__ROUTER_BASENAME: "/openmrs/ws/rest/v1/orthanc/ohif/"
+      ORTHANC__OHIF__DATA_SOURCE: "dicom-web"
       DICOM_WEB_PLUGIN_ENABLED: "true"
       ORTHANC__DICOM_WEB__ENABLE: "true"
       ORTHANC__DICOM_WEB__ROOT: "/dicom-web/"
@@ -93,9 +97,32 @@ services:
       ORTHANC__WORKLISTS__ENABLE: "true"
       ORTHANC__WORKLISTS__DATABASE: "/var/lib/orthanc/worklists"
 
+      # === Lua: notify OpenMRS when a study becomes stable ===
+      # OnStableStudy fires once per study after StableAge seconds (default 60s)
+      # of inactivity, so the endpoint is called once regardless of slice count.
+      ORTHANC__LUA_SCRIPTS: '["/etc/orthanc/notify-openmrs.lua"]'
+      ORTHANC__STABLE_AGE: "${ORTHANC_STABLE_AGE:-30}"
+      OPENMRS_NOTIFICATION_ENDPOINT: "${OPENMRS_NOTIFICATION_ENDPOINT}"
+      OPENMRS_NOTIFICATION_USER: "${OPENMRS_NOTIFICATION_USER}"
+      OPENMRS_NOTIFICATION_PASSWORD: "${OPENMRS_NOTIFICATION_PASSWORD}"
+
     volumes:
       - orthanc-storage:/var/lib/orthanc/db
       - orthanc-worklists:/var/lib/orthanc/worklists
+      - ./notify-openmrs.lua:/etc/orthanc/notify-openmrs.lua:ro
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  nginx:
+    image: nginx:alpine
+    container_name: orthanc-nginx
+    restart: unless-stopped
+    ports:
+      - "${ORTHANC_HTTP_PORT:-8042}:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - orthanc
 
   # HL7 → Worklist converter
   hl7-worklist:
@@ -113,13 +140,12 @@ services:
 
   # Worklist REST API writer (writes .wl files via script)
   worklist-writer:
-    image: python:3.11-alpine
+    build: ./worklist-writer
     container_name: orthanc-worklist-writer
     restart: unless-stopped
     volumes:
       - orthanc-worklists:/worklists
       - ./worklist-writer:/app
-    working_dir: /app
     ports:
       - "${WORKLIST_WRITER_PORT:-8000}:8000"
     environment:
@@ -127,12 +153,8 @@ services:
       ORTHANC_URL: "http://orthanc:8042"
       ORTHANC_USERNAME: "${ORTHANC_USERNAME:-admin}"
       ORTHANC_PASSWORD: "${ORTHANC_PASSWORD:-orthanc}"
-      PYTHONUNBUFFERED: "1"
-      PIP_DISABLE_PIP_VERSION_CHECK: "1"
-      PIP_NO_CACHE_DIR: "1"
       WRITER_HOST: "0.0.0.0"
       WRITER_PORT: "8000"
-    entrypoint: ["sh", "-c", "python -m pip install -q pynetdicom requests pydicom && python /app/app.py"]
     depends_on:
       - orthanc
 
