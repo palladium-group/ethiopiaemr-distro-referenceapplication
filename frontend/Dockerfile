@@ -17,16 +17,27 @@ RUN --mount=type=secret,id=m2settings,target=/root/.m2/settings.xml,required=fal
         -DoutputDirectory=/content/extracted || \
     (echo "ERROR: content-package download failed. Ensure MAVEN_SETTINGS_XML secret is set and Nexus is reachable." && exit 1)
 
-# Arrange into the SPA layout expected by the nginx stage:
-#   assets/ethiopiaemr-package/  <- branding assets (logos, favicon)
-#   configs/                     <- frontend JSON config files
-#   overrides/                   <- dist-* dirs for SPA overrides
-RUN FC=/content/extracted/frontend_configuration && \
+# Arrange into the SPA layout expected by the nginx stage.
+# Configs are placed under ethiopiaemr-package/ to mirror the artifact-ID-scoped
+# structure that the old Maven OpenMRS packager plugin produced in spa-configs/.
+# The ZIP root varies by how assembly.xml was configured at publish time, so we
+# probe both known locations and fail loudly if neither is found.
+RUN echo "=== extracted content-package layout ===" && \
+    find /content/extracted -maxdepth 5 -type d | sort && \
+    echo "===========================================" && \
+    FC="" && \
+    for candidate in \
+        /content/extracted/configuration/frontend_configuration \
+        /content/extracted/frontend_configuration; do \
+      if [ -d "$candidate/configs" ]; then FC="$candidate"; break; fi; \
+    done && \
+    [ -n "$FC" ] || { echo "ERROR: frontend_configuration/configs not found in extracted ZIP"; exit 1; } && \
+    echo "Using FC: $FC" && \
     mkdir -p /content/spa-content/assets/ethiopiaemr-package \
-             /content/spa-content/configs \
+             /content/spa-content/configs/ethiopiaemr-package \
              /content/spa-content/overrides && \
     ([ -d "$FC/assets" ] && cp -r "$FC/assets/." /content/spa-content/assets/ethiopiaemr-package/ || true) && \
-    ([ -d "$FC/configs" ] && cp -r "$FC/configs/." /content/spa-content/configs/ || true) && \
+    cp -r "$FC/configs/." /content/spa-content/configs/ethiopiaemr-package/ && \
     ([ -d "$FC/overrides" ] && cp -r "$FC/overrides/." /content/spa-content/overrides/ || true)
 
 #--------------------------------------------
