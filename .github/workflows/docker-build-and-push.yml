@@ -178,14 +178,5 @@ jobs:
             FRONTEND_IMAGE=${{ secrets.DOCKERHUB_USERNAME }}/ethiopiaemr-frontend:latest
             BACKEND_IMAGE=${{ secrets.DOCKERHUB_USERNAME }}/ethiopiaemr-backend:latest
 
-            kubectl set image deployment/${{ matrix.tenant }}-frontend frontend=$FRONTEND_IMAGE -n $NAMESPACE
-            kubectl set image deployment/${{ matrix.tenant }}-backend  backend=$BACKEND_IMAGE  -n $NAMESPACE
-
-            # Force restart so Initializer always runs (even on re-runs with same SHA)
-            RESTARTED_AT=$(date -u +%Y-%m-%dT%H:%M:%SZ)
-            kubectl annotate deployment/${{ matrix.tenant }}-frontend kubectl.kubernetes.io/restartedAt="$RESTARTED_AT" --overwrite -n $NAMESPACE
-            kubectl annotate deployment/${{ matrix.tenant }}-backend  kubectl.kubernetes.io/restartedAt="$RESTARTED_AT" --overwrite -n $NAMESPACE
-
-            # Wait for rollout to complete
-            kubectl rollout status deployment/${{ matrix.tenant }}-frontend -n $NAMESPACE --timeout=5m
-            kubectl rollout status deployment/${{ matrix.tenant }}-backend  -n $NAMESPACE --timeout=5m
+            kubectl rollout restart deployment/${{ matrix.tenant }}-frontend -n $NAMESPACE
+            kubectl rollout restart deployment/${{ matrix.tenant }}-backend -n $NAMESPACE
