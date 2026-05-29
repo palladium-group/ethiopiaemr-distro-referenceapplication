@@ -45,6 +45,7 @@ jobs:
   build:
     name: "Build & push ${{ matrix.service }} (${{ github.ref == 'refs/heads/main' && 'latest' || 'prod' }})"
     runs-on: ubuntu-latest
+    timeout-minutes: 120
     permissions:
       contents: read
     env:
@@ -78,10 +79,11 @@ jobs:
 
       - name: Write Maven settings (if provided)
         if: ${{ env.MAVEN_SETTINGS_XML != '' }}
-        run: |
-          cat > /tmp/maven-settings.xml <<'EOF'
-          ${{ env.MAVEN_SETTINGS_XML }}
-          EOF
+        run: printf '%s' "$MAVEN_SETTINGS_XML" > /tmp/maven-settings.xml
+
+      - name: Validate Maven settings
+        if: ${{ env.MAVEN_SETTINGS_XML != '' }}
+        run: test -s /tmp/maven-settings.xml
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -109,7 +111,7 @@ jobs:
 
       - name: Build and push ${{ matrix.service }} (with Maven settings)
         if: ${{ env.MAVEN_SETTINGS_XML != '' }}
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: ${{ matrix.context }}
           file: ${{ matrix.file }}
@@ -123,7 +125,7 @@ jobs:
 
       - name: Build and push ${{ matrix.service }} (no Maven settings)
         if: ${{ env.MAVEN_SETTINGS_XML == '' }}
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: ${{ matrix.context }}
           file: ${{ matrix.file }}
