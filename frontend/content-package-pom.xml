@@ -1,0 +1,34 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.ethiopiaemr.frontend</groupId>
+  <artifactId>content-package-downloader</artifactId>
+  <version>1.0</version>
+  <packaging>pom</packaging>
+
+  <repositories>
+    <repository>
+      <id>mks-repo-snapshots</id>
+      <name>Mekom Solutions Nexus Snapshots</name>
+      <url>https://nexus.mekomsolutions.net/repository/maven-snapshots</url>
+      <snapshots><enabled>true</enabled></snapshots>
+      <releases><enabled>false</enabled></releases>
+    </repository>
+    <repository>
+      <id>mks-repo</id>
+      <name>Mekom Solutions Nexus Releases</name>
+      <url>https://nexus.mekomsolutions.net/repository/maven-releases</url>
+      <snapshots><enabled>false</enabled></snapshots>
+    </repository>
+  </repositories>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.ethiopiaemr.content</groupId>
+      <artifactId>ethiopiaemr-package</artifactId>
+      <version>1.0.0-SNAPSHOT</version>
+      <type>zip</type>
+    </dependency>
+  </dependencies>
+</project>
