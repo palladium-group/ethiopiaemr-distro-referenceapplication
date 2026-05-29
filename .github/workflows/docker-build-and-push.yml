@@ -121,6 +121,7 @@ jobs:
             m2settings=/tmp/maven-settings.xml
           cache-from: type=gha,scope=${{ matrix.service }}
           cache-to: type=gha,mode=max,scope=${{ matrix.service }}
+          no-cache-filters: ${{ matrix.service == 'backend' && 'dev' || '' }}
 
       - name: Build and push ${{ matrix.service }} (no Maven settings)
         if: ${{ env.MAVEN_SETTINGS_XML == '' }}
@@ -133,6 +134,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha,scope=${{ matrix.service }}
           cache-to: type=gha,mode=max,scope=${{ matrix.service }}
+          no-cache-filters: ${{ matrix.service == 'backend' && 'dev' || '' }}
 
   setup:
     name: Resolve tenant list
