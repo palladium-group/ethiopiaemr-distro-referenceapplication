@@ -107,7 +107,6 @@ jobs:
           tags: |
             type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' }}
             type=raw,value=prod,enable=${{ startsWith(github.ref, 'refs/tags/') && contains(github.ref_name, 'prod') }}
-            type=sha
 
       - name: Build and push ${{ matrix.service }} (with Maven settings)
         if: ${{ env.MAVEN_SETTINGS_XML != '' }}
@@ -168,10 +167,6 @@ jobs:
       matrix:
         tenant: ${{ fromJson(needs.setup.outputs.tenants) }}
     steps:
-      - name: Compute short SHA
-        id: vars
-        run: echo "short_sha=${GITHUB_SHA::7}" >> $GITHUB_OUTPUT
-
       - name: Deploy ${{ matrix.tenant }} via SSH
         uses: appleboy/ssh-action@v1.2.0
         with:
@@ -180,10 +175,9 @@ jobs:
           password: ${{ secrets.VM_PASSWORD }}
           script: |
             NAMESPACE=ethioemr-tenant-${{ matrix.tenant }}
-            FRONTEND_IMAGE=${{ secrets.DOCKERHUB_USERNAME }}/ethiopiaemr-frontend:sha-${{ steps.vars.outputs.short_sha }}
-            BACKEND_IMAGE=${{ secrets.DOCKERHUB_USERNAME }}/ethiopiaemr-backend:sha-${{ steps.vars.outputs.short_sha }}
+            FRONTEND_IMAGE=${{ secrets.DOCKERHUB_USERNAME }}/ethiopiaemr-frontend:latest
+            BACKEND_IMAGE=${{ secrets.DOCKERHUB_USERNAME }}/ethiopiaemr-backend:latest
 
-            # Pin to exact SHA
             kubectl set image deployment/${{ matrix.tenant }}-frontend frontend=$FRONTEND_IMAGE -n $NAMESPACE
             kubectl set image deployment/${{ matrix.tenant }}-backend  backend=$BACKEND_IMAGE  -n $NAMESPACE
 
