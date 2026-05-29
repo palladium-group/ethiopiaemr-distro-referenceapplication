@@ -1,9 +1,9 @@
 name: Build & Deploy
-run-name: "${{ github.event_name == 'workflow_dispatch' && format('Manual deploy · {0} by @{1}', github.ref_name, github.actor) || (github.ref == 'refs/heads/main' && format('Deploy latest · {0} by @{1}', github.ref_name, github.actor) || format('Deploy prod · {0} by @{1}', github.ref_name, github.actor)) }}"
+run-name: "${{ github.event_name == 'workflow_dispatch' && format('Manual deploy · {0} by @{1}', github.ref_name, github.actor) || ((github.ref == 'refs/heads/main' || github.ref == 'refs/heads/feature/pipeline-fix' || github.ref == 'refs/heads/fix/emr-api') && format('Deploy latest · {0} by @{1}', github.ref_name, github.actor) || format('Deploy prod · {0} by @{1}', github.ref_name, github.actor)) }}"
 
 on:
   push:
-    branches: [main]
+    branches: [main, feature/pipeline-fix, fix/emr-api]
     tags:
       - "*prod*"
   workflow_dispatch:
@@ -43,14 +43,14 @@ concurrency:
 
 jobs:
   build:
-    name: "Build & push ${{ matrix.service }} (${{ github.ref == 'refs/heads/main' && 'latest' || 'prod' }})"
+    name: "Build & push ${{ matrix.service }} (${{ (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/feature/pipeline-fix' || github.ref == 'refs/heads/fix/emr-api') && 'latest' || 'prod' }})"
     runs-on: ubuntu-latest
     timeout-minutes: 120
     permissions:
       contents: read
     env:
       IMAGE_NAMESPACE: ${{ secrets.DOCKERHUB_USERNAME }}
-      PUSH_IMAGE: ${{ (github.ref == 'refs/heads/main' || (startsWith(github.ref, 'refs/tags/') && contains(github.ref_name, 'prod'))) && secrets.DOCKERHUB_USERNAME != '' && secrets.DOCKERHUB_TOKEN != '' }}
+      PUSH_IMAGE: ${{ (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/feature/pipeline-fix' || github.ref == 'refs/heads/fix/emr-api' || (startsWith(github.ref, 'refs/tags/') && contains(github.ref_name, 'prod'))) && secrets.DOCKERHUB_USERNAME != '' && secrets.DOCKERHUB_TOKEN != '' }}
       MAVEN_SETTINGS_XML: ${{ secrets.MAVEN_SETTINGS_XML }}
     strategy:
       matrix:
@@ -105,7 +105,7 @@ jobs:
           images: |
             ${{ env.IMAGE_NAMESPACE }}/ethiopiaemr-${{ matrix.service }}
           tags: |
-            type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' }}
+            type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/feature/pipeline-fix' || github.ref == 'refs/heads/fix/emr-api' }}
             type=raw,value=prod,enable=${{ startsWith(github.ref, 'refs/tags/') && contains(github.ref_name, 'prod') }}
             type=sha
 
@@ -162,16 +162,12 @@ jobs:
     name: "Deploy ${{ matrix.tenant }}"
     runs-on: ubuntu-latest
     needs: [build, setup]
-    if: ${{ github.ref == 'refs/heads/main' || (startsWith(github.ref, 'refs/tags/') && contains(github.ref_name, 'prod')) || github.event_name == 'workflow_dispatch' }}
+    if: ${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/feature/pipeline-fix' || github.ref == 'refs/heads/fix/emr-api' || (startsWith(github.ref, 'refs/tags/') && contains(github.ref_name, 'prod')) || github.event_name == 'workflow_dispatch' }}
     strategy:
       max-parallel: 3
       matrix:
         tenant: ${{ fromJson(needs.setup.outputs.tenants) }}
     steps:
-      - name: Compute short SHA
-        id: vars
-        run: echo "short_sha=${GITHUB_SHA::7}" >> $GITHUB_OUTPUT
-
       - name: Deploy ${{ matrix.tenant }} via SSH
         uses: appleboy/ssh-action@v1.2.0
         with:
@@ -180,18 +176,5 @@ jobs:
           password: ${{ secrets.VM_PASSWORD }}
           script: |
             NAMESPACE=ethioemr-tenant-${{ matrix.tenant }}
-            FRONTEND_IMAGE=${{ secrets.DOCKERHUB_USERNAME }}/ethiopiaemr-frontend:sha-${{ steps.vars.outputs.short_sha }}
-            BACKEND_IMAGE=${{ secrets.DOCKERHUB_USERNAME }}/ethiopiaemr-backend:sha-${{ steps.vars.outputs.short_sha }}
-
-            # Pin to exact SHA
-            kubectl set image deployment/${{ matrix.tenant }}-frontend frontend=$FRONTEND_IMAGE -n $NAMESPACE
-            kubectl set image deployment/${{ matrix.tenant }}-backend  backend=$BACKEND_IMAGE  -n $NAMESPACE
-
-            # Force restart so Initializer always runs (even on re-runs with same SHA)
-            RESTARTED_AT=$(date -u +%Y-%m-%dT%H:%M:%SZ)
-            kubectl annotate deployment/${{ matrix.tenant }}-frontend kubectl.kubernetes.io/restartedAt="$RESTARTED_AT" --overwrite -n $NAMESPACE
-            kubectl annotate deployment/${{ matrix.tenant }}-backend  kubectl.kubernetes.io/restartedAt="$RESTARTED_AT" --overwrite -n $NAMESPACE
-
-            # Wait for rollout to complete
-            kubectl rollout status deployment/${{ matrix.tenant }}-frontend -n $NAMESPACE --timeout=5m
-            kubectl rollout status deployment/${{ matrix.tenant }}-backend  -n $NAMESPACE --timeout=5m
+            kubectl rollout restart deployment/${{ matrix.tenant }}-frontend -n $NAMESPACE
+            kubectl rollout restart deployment/${{ matrix.tenant }}-backend -n $NAMESPACE
