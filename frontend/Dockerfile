@@ -21,7 +21,7 @@ RUN --mount=type=secret,id=m2settings,target=/root/.m2/settings.xml,required=fal
 #   assets/ethiopiaemr-package/  <- branding assets (logos, favicon)
 #   configs/                     <- frontend JSON config files
 #   overrides/                   <- dist-* dirs for SPA overrides
-RUN FC=/content/extracted/configuration/frontend_configuration && \
+RUN FC=/content/extracted/frontend_configuration && \
     mkdir -p /content/spa-content/assets/ethiopiaemr-package \
              /content/spa-content/configs \
              /content/spa-content/overrides && \
