@@ -83,7 +83,10 @@ jobs:
 
       - name: Validate Maven settings
         if: ${{ env.MAVEN_SETTINGS_XML != '' }}
-        run: test -s /tmp/maven-settings.xml
+        run: |
+          test -s /tmp/maven-settings.xml
+          grep -q "<id>mks-repo</id>" /tmp/maven-settings.xml
+          grep -q "<id>github-palladiumkennya-initializer</id>" /tmp/maven-settings.xml
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
