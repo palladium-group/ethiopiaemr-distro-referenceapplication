@@ -88,9 +88,6 @@ jobs:
           grep -q "<id>mks-repo</id>" /tmp/maven-settings.xml
           grep -q "<id>github-palladiumkennya-initializer</id>" /tmp/maven-settings.xml
 
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
@@ -122,6 +119,8 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           secret-files: |
             m2settings=/tmp/maven-settings.xml
+          build-args: |
+            CACHE_BUST=${{ matrix.service == 'backend' && github.run_id || '' }}
           cache-from: type=gha,scope=${{ matrix.service }}
           cache-to: type=gha,mode=max,scope=${{ matrix.service }}
           no-cache-filters: ${{ matrix.service == 'backend' && 'dev' || '' }}
@@ -135,6 +134,8 @@ jobs:
           push: ${{ env.PUSH_IMAGE == 'true' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            CACHE_BUST=${{ matrix.service == 'backend' && github.run_id || '' }}
           cache-from: type=gha,scope=${{ matrix.service }}
           cache-to: type=gha,mode=max,scope=${{ matrix.service }}
           no-cache-filters: ${{ matrix.service == 'backend' && 'dev' || '' }}
