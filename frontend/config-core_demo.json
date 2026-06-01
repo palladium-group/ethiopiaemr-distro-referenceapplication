@@ -1082,7 +1082,7 @@
     "Brand color #2": "#1D491F",
     "Brand color #3": " #2C6D2F"
   },
-  "@kenyaemr/esm-stock-management-app": {
+  "@openmrs/esm-stock-management-app": {
     "Display conditions": {
       "privileges": ["o3: Manage Stocks"]
     }

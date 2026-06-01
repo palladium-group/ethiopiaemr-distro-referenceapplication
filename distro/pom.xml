@@ -74,7 +74,7 @@
     <kenyaui.version>3.0.1-SNAPSHOT</kenyaui.version>
     <kenyakeypop.version>1.4.1-SNAPSHOT</kenyakeypop.version>
     <prep.version>1.4.5-SNAPSHOT</prep.version>
-    <stockmanagement.version>2.1.0-SNAPSHOT</stockmanagement.version>
+    <stockmanagement.version>3.0.0-SNAPSHOT</stockmanagement.version>
     <orderexpansion.version>1.0.1-SNAPSHOT</orderexpansion.version>
     <operationtheater.version>1.9.0-SNAPSHOT</operationtheater.version>
     <atomfeed.version>2.6.3</atomfeed.version>
