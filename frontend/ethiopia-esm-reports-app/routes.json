@@ -1,1 +1,0 @@
-{"$schema":"https://json.openmrs.org/routes.schema.json","backendDependencies":{"ethiopiaemrreports":">=1.0.0","reporting":">=1.27.0","reportingrest":">=1.15.0"},"pages":[{"component":"root","route":"reports"}],"extensions":[],"version":"1.0.0"}

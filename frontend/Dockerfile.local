@@ -34,12 +34,6 @@ RUN chmod +x ./rename-packages.sh && ./rename-packages.sh
 # Patch the KenyaEMR app-menu bundle: add ETL Administration tile, repoint Reports to EthiopiaEMR
 RUN chmod +x ./patch-app-menu.sh && ./patch-app-menu.sh /app/spa
 
-# Inject the locally-built EthiopiaEMR reports SPA (not published to npm): copy its
-# prebuilt dist into the assembled tree and register it in importmap/routes.registry.
-COPY ethiopia-esm-reports-app /app/spa/ethiopia-esm-reports-app-1.0.1
-COPY inject-ethiopia-reports.js .
-RUN node inject-ethiopia-reports.js /app/spa
-
 #--------------------------------------------
 # Runtime Stage - Published Image
 #--------------------------------------------

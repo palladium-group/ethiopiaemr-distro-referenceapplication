@@ -1,1 +1,0 @@
-"use strict";(globalThis.webpackChunk_palladium_ethiopia_esm_ethiopia_reports_app=globalThis.webpackChunk_palladium_ethiopia_esm_ethiopia_reports_app||[]).push([["61"],{9876(a,e,i){i.r(e),i.d(e,{default:()=>_,immutable:()=>p});var t=i(5216),l=i(2372);let p=a=>(e,i,t)=>(t.revalidateOnFocus=!1,t.revalidateIfStale=!1,t.revalidateOnReconnect=!1,a(e,i,t)),_=(0,l.Ht)(t.Ay,p)}}]);
