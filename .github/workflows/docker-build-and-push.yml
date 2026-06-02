@@ -165,8 +165,8 @@ jobs:
         id: filter
         run: |
           if [[ "${{ github.event_name }}" != "workflow_dispatch" ]]; then
-            # Automatic push-to-main or *prod* tag → adama only (other dev tenants on demand)
-            echo 'tenants=["adamahospital"]' >> $GITHUB_OUTPUT
+            # Automatic push-to-main or *prod* tag → geda only (other dev tenants on demand)
+            echo 'tenants=["gedahc"]' >> $GITHUB_OUTPUT
           elif [[ "${{ inputs.all_tenants }}" == "true" ]]; then
             echo 'tenants=["adamahospital","anolehc","biftuhc","bokuhc","dembelahc","gedahc"]' >> $GITHUB_OUTPUT
           else
