@@ -12,6 +12,7 @@ WORKDIR /app
 COPY frontend/spa-assemble-config.json .
 COPY frontend/spa-build-config.json .
 COPY frontend/rename-packages.sh .
+COPY frontend/patch-app-menu.sh .
 COPY frontend/favicon.ico .
 
 ARG CACHE_BUST
@@ -29,6 +30,9 @@ RUN if [ ! -f ./spa/index.html ]; then \
 
 # Execute the rename script
 RUN chmod +x ./rename-packages.sh && ./rename-packages.sh
+
+# Patch the KenyaEMR app-menu bundle: add ETL Administration tile, repoint Reports to EthiopiaEMR
+RUN chmod +x ./patch-app-menu.sh && ./patch-app-menu.sh /app/spa
 
 #--------------------------------------------
 # Runtime Stage - Published Image
@@ -72,6 +76,10 @@ RUN if [ -d /tmp/spa-configs ] && [ "$(ls -A /tmp/spa-configs 2>/dev/null)" ]; t
         cp -r /tmp/spa-configs/* /usr/share/nginx/html/config/ && \
         rm -rf /tmp/spa-configs; \
     fi
+
+# Allow the Reports app-menu tile (repointed to EthiopiaEMR) by removing it from excludeLinks
+COPY frontend/patch-app-menu-config.sh /usr/local/bin/patch-app-menu-config.sh
+RUN chmod +x /usr/local/bin/patch-app-menu-config.sh && /usr/local/bin/patch-app-menu-config.sh
 
 # Copy SPA files after volume mount
 CMD ["/bin/sh", "-c", "/usr/local/bin/startup.sh"]

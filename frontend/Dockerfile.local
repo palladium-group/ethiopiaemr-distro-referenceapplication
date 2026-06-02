@@ -12,6 +12,7 @@ WORKDIR /app
 COPY spa-assemble-config.json .
 COPY spa-build-config.json .
 COPY rename-packages.sh .
+COPY patch-app-menu.sh .
 COPY favicon.ico .
 
 ARG CACHE_BUST
@@ -30,6 +31,15 @@ RUN if [ ! -f ./spa/index.html ]; then \
 # Execute the rename script
 RUN chmod +x ./rename-packages.sh && ./rename-packages.sh
 
+# Patch the KenyaEMR app-menu bundle: add ETL Administration tile, repoint Reports to EthiopiaEMR
+RUN chmod +x ./patch-app-menu.sh && ./patch-app-menu.sh /app/spa
+
+# Inject the locally-built EthiopiaEMR reports SPA (not published to npm): copy its
+# prebuilt dist into the assembled tree and register it in importmap/routes.registry.
+COPY ethiopia-esm-reports-app /app/spa/ethiopia-esm-reports-app-1.0.1
+COPY inject-ethiopia-reports.js .
+RUN node inject-ethiopia-reports.js /app/spa
+
 #--------------------------------------------
 # Runtime Stage - Published Image
 #--------------------------------------------
@@ -44,7 +54,8 @@ RUN apk update && \
 RUN mkdir -p /usr/share/nginx/html
 
 COPY startup-local.sh /usr/local/bin/startup.sh
-RUN chmod +x /usr/local/bin/startup.sh
+COPY patch-app-menu-config.sh /usr/local/bin/patch-app-menu-config.sh
+RUN chmod +x /usr/local/bin/startup.sh /usr/local/bin/patch-app-menu-config.sh
 
 COPY nginx-local.conf /etc/nginx/nginx.conf
 

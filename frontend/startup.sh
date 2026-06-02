@@ -52,5 +52,11 @@ if [ -f "$FAVICON" ]; then
   cp "$FAVICON" /usr/share/nginx/html/openmrs/spa/
 fi
 
+# Allow the Reports app-menu tile by removing it from the patient-flags excludeLinks.
+# Re-applied at startup in case configs are provided via a runtime volume mount.
+if [ -x /usr/local/bin/patch-app-menu-config.sh ]; then
+  /usr/local/bin/patch-app-menu-config.sh || echo "patch-app-menu-config: failed (non-fatal)"
+fi
+
 # Start nginx
 exec nginx -g "daemon off;"

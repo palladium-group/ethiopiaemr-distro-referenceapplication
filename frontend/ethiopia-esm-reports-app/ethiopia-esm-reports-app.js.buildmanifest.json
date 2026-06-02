@@ -1,0 +1,522 @@
+{
+  "chunks": [
+    {
+      "type": "chunk",
+      "rendered": true,
+      "initial": false,
+      "entry": false,
+      "size": 757,
+      "sizes": {
+        "javascript": 757
+      },
+      "names": [],
+      "idHints": [],
+      "runtime": [
+        "@palladium-ethiopia/esm-ethiopia-reports-app",
+        "main"
+      ],
+      "files": [
+        "117.js"
+      ],
+      "auxiliaryFiles": [],
+      "hash": "0a74983aab6d6fdb",
+      "childrenByOrder": {}
+    },
+    {
+      "type": "chunk",
+      "rendered": true,
+      "initial": false,
+      "entry": false,
+      "size": 14472,
+      "sizes": {
+        "javascript": 14472
+      },
+      "names": [],
+      "idHints": [],
+      "runtime": [
+        "@palladium-ethiopia/esm-ethiopia-reports-app",
+        "main"
+      ],
+      "files": [
+        "152.js"
+      ],
+      "auxiliaryFiles": [
+        "152.js.map"
+      ],
+      "hash": "1600c31f79a16909",
+      "childrenByOrder": {}
+    },
+    {
+      "type": "chunk",
+      "rendered": false,
+      "initial": false,
+      "entry": false,
+      "size": 42,
+      "sizes": {
+        "consume-shared": 42
+      },
+      "names": [],
+      "idHints": [
+        ""
+      ],
+      "runtime": [
+        "@palladium-ethiopia/esm-ethiopia-reports-app",
+        "main"
+      ],
+      "files": [],
+      "auxiliaryFiles": [],
+      "hash": "0876c11331147ef5",
+      "childrenByOrder": {}
+    },
+    {
+      "type": "chunk",
+      "rendered": true,
+      "initial": false,
+      "entry": false,
+      "reason": "split chunk (cache group: defaultVendors)",
+      "size": 61603,
+      "sizes": {
+        "javascript": 61603
+      },
+      "names": [],
+      "idHints": [
+        "vendors"
+      ],
+      "runtime": [
+        "@palladium-ethiopia/esm-ethiopia-reports-app",
+        "main"
+      ],
+      "files": [
+        "209.js"
+      ],
+      "auxiliaryFiles": [
+        "209.js.map"
+      ],
+      "hash": "817574bff06c619f",
+      "childrenByOrder": {}
+    },
+    {
+      "type": "chunk",
+      "rendered": true,
+      "initial": false,
+      "entry": false,
+      "size": 180460,
+      "sizes": {
+        "javascript": 180460
+      },
+      "names": [],
+      "idHints": [],
+      "runtime": [
+        "@palladium-ethiopia/esm-ethiopia-reports-app",
+        "main"
+      ],
+      "files": [
+        "256.js"
+      ],
+      "auxiliaryFiles": [
+        "256.js.map"
+      ],
+      "hash": "09f3e802910866b8",
+      "childrenByOrder": {}
+    },
+    {
+      "type": "chunk",
+      "rendered": true,
+      "initial": false,
+      "entry": false,
+      "reason": "split chunk (cache group: defaultVendors)",
+      "size": 4645876,
+      "sizes": {
+        "javascript": 4645876
+      },
+      "names": [],
+      "idHints": [
+        "vendors"
+      ],
+      "runtime": [
+        "@palladium-ethiopia/esm-ethiopia-reports-app",
+        "main"
+      ],
+      "files": [
+        "383.js"
+      ],
+      "auxiliaryFiles": [
+        "383.js.map"
+      ],
+      "hash": "e59dc81980236cc8",
+      "childrenByOrder": {}
+    },
+    {
+      "type": "chunk",
+      "rendered": true,
+      "initial": true,
+      "entry": true,
+      "size": 215483,
+      "sizes": {
+        "expose": 42,
+        "javascript": 215147,
+        "runtime": 14644,
+        "share-init": 294
+      },
+      "names": [
+        "@palladium-ethiopia/esm-ethiopia-reports-app"
+      ],
+      "idHints": [],
+      "runtime": [
+        "@palladium-ethiopia/esm-ethiopia-reports-app"
+      ],
+      "files": [
+        "ethiopia-esm-reports-app.js"
+      ],
+      "auxiliaryFiles": [
+        "ethiopia-esm-reports-app.js.map"
+      ],
+      "hash": "1677c56e27f9824c",
+      "childrenByOrder": {}
+    },
+    {
+      "type": "chunk",
+      "rendered": true,
+      "initial": false,
+      "entry": false,
+      "size": 504,
+      "sizes": {
+        "javascript": 504
+      },
+      "names": [],
+      "idHints": [],
+      "runtime": [
+        "@palladium-ethiopia/esm-ethiopia-reports-app",
+        "main"
+      ],
+      "files": [
+        "442.js"
+      ],
+      "auxiliaryFiles": [
+        "442.js.map"
+      ],
+      "hash": "9ed2a0708f309573",
+      "childrenByOrder": {}
+    },
+    {
+      "type": "chunk",
+      "rendered": false,
+      "initial": false,
+      "entry": false,
+      "size": 126,
+      "sizes": {
+        "consume-shared": 126
+      },
+      "names": [],
+      "idHints": [
+        ""
+      ],
+      "runtime": [
+        "@palladium-ethiopia/esm-ethiopia-reports-app",
+        "main"
+      ],
+      "files": [],
+      "auxiliaryFiles": [],
+      "hash": "cddd3fea3935a96b",
+      "childrenByOrder": {}
+    },
+    {
+      "type": "chunk",
+      "rendered": true,
+      "initial": false,
+      "entry": false,
+      "size": 7120,
+      "sizes": {
+        "javascript": 7120
+      },
+      "names": [],
+      "idHints": [],
+      "runtime": [
+        "@palladium-ethiopia/esm-ethiopia-reports-app",
+        "main"
+      ],
+      "files": [
+        "466.js"
+      ],
+      "auxiliaryFiles": [
+        "466.js.map"
+      ],
+      "hash": "ed330fa1c0ba65c5",
+      "childrenByOrder": {}
+    },
+    {
+      "type": "chunk",
+      "rendered": false,
+      "initial": false,
+      "entry": false,
+      "size": 42,
+      "sizes": {
+        "consume-shared": 42
+      },
+      "names": [],
+      "idHints": [
+        ""
+      ],
+      "runtime": [
+        "@palladium-ethiopia/esm-ethiopia-reports-app",
+        "main"
+      ],
+      "files": [],
+      "auxiliaryFiles": [],
+      "hash": "f3b2e8bd261f55f0",
+      "childrenByOrder": {}
+    },
+    {
+      "type": "chunk",
+      "rendered": true,
+      "initial": false,
+      "entry": false,
+      "size": 504,
+      "sizes": {
+        "javascript": 504
+      },
+      "names": [],
+      "idHints": [],
+      "runtime": [
+        "@palladium-ethiopia/esm-ethiopia-reports-app",
+        "main"
+      ],
+      "files": [
+        "61.js"
+      ],
+      "auxiliaryFiles": [
+        "61.js.map"
+      ],
+      "hash": "27e6e55473e8569b",
+      "childrenByOrder": {}
+    },
+    {
+      "type": "chunk",
+      "rendered": true,
+      "initial": false,
+      "entry": false,
+      "reason": "split chunk (cache group: defaultVendors)",
+      "size": 137481,
+      "sizes": {
+        "javascript": 137481
+      },
+      "names": [],
+      "idHints": [
+        "vendors"
+      ],
+      "runtime": [
+        "@palladium-ethiopia/esm-ethiopia-reports-app",
+        "main"
+      ],
+      "files": [
+        "689.js"
+      ],
+      "auxiliaryFiles": [
+        "689.js.map"
+      ],
+      "hash": "eadffcf92abed8bd",
+      "childrenByOrder": {}
+    },
+    {
+      "type": "chunk",
+      "rendered": true,
+      "initial": false,
+      "entry": false,
+      "size": 7160,
+      "sizes": {
+        "javascript": 7160
+      },
+      "names": [],
+      "idHints": [],
+      "runtime": [
+        "@palladium-ethiopia/esm-ethiopia-reports-app",
+        "main"
+      ],
+      "files": [
+        "697.js"
+      ],
+      "auxiliaryFiles": [
+        "697.js.map"
+      ],
+      "hash": "025742fb3ebad9eb",
+      "childrenByOrder": {}
+    },
+    {
+      "type": "chunk",
+      "rendered": true,
+      "initial": false,
+      "entry": false,
+      "size": 315411,
+      "sizes": {
+        "javascript": 315411
+      },
+      "names": [],
+      "idHints": [
+        "vendors"
+      ],
+      "runtime": [
+        "@palladium-ethiopia/esm-ethiopia-reports-app",
+        "main"
+      ],
+      "files": [
+        "712.js"
+      ],
+      "auxiliaryFiles": [
+        "712.js.map"
+      ],
+      "hash": "d32a2763ee72ab6c",
+      "childrenByOrder": {}
+    },
+    {
+      "type": "chunk",
+      "rendered": true,
+      "initial": false,
+      "entry": false,
+      "reason": "split chunk (cache group: defaultVendors)",
+      "size": 2507073,
+      "sizes": {
+        "javascript": 2507073
+      },
+      "names": [],
+      "idHints": [
+        "vendors"
+      ],
+      "runtime": [
+        "@palladium-ethiopia/esm-ethiopia-reports-app",
+        "main"
+      ],
+      "files": [
+        "721.js"
+      ],
+      "auxiliaryFiles": [
+        "721.js.map"
+      ],
+      "hash": "b3d6bfaa378d4a2a",
+      "childrenByOrder": {}
+    },
+    {
+      "type": "chunk",
+      "rendered": true,
+      "initial": false,
+      "entry": false,
+      "size": 3513,
+      "sizes": {
+        "javascript": 3513
+      },
+      "names": [],
+      "idHints": [],
+      "runtime": [
+        "@palladium-ethiopia/esm-ethiopia-reports-app"
+      ],
+      "files": [
+        "743.js"
+      ],
+      "auxiliaryFiles": [
+        "743.js.map"
+      ],
+      "hash": "df0036f4f2ba1e4d",
+      "childrenByOrder": {}
+    },
+    {
+      "type": "chunk",
+      "rendered": true,
+      "initial": false,
+      "entry": false,
+      "size": 14472,
+      "sizes": {
+        "javascript": 14472
+      },
+      "names": [],
+      "idHints": [],
+      "runtime": [
+        "@palladium-ethiopia/esm-ethiopia-reports-app",
+        "main"
+      ],
+      "files": [
+        "771.js"
+      ],
+      "auxiliaryFiles": [
+        "771.js.map"
+      ],
+      "hash": "da19c46249aa66f5",
+      "childrenByOrder": {}
+    },
+    {
+      "type": "chunk",
+      "rendered": true,
+      "initial": false,
+      "entry": false,
+      "size": 29620,
+      "sizes": {
+        "javascript": 29620
+      },
+      "names": [],
+      "idHints": [
+        "vendors"
+      ],
+      "runtime": [
+        "@palladium-ethiopia/esm-ethiopia-reports-app",
+        "main"
+      ],
+      "files": [
+        "789.js"
+      ],
+      "auxiliaryFiles": [
+        "789.js.map"
+      ],
+      "hash": "61fc441b32f704bb",
+      "childrenByOrder": {}
+    },
+    {
+      "type": "chunk",
+      "rendered": false,
+      "initial": false,
+      "entry": false,
+      "reason": "split chunk (cache group: default)",
+      "size": 84,
+      "sizes": {
+        "consume-shared": 84
+      },
+      "names": [],
+      "idHints": [
+        ""
+      ],
+      "runtime": [
+        "@palladium-ethiopia/esm-ethiopia-reports-app",
+        "main"
+      ],
+      "files": [],
+      "auxiliaryFiles": [],
+      "hash": "82f8aa1d70b1565d",
+      "childrenByOrder": {}
+    },
+    {
+      "type": "chunk",
+      "rendered": true,
+      "initial": true,
+      "entry": true,
+      "size": 218954,
+      "sizes": {
+        "consume-shared": 42,
+        "javascript": 218618,
+        "runtime": 14111,
+        "share-init": 294
+      },
+      "names": [
+        "main"
+      ],
+      "idHints": [],
+      "runtime": [
+        "main"
+      ],
+      "files": [
+        "main.js"
+      ],
+      "auxiliaryFiles": [
+        "main.js.map"
+      ],
+      "hash": "19dcf23f08f8461e",
+      "childrenByOrder": {}
+    }
+  ]
+}
