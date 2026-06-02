@@ -562,7 +562,6 @@
           "home-appointments",
           "home-widget-db-link",
           "referrals-link",
-          "clinical-appointments-dashboard-link",
           "service-queues-dashboard-link",
           "pharmacy-dashboard-link",
           "case-management-dashboard-link",
@@ -1083,7 +1082,7 @@
     "Brand color #2": "#1D491F",
     "Brand color #3": " #2C6D2F"
   },
-  "@openmrs/esm-stock-management-app": {
+  "@kenyaemr/esm-stock-management-app": {
     "Display conditions": {
       "privileges": ["o3: Manage Stocks"]
     }
