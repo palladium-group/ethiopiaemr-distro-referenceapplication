@@ -91,6 +91,26 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
+      - name: Restore backend Maven cache
+        if: ${{ matrix.service == 'backend' }}
+        id: m2-cache
+        uses: actions/cache@v4
+        with:
+          path: m2-cache
+          key: m2-${{ hashFiles('pom.xml', 'distro/pom.xml', 'distro/distro.properties') }}
+          restore-keys: |
+            m2-
+
+      - name: Inject Maven cache into Buildx
+        if: ${{ matrix.service == 'backend' }}
+        uses: reproducible-containers/buildkit-cache-dance@v3.1.2
+        with:
+          cache-map: |
+            {
+              "m2-cache": "/root/.m2"
+            }
+          skip-extraction: ${{ steps.m2-cache.outputs.cache-hit }}
+
       - name: Log in to Docker Hub
         if: ${{ env.PUSH_IMAGE == 'true' }}
         uses: docker/login-action@v3
@@ -144,7 +164,10 @@ jobs:
       - name: Compute tenants to deploy
         id: filter
         run: |
-          if [[ "${{ github.event_name }}" != "workflow_dispatch" ]] || [[ "${{ inputs.all_tenants }}" == "true" ]]; then
+          if [[ "${{ github.event_name }}" != "workflow_dispatch" ]]; then
+            # Automatic push-to-main or *prod* tag → geda only (other dev tenants on demand)
+            echo 'tenants=["gedahc"]' >> $GITHUB_OUTPUT
+          elif [[ "${{ inputs.all_tenants }}" == "true" ]]; then
             echo 'tenants=["adamahospital","anolehc","biftuhc","bokuhc","dembelahc","gedahc"]' >> $GITHUB_OUTPUT
           else
             TENANTS=()
@@ -168,10 +191,6 @@ jobs:
       matrix:
         tenant: ${{ fromJson(needs.setup.outputs.tenants) }}
     steps:
-      - name: Compute short SHA
-        id: vars
-        run: echo "short_sha=${GITHUB_SHA::7}" >> $GITHUB_OUTPUT
-
       - name: Deploy ${{ matrix.tenant }} via SSH
         uses: appleboy/ssh-action@v1.2.0
         with:
@@ -180,18 +199,5 @@ jobs:
           password: ${{ secrets.VM_PASSWORD }}
           script: |
             NAMESPACE=ethioemr-tenant-${{ matrix.tenant }}
-            FRONTEND_IMAGE=${{ secrets.DOCKERHUB_USERNAME }}/ethiopiaemr-frontend:sha-${{ steps.vars.outputs.short_sha }}
-            BACKEND_IMAGE=${{ secrets.DOCKERHUB_USERNAME }}/ethiopiaemr-backend:sha-${{ steps.vars.outputs.short_sha }}
-
-            # Pin to exact SHA
-            kubectl set image deployment/${{ matrix.tenant }}-frontend frontend=$FRONTEND_IMAGE -n $NAMESPACE
-            kubectl set image deployment/${{ matrix.tenant }}-backend  backend=$BACKEND_IMAGE  -n $NAMESPACE
-
-            # Force restart so Initializer always runs (even on re-runs with same SHA)
-            RESTARTED_AT=$(date -u +%Y-%m-%dT%H:%M:%SZ)
-            kubectl annotate deployment/${{ matrix.tenant }}-frontend kubectl.kubernetes.io/restartedAt="$RESTARTED_AT" --overwrite -n $NAMESPACE
-            kubectl annotate deployment/${{ matrix.tenant }}-backend  kubectl.kubernetes.io/restartedAt="$RESTARTED_AT" --overwrite -n $NAMESPACE
-
-            # Wait for rollout to complete
-            kubectl rollout status deployment/${{ matrix.tenant }}-frontend -n $NAMESPACE --timeout=5m
-            kubectl rollout status deployment/${{ matrix.tenant }}-backend  -n $NAMESPACE --timeout=5m
+            kubectl rollout restart deployment/${{ matrix.tenant }}-frontend -n $NAMESPACE
+            kubectl rollout restart deployment/${{ matrix.tenant }}-backend -n $NAMESPACE
