@@ -50,10 +50,4 @@ if [ -f "$FAVICON" ]; then
   cp "$FAVICON" /usr/share/nginx/html/
 fi
 
-# Allow the Reports app-menu tile by removing it from the patient-flags excludeLinks.
-# Configs arrive via volume mount at runtime in the local setup, so this runs at startup.
-if [ -x /usr/local/bin/patch-app-menu-config.sh ]; then
-  /usr/local/bin/patch-app-menu-config.sh || echo "patch-app-menu-config: failed (non-fatal)"
-fi
-
 exec nginx -g "daemon off;"
