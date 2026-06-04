@@ -24,7 +24,6 @@
     "@openmrs/esm-patient-tests-app": "12.1.0",
     "@openmrs/esm-patient-vitals-app": "12.1.0",
     "@openmrs/esm-primary-navigation-app": "9.0.2",
-    "@openmrs/esm-reports-app": "4.3.0",
     "@openmrs/esm-service-queues-app": "10.0.2",
     "@openmrs/esm-user-onboarding-app": "4.0.0",
 
@@ -33,6 +32,7 @@
     "@palladium-ethiopia/esm-clinical-workflow-app": "next",
     "@palladium-ethiopia/esm-patient-medications-app": "next",
     "@palladium-ethiopia/esm-patient-registration-app": "next",
+    "@palladium-ethiopia/esm-reports-app": "next",
 
     "@kenyaemr/esm-bed-management-app": "next",
     "@kenyaemr/esm-care-panel-app": "next",

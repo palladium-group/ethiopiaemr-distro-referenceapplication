@@ -1060,6 +1060,9 @@
       "app-menu-slot": {
         "remove": ["dispensing-link", "system-administration-app-menu-link"]
       },
+      "top-nav-app-menu-slot": {
+        "remove": ["app-menu-button"]
+      },
       "top-nav-actions-slot": {
         "configure": {
           "patient-search-icon": {

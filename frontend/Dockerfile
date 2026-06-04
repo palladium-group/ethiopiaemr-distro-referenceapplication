@@ -103,3 +103,4 @@ RUN cp -r /tmp/spa-configs/. /usr/share/nginx/html/openmrs/spa/ && \
     rm -rf /tmp/spa-configs
 
 CMD ["/bin/sh", "-c", "/usr/local/bin/startup.sh"]
+
