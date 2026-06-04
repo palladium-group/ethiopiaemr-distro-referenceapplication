@@ -82,6 +82,7 @@
 
     <!-- EthiopiaEMR Modules -->
     <ethiopiaemrcustommodule.version>1.0.0-SNAPSHOT</ethiopiaemrcustommodule.version>
+    <!-- <ethiopiaemretl.version>1.0.0-SNAPSHOT</ethiopiaemretl.version> -->
     <!-- <ethiopiaemrreports.version>1.0.0-SNAPSHOT</ethiopiaemrreports.version> -->
 
     <!-- OpenMRS Core platform -->
@@ -426,6 +427,12 @@
       <version>${ethiopiaemrcustommodule.version}</version>
       <scope>provided</scope>
     </dependency>
+    <!-- <dependency>
+      <groupId>org.openmrs.module</groupId>
+      <artifactId>ethiopiaemretl-omod</artifactId>
+      <version>${ethiopiaemretl.version}</version>
+      <scope>provided</scope>
+    </dependency> -->
     <!-- ethiopiaemrreports-omod temporarily disabled pending classloader fix
     <dependency>
       <groupId>org.openmrs.module</groupId>
