@@ -8,13 +8,16 @@ WORKDIR /openmrs_distro
 ARG MVN_ARGS_SETTINGS="-s /usr/share/maven/ref/settings-docker.xml -U -P distro"
 ARG MVN_ARGS="install"
 
+# Avoid OOM in constrained CI builders
+ENV MAVEN_OPTS="-Xmx2g -XX:MaxMetaspaceSize=512m"
+
 # Copy build files
 COPY pom.xml ./
 COPY distro ./distro/
 
-ARG CACHE_BUST
 # Build the distro, but only deploy from the amd64 build
 RUN --mount=type=secret,id=m2settings,target=/usr/share/maven/ref/settings-docker.xml \
+    --mount=type=cache,target=/root/.m2 \
     if [ "$MVN_ARGS" != "deploy" ] || [ "$(arch)" = "x86_64" ]; then \
         mvn $MVN_ARGS_SETTINGS $MVN_ARGS -Dskip.validation=true; \
     else \

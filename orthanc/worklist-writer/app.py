@@ -20,8 +20,8 @@ def _worklists_dir() -> Path:
 def _sanitize_name(name: str) -> str:
     name = name.strip()
     name = re.sub(r"[^A-Za-z0-9._-]+", "_", name)
-    if not name:
-        raise ValueError("Empty worklist name")
+    if not name or name in (".", ".."):
+        raise ValueError("Empty or invalid worklist name")
     return name
 
 
@@ -40,9 +40,7 @@ def _as_dicom_time(dt: datetime) -> str:
 def _build_mwl_file(fields: dict[str, Any]) -> FileDataset:
     """
     Build a DICOM file that Orthanc Worklists plugin can read as a worklist item.
-    The Worklists plugin expects real DICOM datasets (not text dumps).
     """
-    # Modality Worklist Information Model - FIND
     mwl_uid = "1.2.840.10008.5.1.4.31"
 
     file_meta = FileMetaDataset()
@@ -50,7 +48,7 @@ def _build_mwl_file(fields: dict[str, Any]) -> FileDataset:
     file_meta.MediaStorageSOPClassUID = mwl_uid
     file_meta.MediaStorageSOPInstanceUID = generate_uid()
     file_meta.TransferSyntaxUID = ExplicitVRLittleEndian
-    file_meta.ImplementationClassUID = generate_uid(prefix="1.2.826.0.1.3680043.10.543.")  # pydicom-like root
+    file_meta.ImplementationClassUID = generate_uid(prefix="1.2.826.0.1.3680043.10.543.")
 
     ds = FileDataset(None, {}, file_meta=file_meta, preamble=b"\0" * 128)
     ds.is_little_endian = True
@@ -62,15 +60,14 @@ def _build_mwl_file(fields: dict[str, Any]) -> FileDataset:
 
     ds.SpecificCharacterSet = fields.get("SpecificCharacterSet", "ISO_IR 100")
 
-    ds.PatientName = fields.get("PatientName", "DOE^JOHN")
+    # Patient Information
+    ds.PatientName = fields.get("PatientName", "DOE^JOHN^^^")
     ds.PatientID = fields.get("PatientID", "P001")
-    if "PatientBirthDate" in fields:
-        ds.PatientBirthDate = fields["PatientBirthDate"]
-    if "PatientSex" in fields:
-        ds.PatientSex = fields["PatientSex"]
+    ds.PatientBirthDate = fields.get("PatientBirthDate", "")
+    ds.PatientSex = fields.get("PatientSex", "")
 
     ds.AccessionNumber = fields.get("AccessionNumber", "ACC-0001")
-    ds.RequestingPhysician = fields.get("RequestingPhysician", "REFDOC^ALICE")
+    ds.RequestingPhysician = fields.get("RequestingPhysician", "REFDOC^ALICE^^^")
 
     ds.StudyInstanceUID = fields.get("StudyInstanceUID", generate_uid())
     ds.RequestedProcedureID = fields.get("RequestedProcedureID", "RP-0001")
@@ -79,19 +76,16 @@ def _build_mwl_file(fields: dict[str, Any]) -> FileDataset:
     ds.InstanceCreationDate = _as_dicom_date(now)
     ds.InstanceCreationTime = _as_dicom_time(now)
 
-    # ScheduledProcedureStepSequence (0040,0100) is essential for MWL
+    # Scheduled Procedure Step Sequence (Mandatory for MWL)
     sps = Dataset()
     sps.ScheduledStationAETitle = fields.get("ScheduledStationAETitle", os.environ.get("ORTHANC_AET", "ORTHANC"))
-    sps.ScheduledProcedureStepStartDate = fields.get(
-        "ScheduledProcedureStepStartDate", _as_dicom_date(now)
-    )
-    sps.ScheduledProcedureStepStartTime = fields.get(
-        "ScheduledProcedureStepStartTime", _as_dicom_time(now)
-    )
+    sps.ScheduledProcedureStepStartDate = fields.get("ScheduledProcedureStepStartDate", _as_dicom_date(now))
+    sps.ScheduledProcedureStepStartTime = fields.get("ScheduledProcedureStepStartTime", _as_dicom_time(now))
     sps.Modality = fields.get("Modality", "CT")
     sps.ScheduledProcedureStepDescription = fields.get("ScheduledProcedureStepDescription", "Scheduled Step")
     sps.ScheduledProcedureStepID = fields.get("ScheduledProcedureStepID", "SPS-0001")
 
+    # Optionals
     if "ScheduledProcedureStepLocation" in fields:
         sps.ScheduledProcedureStepLocation = fields["ScheduledProcedureStepLocation"]
     if "ScheduledPerformingPhysicianName" in fields:
@@ -99,7 +93,6 @@ def _build_mwl_file(fields: dict[str, Any]) -> FileDataset:
 
     ds.ScheduledProcedureStepSequence = [sps]
 
-    # A few optional, commonly-used tags
     if "AdmissionID" in fields:
         ds.AdmissionID = fields["AdmissionID"]
     if "ReferringPhysicianName" in fields:
@@ -121,14 +114,14 @@ class Handler(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(body)
 
-    def do_GET(self):  # noqa: N802
+    def do_GET(self):
         path = urlparse(self.path).path
         if path in ("/", "/health", "/healthz"):
             self._send(200, {"ok": True})
             return
         self._send(404, {"error": "not_found"})
 
-    def do_POST(self):  # noqa: N802
+    def do_POST(self):
         path = urlparse(self.path).path
         if not path.startswith("/worklists/"):
             self._send(404, {"error": "not_found"})
@@ -156,13 +149,10 @@ class Handler(BaseHTTPRequestHandler):
         filename = name if name.lower().endswith(".wl") else f"{name}.wl"
         out = (target_dir / filename).resolve()
 
-        # Prevent path traversal even after sanitization.
-        if target_dir not in out.parents:
+        if out == target_dir or target_dir not in out.parents:
             self._send(400, {"error": "invalid_path"})
             return
 
-        # Preferred: Generate a real DICOM worklist file from JSON fields.
-        # Back-compat: still allow raw text writes via "wl" (but Orthanc likely won't parse it).
         fields = data.get("fields")
         wl_text = data.get("wl")
 
@@ -184,7 +174,7 @@ class Handler(BaseHTTPRequestHandler):
         self._send(
             400,
             {
-                "error": "body must contain either object field 'fields' (recommended) or non-empty string field 'wl'",
+                "error": "body must contain either object field 'fields' or non-empty string field 'wl'",
             },
         )
 
@@ -198,4 +188,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

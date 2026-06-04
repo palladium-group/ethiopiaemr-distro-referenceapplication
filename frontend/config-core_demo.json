@@ -753,8 +753,7 @@
           "allergies-summary-dashboard",
           "conditions-summary-dashboard",
           "patient-orders-summary-dashboard",
-          "test-results-summary-dashboard",
-          "medications-summary-dashboard"
+          "test-results-summary-dashboard"
         ],
         "add": ["patient-chart-clinical-consultation-nav-group"],
         "configure": {
@@ -995,7 +994,7 @@
       "careSettingUuid": "6f0c9a92-6f24-11e3-af88-005056821db0"
     }
   },
-  "@openmrs/esm-patient-medications-app": {
+  "@palladium-ethiopia/esm-patient-medications-app": {
     "maxDispenseDurationInDays": 365
   },
   "@openmrs/esm-patient-notes-app": {
@@ -1061,6 +1060,9 @@
       "app-menu-slot": {
         "remove": ["dispensing-link", "system-administration-app-menu-link"]
       },
+      "top-nav-app-menu-slot": {
+        "remove": ["app-menu-button"]
+      },
       "top-nav-actions-slot": {
         "configure": {
           "patient-search-icon": {
@@ -1082,7 +1084,7 @@
     "Brand color #2": "#1D491F",
     "Brand color #3": " #2C6D2F"
   },
-  "@openmrs/esm-stock-management-app": {
+  "@kenyaemr/esm-stock-management-app": {
     "Display conditions": {
       "privileges": ["o3: Manage Stocks"]
     }

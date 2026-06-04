@@ -5,3 +5,4 @@
 **/*.sql
 **/.vscode
 /mysql-data/
+/docs/
