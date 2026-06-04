@@ -1077,8 +1077,7 @@
             }
           }
         }
-      },
-      "homepage-dashboard-slot": {}
+      }
     }
   },
   "@openmrs/esm-styleguide": {

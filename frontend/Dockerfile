@@ -102,6 +102,5 @@ RUN cp -r /tmp/spa-configs/. /usr/share/nginx/html/openmrs/spa/ && \
     cp -r /tmp/spa-configs/. /usr/share/nginx/html/config/ && \
     rm -rf /tmp/spa-configs
 
-# Copy SPA files after volume mount
 CMD ["/bin/sh", "-c", "/usr/local/bin/startup.sh"]
 
