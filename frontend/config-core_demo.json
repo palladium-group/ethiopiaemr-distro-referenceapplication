@@ -753,8 +753,7 @@
           "allergies-summary-dashboard",
           "conditions-summary-dashboard",
           "patient-orders-summary-dashboard",
-          "test-results-summary-dashboard",
-          "medications-summary-dashboard"
+          "test-results-summary-dashboard"
         ],
         "add": ["patient-chart-clinical-consultation-nav-group"],
         "configure": {
@@ -995,7 +994,7 @@
       "careSettingUuid": "6f0c9a92-6f24-11e3-af88-005056821db0"
     }
   },
-  "@openmrs/esm-patient-medications-app": {
+  "@palladium-ethiopia/esm-patient-medications-app": {
     "maxDispenseDurationInDays": 365
   },
   "@openmrs/esm-patient-notes-app": {
