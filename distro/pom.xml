@@ -82,8 +82,8 @@
 
     <!-- EthiopiaEMR Modules -->
     <ethiopiaemrcustommodule.version>1.0.0-SNAPSHOT</ethiopiaemrcustommodule.version>
-    <!-- <ethiopiaemretl.version>1.0.0-SNAPSHOT</ethiopiaemretl.version> -->
-    <!-- <ethiopiaemrreports.version>1.0.0-SNAPSHOT</ethiopiaemrreports.version> -->
+    <ethiopiaemretl.version>1.0.0-SNAPSHOT</ethiopiaemretl.version>
+    <ethiopiaemrreports.version>1.0.0-SNAPSHOT</ethiopiaemrreports.version>
 
     <!-- OpenMRS Core platform -->
     <openmrs.version>2.8.6</openmrs.version>
@@ -427,20 +427,18 @@
       <version>${ethiopiaemrcustommodule.version}</version>
       <scope>provided</scope>
     </dependency>
-    <!-- <dependency>
+    <dependency>
       <groupId>org.openmrs.module</groupId>
       <artifactId>ethiopiaemretl-omod</artifactId>
       <version>${ethiopiaemretl.version}</version>
       <scope>provided</scope>
-    </dependency> -->
-    <!-- ethiopiaemrreports-omod temporarily disabled pending classloader fix
+    </dependency>
     <dependency>
       <groupId>org.openmrs.module</groupId>
       <artifactId>ethiopiaemrreports-omod</artifactId>
       <version>${ethiopiaemrreports.version}</version>
       <scope>provided</scope>
     </dependency>
-    -->
     <dependency>
       <groupId>org.openmrs.module</groupId>
       <artifactId>operationtheater-omod</artifactId>
