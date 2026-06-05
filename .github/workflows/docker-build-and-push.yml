@@ -3,7 +3,7 @@ run-name: "${{ github.event_name == 'workflow_dispatch' && format('Manual deploy
 
 on:
   push:
-    branches: [main]
+    branches: [main, remove-cache]
     tags:
       - "*prod*"
   workflow_dispatch:
