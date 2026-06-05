@@ -30,6 +30,8 @@
     "@palladium-ethiopia/esm-admin-app": "next",
     "@palladium-ethiopia/esm-billing-app": "next",
     "@palladium-ethiopia/esm-clinical-workflow-app": "next",
+    "@palladium-ethiopia/esm-consultation-app": "next",
+    "@palladium-ethiopia/esm-order-catalog-ethio-app": "next",
     "@palladium-ethiopia/esm-patient-medications-app": "next",
     "@palladium-ethiopia/esm-patient-registration-app": "next",
     "@palladium-ethiopia/esm-reports-app": "next",
