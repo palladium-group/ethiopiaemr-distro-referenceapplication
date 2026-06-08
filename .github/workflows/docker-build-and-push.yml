@@ -3,7 +3,7 @@ run-name: "${{ github.event_name == 'workflow_dispatch' && format('Manual deploy
 
 on:
   push:
-    branches: [main, remove-cache]
+    branches: [main]
     tags:
       - "*prod*"
   workflow_dispatch:
@@ -43,14 +43,14 @@ concurrency:
 
 jobs:
   build:
-    name: "Build & push ${{ matrix.service }} (${{ github.ref == 'refs/heads/main' && 'latest' || (github.ref == 'refs/heads/remove-cache' && 'remove-cache' || 'prod') }})"
+    name: "Build & push ${{ matrix.service }} (${{ github.ref == 'refs/heads/main' && 'latest' || 'prod' }})"
     runs-on: ubuntu-latest
     timeout-minutes: 120
     permissions:
       contents: read
     env:
       IMAGE_NAMESPACE: ${{ secrets.DOCKERHUB_USERNAME }}
-      PUSH_IMAGE: ${{ (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/remove-cache' || (startsWith(github.ref, 'refs/tags/') && contains(github.ref_name, 'prod'))) && secrets.DOCKERHUB_USERNAME != '' && secrets.DOCKERHUB_TOKEN != '' }}
+      PUSH_IMAGE: ${{ (github.ref == 'refs/heads/main' || (startsWith(github.ref, 'refs/tags/') && contains(github.ref_name, 'prod'))) && secrets.DOCKERHUB_USERNAME != '' && secrets.DOCKERHUB_TOKEN != '' }}
       MAVEN_SETTINGS_XML: ${{ secrets.MAVEN_SETTINGS_XML }}
     strategy:
       matrix:
@@ -105,7 +105,7 @@ jobs:
           images: |
             ${{ env.IMAGE_NAMESPACE }}/ethiopiaemr-${{ matrix.service }}
           tags: |
-            type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/remove-cache' }}
+            type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' }}
             type=raw,value=prod,enable=${{ startsWith(github.ref, 'refs/tags/') && contains(github.ref_name, 'prod') }}
             type=sha
 
