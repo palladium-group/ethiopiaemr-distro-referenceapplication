@@ -36,6 +36,7 @@
     "@palladium-ethiopia/esm-patient-medications-app": "next",
     "@palladium-ethiopia/esm-patient-registration-app": "next",
     "@palladium-ethiopia/esm-reports-app": "next",
+    "@palladium-ethiopia/esm-appointments-admin-app": "next",
 
     "@kenyaemr/esm-bed-management-app": "next",
     "@kenyaemr/esm-care-panel-app": "next",
