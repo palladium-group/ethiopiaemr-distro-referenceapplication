@@ -78,7 +78,7 @@
     <orderexpansion.version>1.0.1-SNAPSHOT</orderexpansion.version>
     <operationtheater.version>1.9.0-SNAPSHOT</operationtheater.version>
     <atomfeed.version>2.6.3</atomfeed.version>
-    <insuranceclaims.version>1.2.1-SNAPSHOT</insuranceclaims.version>
+    <insuranceclaims.version>1.2.2-SNAPSHOT</insuranceclaims.version>
 
     <!-- EthiopiaEMR Modules -->
     <ethiopiaemrcustommodule.version>1.0.0-SNAPSHOT</ethiopiaemrcustommodule.version>
