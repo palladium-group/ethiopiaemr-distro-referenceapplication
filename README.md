@@ -385,6 +385,55 @@ docker compose up -d
    docker compose logs db
    ```
 
+## Per-tenant ETL schema
+
+The EthiopiaEMR ETL module (`ethiopiaemretl`) pre-aggregates clinical data into a
+flat-table schema that the reports module (`ethiopiaemrreports`) reads from. As of
+the per-tenant release, this ETL schema is **isolated per tenant**: its name is
+derived at runtime as `<openmrs-db>_etl` (e.g. the `openmrs_gedahc` tenant uses
+`openmrs_gedahc_etl`). This replaced a single shared `ethiopiaemr_etl` schema, which
+caused tenants to overwrite each other's ETL data.
+
+### What happens automatically on deploy
+
+On module startup the activator calls `sp_init_etl()`, which creates the tenant's
+`<db>_etl` schema and flat tables if they do not exist. No manual schema creation is
+required. The reports module resolves the same `<db>_etl` name at runtime, so the
+immunization report reads from the correct per-tenant schema.
+
+### Deployment requirements (per tenant)
+
+1. **DB privileges.** The application database user must be able to create and alter
+   its `<db>_etl` schema, or `sp_init_etl` fails at startup (the module now fails
+   loudly rather than starting half-broken). Ensure the app user has at least
+   `CREATE`, `ALTER`, `INDEX`, `EXECUTE`, and `CREATE ROUTINE` privileges covering
+   `<db>_etl` (a global grant on `*.*` or a per-schema grant both work):
+
+   ```sql
+   GRANT ALL PRIVILEGES ON `<openmrs-db>_etl`.* TO '<app-user>'@'%';
+   FLUSH PRIVILEGES;
+   ```
+
+2. **First data load.** `sp_init_etl` only creates empty tables. The scheduled task
+   populates them every 2 hours, but to load data immediately after deploy, trigger
+   a full rebuild:
+
+   ```bash
+   curl -u <admin>:<password> -X POST \
+     http://<tenant-host>/openmrs/ws/rest/v1/ethiopiaemretl/recreate
+   ```
+
+3. **Cleanup (optional, after verifying).** Once the per-tenant `<db>_etl` is
+   populated and reports work, the old shared `ethiopiaemr_etl` schema can be dropped.
+
+### Migration notes
+
+Because the ETL tables are fully derived from raw OpenMRS data, there is no data loss
+in cutover — deploying the new modules, letting the schema auto-create, and running the
+`recreate` load rebuilds everything per tenant. The module's Liquibase changelog is
+backward-compatible with already-deployed databases (previously-applied changesets keep
+their original checksums; new procedures install on top).
+
 ## Support
 
 For support, please:
