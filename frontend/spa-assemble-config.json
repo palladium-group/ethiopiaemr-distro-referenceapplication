@@ -1,5 +1,5 @@
 {
-  "_buildRevision": "2026-06-05-1",
+  "_buildRevision": "2026-06-11-1",
   "frontendModules": {
     "@openmrs/esm-active-visits-app": "10.0.2",
     "@openmrs/esm-appointments-app": "10.0.2",
