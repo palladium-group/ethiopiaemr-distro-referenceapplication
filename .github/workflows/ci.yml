@@ -42,6 +42,7 @@ jobs:
             MVN_SETTINGS_ARG="-s /tmp/maven-settings.xml"
           fi
           mvn --batch-mode --update-snapshots --activate-profiles distro clean package -Dskip.validation=true $MVN_SETTINGS_ARG
+          ./purge-volatile-maven-cache.sh
 
   publish:
     name: Publish Distribution
@@ -81,6 +82,8 @@ jobs:
             }]
 
       - name: Publish Distribution
-        run: mvn --batch-mode --update-snapshots --activate-profiles distro clean deploy
+        run: |
+          mvn --batch-mode --update-snapshots --activate-profiles distro clean deploy
+          ./purge-volatile-maven-cache.sh
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
