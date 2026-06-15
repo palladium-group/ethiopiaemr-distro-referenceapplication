@@ -14,6 +14,7 @@ ENV MAVEN_OPTS="-Xmx2g -XX:MaxMetaspaceSize=512m"
 # Copy build files
 COPY pom.xml ./
 COPY distro ./distro/
+COPY --chmod=755 purge-volatile-maven-cache.sh ./
 
 # Build the distro, but only deploy from the amd64 build
 RUN --mount=type=secret,id=m2settings,target=/usr/share/maven/ref/settings-docker.xml \
@@ -22,7 +23,8 @@ RUN --mount=type=secret,id=m2settings,target=/usr/share/maven/ref/settings-docke
         mvn $MVN_ARGS_SETTINGS $MVN_ARGS -Dskip.validation=true; \
     else \
         mvn $MVN_ARGS_SETTINGS install -Dskip.validation=true; \
-    fi
+    fi && \
+    ./purge-volatile-maven-cache.sh
 
 
 RUN cp /openmrs_distro/distro/target/sdk-distro/web/openmrs_core/openmrs.war /openmrs/distribution/openmrs_core/
