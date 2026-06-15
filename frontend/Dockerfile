@@ -70,6 +70,9 @@ RUN if [ ! -f ./spa/index.html ]; then \
 # Execute the rename script
 RUN chmod +x ./rename-packages.sh && ./rename-packages.sh
 
+# Inject login layout overrides
+RUN sed -i 's|</head>|<link rel="stylesheet" href="$SPA_PATH/config/assets/ethiopiaemr-package/login-overrides.css"></head>|' ./spa/index.html
+
 #--------------------------------------------
 # Runtime Stage - Published Image
 #--------------------------------------------

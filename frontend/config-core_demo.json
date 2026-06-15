@@ -70,12 +70,12 @@
       }
     ]
   },
-  "@kenyaemr/esm-login-app": {
+  "@openmrs/esm-login-app": {
     "logo": {
       "src": "/openmrs/spa/kenyaemr-login-logo.png"
     },
     "links": {
-      "src": "/openmrs/spa/home/service-queues"
+      "loginSuccess": "${openmrsSpaBase}/home/service-queues"
     }
   },
   "@kenyaemr/esm-patient-clinical-view-app": {
