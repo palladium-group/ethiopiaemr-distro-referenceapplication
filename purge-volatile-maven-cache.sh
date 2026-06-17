@@ -7,7 +7,9 @@ M2_REPO="${M2_REPO:-${HOME}/.m2/repository}"
 for artifact_path in \
   org/ethiopiaemr/content/ethiopiaemr-package \
   org/openmrs/module/ethiopiaemr-custom-module-omod \
-  org/openmrs/module/kenyaemr.cashier-omod
+  org/openmrs/module/kenyaemr.cashier-omod \
+  org/openmrs/module/ethiopiaemrreports-omod \
+  org/openmrs/module/ethiopiaemretl-omod
 do
   target="${M2_REPO}/${artifact_path}"
   if [ -d "$target" ]; then
