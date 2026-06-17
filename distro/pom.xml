@@ -49,7 +49,7 @@
     <openconceptlab.version>2.6.0-SNAPSHOT</openconceptlab.version>
     <ordertemplates.version>1.0.3-SNAPSHOT</ordertemplates.version>
     <queue.version>2.9.0-SNAPSHOT</queue.version>
-    <reporting.version>2.1.0-SNAPSHOT</reporting.version>
+    <!-- <reporting.version>2.1.0-SNAPSHOT</reporting.version> -->
     <reportingcompatibility.version>2.10.0</reportingcompatibility.version>
     <reportingrest.version>1.15.0</reportingrest.version>
     <serialization-xstream.version>0.4.0-SNAPSHOT</serialization-xstream.version>
@@ -107,6 +107,11 @@
     <!-- Conditional entries for distro.properties (empty = excluded) -->
     <omod.spa.entry></omod.spa.entry>
     <omod.cohort.entry></omod.cohort.entry>
+
+    <!--EthiOhri properties  -->
+    <ethiohri.version>1.0.0-SNAPSHOT</ethiohri.version>
+    <ethiohri.mamba.version>2.1.0-SNAPSHOT</ethiohri.mamba.version>
+    <ethiohri.reporting.version>2.2.0-SNAPSHOT</ethiohri.reporting.version>
   </properties>
 
   <dependencies>
@@ -216,12 +221,15 @@
       <version>${teleconsultation.version}</version>
       <scope>provided</scope>
     </dependency>
-    <dependency>
+    <!-- Please remove this because EthiOHri has already reporting module which implment ethiopian calendar  -->
+    <!-- <dependency>
       <groupId>org.openmrs.module</groupId>
       <artifactId>reporting-omod</artifactId>
       <version>${reporting.version}</version>
       <scope>provided</scope>
-    </dependency>
+      
+    </dependency> -->
+  
     <dependency>
       <groupId>org.openmrs.module</groupId>
       <artifactId>reportingrest-omod</artifactId>
@@ -451,6 +459,44 @@
       <version>${atomfeed.version}</version>
       <scope>provided</scope>
     </dependency>
+
+    <!-- EthiOhri dependencies  -->
+    <dependency>
+      <groupId>org.openmrs.module</groupId>
+      <artifactId>aop-omod</artifactId>
+      <version>${ethiohri.version}</version>
+      <scope>provided</scope>
+    </dependency>
+   
+    <dependency>
+      <groupId>org.openmrs.module</groupId>
+      <artifactId>ethiohri.api-omod</artifactId>
+      <version>${ethiohri.version}</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.openmrs.module</groupId>
+      <artifactId>ethiohrihelper-omod</artifactId>
+      <version>${ethiohri.version}</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.openmrs.module</groupId>
+      <artifactId>ethiohri-mamba-omod</artifactId>
+      <version>${ethiohri.mamba.version}</version>
+      <scope>provided</scope>
+    </dependency>
+
+   <dependency>
+    <groupId>org.openmrs.module</groupId>
+    <artifactId>reporting-omod</artifactId>
+    <version>${ethiohri.reporting.version}</version>
+    <scope>provided</scope>
+   </dependency>
+
+    <!-- End of EthiOhri dependencie definition   -->
   </dependencies>
 
   <build>
@@ -715,6 +761,17 @@
         <enabled>false</enabled>
       </releases>
     </repository>
+
+    <repository>
+      <id>nexus-snapshots</id>
+      <name>Nexus Repository Switchboard</name>
+      <layout>default</layout>
+      <url>https://maven-repo.dh.moh.gov.et/repository/maven-snapshots/</url>
+      <snapshots>
+          <enabled>true</enabled>
+      </snapshots>
+    </repository>
+    
   </repositories>
 
   <pluginRepositories>
