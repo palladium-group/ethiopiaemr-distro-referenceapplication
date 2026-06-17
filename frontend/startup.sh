@@ -2,7 +2,7 @@
 set -e
 
 # Set default values
-SPA_DEFAULT_LOCALE="${SPA_DEFAULT_LOCALE:-am}"
+SPA_DEFAULT_LOCALE="${SPA_DEFAULT_LOCALE:-en}"
 SPA_PATH="${SPA_PATH:-/openmrs/spa}"
 
 # Convert SPA_CONFIG_URLS (comma-separated) to JSON array
