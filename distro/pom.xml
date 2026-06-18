@@ -92,7 +92,7 @@
 
 
     <!-- Content Packages -->
-    <ethiopiaemr-package.version>1.0.1-SNAPSHOT</ethiopiaemr-package.version>
+    <ethiopiaemr-package.version>1.0.3-SNAPSHOT</ethiopiaemr-package.version>
 
     <!-- ========================================================== -->
     <!-- Optional Module Versions (empty by default = not included) -->
@@ -115,7 +115,7 @@
   </properties>
 
   <dependencies>
-
+<!--This points to MOH nexus repository merged with ethipian content  -->
     <dependency>
       <groupId>org.ethiopiaemr.content</groupId>
       <artifactId>ethiopiaemr-package</artifactId>
@@ -688,7 +688,10 @@
     </repository>
     <repository>
       <id>mks-repo</id>
-      <name>Mekom Solutions Nexus Releases</name>
+      <name>Mekom Solutions Nexus Releases</name- uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21>
       <url>https://nexus.mekomsolutions.net/repository/maven-releases</url>
       <releases>
         <enabled>true</enabled>
@@ -709,6 +712,21 @@
         <updatePolicy>always</updatePolicy>
       </snapshots>
     </repository>
+
+    <!--EthiOhri content  -->
+    <repository>
+      <id>nexus-snapshots</id>
+      <name>Mekom Solutions Nexus Snapshots</name>
+      <url>https://maven-repo.dh.moh.gov.et/repository/maven-snapshots</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+        <updatePolicy>always</updatePolicy>
+      </snapshots>
+    </repository>
+
     <repository>
       <id>central</id>
       <name>Maven Central</name>
