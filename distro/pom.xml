@@ -92,7 +92,7 @@
 
 
     <!-- Content Packages -->
-    <ethiopiaemr-package.version>1.0.1-SNAPSHOT</ethiopiaemr-package.version>
+    <ethiopiaemr-package.version>1.0.3-SNAPSHOT</ethiopiaemr-package.version>
 
     <!-- ========================================================== -->
     <!-- Optional Module Versions (empty by default = not included) -->
@@ -115,7 +115,7 @@
   </properties>
 
   <dependencies>
-
+<!--This points to MOH nexus repository merged with ethipian content  -->
     <dependency>
       <groupId>org.ethiopiaemr.content</groupId>
       <artifactId>ethiopiaemr-package</artifactId>
@@ -686,6 +686,20 @@
         <enabled>true</enabled>
       </releases>
     </repository>
+     <!--EthiOhri content  -->
+    <repository>
+      <id>nexus-snapshots</id>
+      <name>MOH Solutions Nexus Snapshots</name>
+      <url>https://maven-repo.dh.moh.gov.et/repository/maven-snapshots</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+        <updatePolicy>always</updatePolicy>
+      </snapshots>
+    </repository>
+    
     <repository>
       <id>mks-repo</id>
       <name>Mekom Solutions Nexus Releases</name>
@@ -697,6 +711,7 @@
         <enabled>false</enabled>
       </snapshots>
     </repository>
+    
     <repository>
       <id>mks-repo-snapshots</id>
       <name>Mekom Solutions Nexus Snapshots</name>
@@ -709,16 +724,19 @@
         <updatePolicy>always</updatePolicy>
       </snapshots>
     </repository>
+
     <repository>
       <id>central</id>
       <name>Maven Central</name>
       <url>https://repo1.maven.org/maven2/</url>
     </repository>
+    
     <repository>
       <id>openmrs-repo</id>
       <name>OpenMRS Nexus Repository</name>
       <url>https://mavenrepo.openmrs.org/public</url>
     </repository>
+    
     <repository>
       <id>openmrs-mod-repo</id>
       <name>OpenMRS Module Repository</name>
@@ -760,16 +778,6 @@
       <releases>
         <enabled>false</enabled>
       </releases>
-    </repository>
-
-    <repository>
-      <id>nexus-snapshots</id>
-      <name>Nexus Repository Switchboard</name>
-      <layout>default</layout>
-      <url>https://maven-repo.dh.moh.gov.et/repository/maven-snapshots/</url>
-      <snapshots>
-          <enabled>true</enabled>
-      </snapshots>
     </repository>
     
   </repositories>
