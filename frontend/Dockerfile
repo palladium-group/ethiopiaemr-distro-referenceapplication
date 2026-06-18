@@ -13,7 +13,7 @@ COPY frontend/content-package-pom.xml pom.xml
 # Build fails if download fails — never ship an empty/unbranded image.
 RUN --mount=type=secret,id=m2settings,target=/root/.m2/settings.xml,required=false \
     mvn -U -ntp dependency:unpack \
-        -Dartifact=org.ethiopiaemr.content:ethiopiaemr-package:1.0.1-SNAPSHOT:zip \
+        -Dartifact=org.ethiopiaemr.content:ethiopiaemr-package:1.0.3-SNAPSHOT:zip \
         -DoutputDirectory=/content/extracted || \
     (echo "ERROR: content-package download failed. Ensure MAVEN_SETTINGS_XML secret is set and Nexus is reachable." && exit 1)
 
@@ -69,6 +69,9 @@ RUN if [ ! -f ./spa/index.html ]; then \
 
 # Execute the rename script
 RUN chmod +x ./rename-packages.sh && ./rename-packages.sh
+
+# Inject login layout overrides
+RUN sed -i 's|</head>|<link rel="stylesheet" href="$SPA_PATH/config/assets/ethiopiaemr-package/login-overrides.css"></head>|' ./spa/index.html
 
 #--------------------------------------------
 # Runtime Stage - Published Image
