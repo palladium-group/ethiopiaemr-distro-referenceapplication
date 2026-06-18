@@ -41,6 +41,7 @@ jobs:
           if [ -f /tmp/maven-settings.xml ]; then
             MVN_SETTINGS_ARG="-s /tmp/maven-settings.xml"
           fi
+          ./purge-volatile-maven-cache.sh
           mvn --batch-mode --update-snapshots --activate-profiles distro clean package -Dskip.validation=true $MVN_SETTINGS_ARG
           ./purge-volatile-maven-cache.sh
 
@@ -83,6 +84,7 @@ jobs:
 
       - name: Publish Distribution
         run: |
+          ./purge-volatile-maven-cache.sh
           mvn --batch-mode --update-snapshots --activate-profiles distro clean deploy
           ./purge-volatile-maven-cache.sh
         env:
