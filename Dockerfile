@@ -19,9 +19,23 @@ COPY distro ./distro/
 RUN --mount=type=secret,id=m2settings,target=/usr/share/maven/ref/settings-docker.xml \
     --mount=type=cache,target=/root/.m2 \
     if [ "$MVN_ARGS" != "deploy" ] || [ "$(arch)" = "x86_64" ]; then \
-        mvn $MVN_ARGS_SETTINGS $MVN_ARGS -Dskip.validation=true; \
+        mvn $MVN_ARGS_SETTINGS \
+            $MVN_ARGS \
+            -Dskip.validation=true \
+            -Dmaven.wagon.httpconnectionManager.ttlSeconds=120 \
+            -Dmaven.wagon.rto=600000 \
+            -Dmaven.wagon.http.retryHandler.count=5 \
+            -Daether.connector.http.connectTimeout=120000 \
+            -Daether.connector.http.requestTimeout=600000; \
     else \
-        mvn $MVN_ARGS_SETTINGS install -Dskip.validation=true; \
+        mvn $MVN_ARGS_SETTINGS \
+            install \
+            -Dskip.validation=true \
+            -Dmaven.wagon.httpconnectionManager.ttlSeconds=120 \
+            -Dmaven.wagon.rto=600000 \
+            -Dmaven.wagon.http.retryHandler.count=5 \
+            -Daether.connector.http.connectTimeout=120000 \
+            -Daether.connector.http.requestTimeout=600000; \
     fi
 
 
