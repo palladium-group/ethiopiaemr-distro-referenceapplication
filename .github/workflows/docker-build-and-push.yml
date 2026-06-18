@@ -97,7 +97,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: m2-cache
-          key: m2-${{ hashFiles('pom.xml', 'distro/pom.xml', 'distro/distro.properties') }}
+          key: m2-${{ hashFiles('pom.xml', 'distro/pom.xml', 'distro/distro.properties', 'frontend/content-package-pom.xml') }}
           restore-keys: |
             m2-
 
@@ -140,6 +140,9 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           secret-files: |
             m2settings=/tmp/maven-settings.xml
+          build-args: |
+            CONTENT_CACHE_BUST=${{ github.run_id }}
+          no-cache: ${{ matrix.service == 'frontend' }}
           cache-from: type=gha,scope=${{ matrix.service }}
           cache-to: type=gha,mode=max,scope=${{ matrix.service }}
 
@@ -152,6 +155,9 @@ jobs:
           push: ${{ env.PUSH_IMAGE == 'true' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            CONTENT_CACHE_BUST=${{ github.run_id }}
+          no-cache: ${{ matrix.service == 'frontend' }}
           cache-from: type=gha,scope=${{ matrix.service }}
           cache-to: type=gha,mode=max,scope=${{ matrix.service }}
 

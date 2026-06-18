@@ -12,7 +12,7 @@
       <id>mks-repo-snapshots</id>
       <name>Mekom Solutions Nexus Snapshots</name>
       <url>https://nexus.mekomsolutions.net/repository/maven-snapshots</url>
-      <snapshots><enabled>true</enabled></snapshots>
+      <snapshots><enabled>true</enabled><updatePolicy>always</updatePolicy></snapshots>
       <releases><enabled>false</enabled></releases>
     </repository>
     <repository>

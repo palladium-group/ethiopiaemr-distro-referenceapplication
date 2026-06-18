@@ -7,6 +7,7 @@ WORKDIR /openmrs_distro
 
 ARG MVN_ARGS_SETTINGS="-s /usr/share/maven/ref/settings-docker.xml -U -P distro"
 ARG MVN_ARGS="install"
+ARG CONTENT_CACHE_BUST=local
 
 # Avoid OOM in constrained CI builders
 ENV MAVEN_OPTS="-Xmx2g -XX:MaxMetaspaceSize=512m"
@@ -19,6 +20,8 @@ COPY --chmod=755 purge-volatile-maven-cache.sh ./
 # Build the distro, but only deploy from the amd64 build
 RUN --mount=type=secret,id=m2settings,target=/usr/share/maven/ref/settings-docker.xml \
     --mount=type=cache,target=/root/.m2 \
+    echo "Content cache bust: ${CONTENT_CACHE_BUST}" && \
+    ./purge-volatile-maven-cache.sh && \
     if [ "$MVN_ARGS" != "deploy" ] || [ "$(arch)" = "x86_64" ]; then \
         mvn $MVN_ARGS_SETTINGS $MVN_ARGS -Dskip.validation=true; \
     else \
