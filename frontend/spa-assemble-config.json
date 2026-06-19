@@ -59,7 +59,7 @@
     "@kenyaemr/esm-stock-management-app": "next",
     "@kenyaemr/esm-medication-administration-app": "next",
 
-   
+    "@icap-ethiopia/esm-ethiori-follow-up-app":"beta",
     "@icap-ethiopia/esm-ethiohri-intake":"beta",
     "@icap-ethiopia/esm-ethiohri-pep":"beta",
     "@icap-ethiopia/esm-ethiohri-ncd":"beta",
