@@ -492,7 +492,7 @@
    <dependency>
     <groupId>io.github.abdi-icap</groupId>
     <artifactId>reporting-omod</artifactId>
-    <version>${ethiohri.reporting.version}</version>
+    <version>${reporting.version}</version>
     <scope>provided</scope>
    </dependency>
 
