@@ -19,7 +19,7 @@ jobs:
     env:
       IMAGE_NAMESPACE: ${{ secrets.DOCKERHUB_USERNAME }}
       PUSH_IMAGE: ${{ secrets.DOCKERHUB_USERNAME != '' && secrets.DOCKERHUB_TOKEN != '' }}
-      MAVEN_SETTINGS_XML: ${{ secrets.MAVEN_SETTINGS_XML_ICAP }}
+      MAVEN_SETTINGS_XML: ${{ secrets.MAVEN_SETTINGS_XML }}
     strategy:
       matrix:
         include:
