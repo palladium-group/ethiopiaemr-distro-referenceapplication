@@ -117,7 +117,7 @@
   <dependencies>
 <!--This points to MOH nexus repository merged with ethipian content  -->
     <dependency>
-      <groupId>org.ethiopiaemr.content</groupId>
+      <groupId>io.github.abdi-icap</groupId>
       <artifactId>ethiopiaemr-package</artifactId>
       <version>${ethiopiaemr-package.version}</version>
       <type>zip</type>
