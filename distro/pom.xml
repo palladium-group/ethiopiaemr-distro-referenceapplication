@@ -92,7 +92,7 @@
 
 
     <!-- Content Packages -->
-    <ethiopiaemr-package.version>1.0.3-SNAPSHOT</ethiopiaemr-package.version>
+    <ethiopiaemr-package.version>1.0.3</ethiopiaemr-package.version>
 
     <!-- ========================================================== -->
     <!-- Optional Module Versions (empty by default = not included) -->
@@ -109,9 +109,9 @@
     <omod.cohort.entry></omod.cohort.entry>
 
     <!--EthiOhri properties  -->
-    <ethiohri.version>1.0.0-SNAPSHOT</ethiohri.version>
-    <ethiohri.mamba.version>2.1.0-SNAPSHOT</ethiohri.mamba.version>
-    <ethiohri.reporting.version>2.2.0-SNAPSHOT</ethiohri.reporting.version>
+    <ethiohri.version>1.0.0</ethiohri.version>
+    <ethiohri.mamba.version>2.1.0</ethiohri.mamba.version>
+    <ethiohri.reporting.version>2.2.0</ethiohri.reporting.version>
   </properties>
 
   <dependencies>
@@ -462,35 +462,35 @@
 
     <!-- EthiOhri dependencies  -->
     <dependency>
-      <groupId>org.openmrs.module</groupId>
+      <groupId>io.github.abdi-icap</groupId>
       <artifactId>aop-omod</artifactId>
       <version>${ethiohri.version}</version>
       <scope>provided</scope>
     </dependency>
    
     <dependency>
-      <groupId>org.openmrs.module</groupId>
+      <groupId>io.github.abdi-icap</groupId>
       <artifactId>ethiohri.api-omod</artifactId>
       <version>${ethiohri.version}</version>
       <scope>provided</scope>
     </dependency>
 
     <dependency>
-      <groupId>org.openmrs.module</groupId>
+      <groupId>io.github.abdi-icap</groupId>
       <artifactId>ethiohrihelper-omod</artifactId>
       <version>${ethiohri.version}</version>
       <scope>provided</scope>
     </dependency>
 
     <dependency>
-      <groupId>org.openmrs.module</groupId>
+      <groupId>io.github.abdi-icap</groupId>
       <artifactId>ethiohri-mamba-omod</artifactId>
       <version>${ethiohri.mamba.version}</version>
       <scope>provided</scope>
     </dependency>
 
    <dependency>
-    <groupId>org.openmrs.module</groupId>
+    <groupId>io.github.abdi-icap</groupId>
     <artifactId>reporting-omod</artifactId>
     <version>${ethiohri.reporting.version}</version>
     <scope>provided</scope>
@@ -687,7 +687,7 @@
       </releases>
     </repository>
      <!--EthiOhri content  -->
-    <repository>
+    <!-- <repository>
       <id>nexus-snapshots</id>
       <name>MOH Solutions Nexus Snapshots</name>
       <url>https://maven-repo.dh.moh.gov.et/repository/maven-snapshots</url>
@@ -698,7 +698,7 @@
         <enabled>true</enabled>
         <updatePolicy>always</updatePolicy>
       </snapshots>
-    </repository>
+    </repository> -->
     
     <repository>
       <id>mks-repo</id>
