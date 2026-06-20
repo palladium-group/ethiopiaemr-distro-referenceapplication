@@ -112,7 +112,7 @@
     <ethiohri.version>1.0.0</ethiohri.version>
     <ethiohri-aop.version>1.0.1</ethiohri-aop.version>
     <ethiohri.mamba.version>2.1.0</ethiohri.mamba.version>
-    <reporting.version>2.2.0</reporting.version>
+    <reporting.version>2.2.1</reporting.version>
   </properties>
 
   <dependencies>
