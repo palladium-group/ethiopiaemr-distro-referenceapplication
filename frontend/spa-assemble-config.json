@@ -64,7 +64,8 @@
     "@icap-ethiopia/esm-ethiohri-pep":"beta",
     "@icap-ethiopia/esm-ethiohri-ncd":"beta",
     "@icap-ethiopia/esm-ethiori-hiv-testing-app":"beta",
-    "@icap-ethiopia/esm-ethiori-prep-app":"beta"
+    "@icap-ethiopia/esm-ethiori-prep-app":"beta",
+    "@icap-ethiopia/esm-ethiohri-reporting-app":"next"
   },
   "pageTitle": "$SPA_PAGE_TITLE"
 }
