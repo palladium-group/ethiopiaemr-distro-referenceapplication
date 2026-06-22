@@ -92,7 +92,7 @@
 
 
     <!-- Content Packages -->
-    <ethiopiaemr-package.version>1.0.7</ethiopiaemr-package.version>
+    <ethiopiaemr-package.version>1.0.8</ethiopiaemr-package.version>
 
     <!-- ========================================================== -->
     <!-- Optional Module Versions (empty by default = not included) -->
