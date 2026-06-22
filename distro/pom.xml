@@ -111,8 +111,8 @@
     <!--EthiOhri properties  -->
     <ethiohri.version>1.0.0</ethiohri.version>
     <ethiohri-aop.version>1.0.1</ethiohri-aop.version>
-    <ethiohri.mamba.version>2.1.1</ethiohri.mamba.version>
-    <reporting.version>2.2.1</reporting.version>
+    <ethiohri.mamba.version>2.1.2</ethiohri.mamba.version>
+    <reporting.version>2.2.2</reporting.version>
   </properties>
 
   <dependencies>
