@@ -11,10 +11,14 @@ COPY frontend/content-package-pom.xml pom.xml
 
 # Download and unpack the content-package from Mekom Nexus.
 # Build fails if download fails — never ship an empty/unbranded image.
-RUN --mount=type=secret,id=m2settings,target=/root/.m2/settings.xml,required=false \
-    mvn -U -ntp dependency:unpack \
-        -Dartifact=org.ethiopiaemr.content:ethiopiaemr-package:1.0.1-SNAPSHOT:zip \
-        -DoutputDirectory=/content/extracted || \
+# RUN --mount=type=secret,id=m2settings,target=/root/.m2/settings.xml,required=false \
+#     mvn -U -ntp dependency:unpack \
+#         -Dartifact=io.github.abdi-icap:ethiopiaemr-package:1.0.8:zip \
+#         -DoutputDirectory=/content/extracted
+
+RUN mvn -U -ntp dependency:unpack \
+    -Dartifact=io.github.abdi-icap:ethiopiaemr-package:1.0.8:zip \
+    -DoutputDirectory=/content/extracted || \
     (echo "ERROR: content-package download failed. Ensure MAVEN_SETTINGS_XML secret is set and Nexus is reachable." && exit 1)
 
 # Arrange into the SPA layout expected by the nginx stage.
