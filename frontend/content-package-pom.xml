@@ -25,9 +25,9 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.ethiopiaemr.content</groupId>
+      <groupId>io.github.abdi-icap</groupId>
       <artifactId>ethiopiaemr-package</artifactId>
-      <version>1.0.1-SNAPSHOT</version>
+      <version>1.0.8</version>
       <type>zip</type>
     </dependency>
   </dependencies>
