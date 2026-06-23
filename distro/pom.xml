@@ -57,7 +57,7 @@
         <uicommons.version>2.26.0</uicommons.version>
         <uiframework.version>3.25.0</uiframework.version>
         <webservices.rest.version>3.3.0</webservices.rest.version>
-        <owa.version>1.15.0</owa.version>
+<!--        <owa.version>1.15.0</owa.version>-->
 
         <!-- KenyaEMR Modules -->
         <facilityreporting.version>1.2.2-SNAPSHOT</facilityreporting.version>
@@ -151,12 +151,12 @@
             <version>${ethiopiaemr-labonfhir.version}</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>org.openmrs.module</groupId>
-            <artifactId>owa-omod</artifactId>
-            <version>${owa.version}</version>
-            <scope>provided</scope>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.openmrs.module</groupId>-->
+<!--            <artifactId>owa-omod</artifactId>-->
+<!--            <version>${owa.version}</version>-->
+<!--            <scope>provided</scope>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>org.openmrs.module</groupId>
             <artifactId>webservices.rest-omod</artifactId>
