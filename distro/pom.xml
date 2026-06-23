@@ -235,7 +235,7 @@
             <groupId>org.openmrs.module</groupId>
             <artifactId>owa-omod</artifactId>
             <version>${owa.version}</version>
-            <scope>provided</scope>
+            <scope>runtime</scope>
         </dependency>
 
         <dependency>
