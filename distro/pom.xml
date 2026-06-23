@@ -1,793 +1,800 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-  <parent>
-    <groupId>org.ethiopiaemr</groupId>
-    <artifactId>distro-emr</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
-  </parent>
+    <parent>
+        <groupId>org.ethiopiaemr</groupId>
+        <artifactId>distro-emr</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
 
-  <artifactId>distro-emr-configuration</artifactId>
-  <name>EthiopiaEMR distro</name>
-  <packaging>pom</packaging>
+    <artifactId>distro-emr-configuration</artifactId>
+    <name>EthiopiaEMR distro</name>
+    <packaging>pom</packaging>
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-    <distro.baseDir>${project.build.directory}/${project.artifactId}</distro.baseDir>
-    <distro.openmrsConfigDir>${distro.baseDir}/openmrs_config</distro.openmrsConfigDir>
-    <distro.openmrsCoreDir>${distro.baseDir}/openmrs_core</distro.openmrsCoreDir>
-    <distro.openmrsModulesDir>${distro.baseDir}/openmrs_modules</distro.openmrsModulesDir>
-    <distro.spaDir>${distro.baseDir}/spa</distro.spaDir>
-    <distro.spaConfigDir>${distro.baseDir}/spa_config</distro.spaConfigDir>
+        <distro.baseDir>${project.build.directory}/${project.artifactId}</distro.baseDir>
+        <distro.openmrsConfigDir>${distro.baseDir}/openmrs_config</distro.openmrsConfigDir>
+        <distro.openmrsCoreDir>${distro.baseDir}/openmrs_core</distro.openmrsCoreDir>
+        <distro.openmrsModulesDir>${distro.baseDir}/openmrs_modules</distro.openmrsModulesDir>
+        <distro.spaDir>${distro.baseDir}/spa</distro.spaDir>
+        <distro.spaConfigDir>${distro.baseDir}/spa_config</distro.spaConfigDir>
 
-    <!-- OpenMRS Modules community maintained modules -->
-    <addresshierarchy.version>2.21.0</addresshierarchy.version>
-    <appframework.version>2.18.0</appframework.version>
-    <appointments.version>2.1.0</appointments.version>
-    <appui.version>1.18.0</appui.version>
-    <attachments.version>4.0.0-SNAPSHOT</attachments.version>
-    <bedmanagement.version>7.2.0-SNAPSHOT</bedmanagement.version>
-    <calculation.version>1.3.0</calculation.version>
-    <dataexchange.version>1.3.9-SNAPSHOT</dataexchange.version>
-    <emrapi.version>3.2.1</emrapi.version>
-    <event.version>4.0.0-SNAPSHOT</event.version>
-    <fhir2.version>2.9.0-SNAPSHOT</fhir2.version>
-    <groovy.version>2.4.0-SNAPSHOT</groovy.version>
-    <htmlformentry.version>5.4.0</htmlformentry.version>
-    <htmlwidgets.version>2.0.1</htmlwidgets.version>
-    <idgen.version>4.15.0-SNAPSHOT</idgen.version>
-    <initializer.version>2.11.1-SNAPSHOT</initializer.version>
-    <legacyui.version>2.0.0</legacyui.version>
-    <medicationadministration.version>2.0.0-SNAPSHOT</medicationadministration.version>
-    <metadatadeploy.version>1.13.1-SNAPSHOT</metadatadeploy.version>
-    <metadatamapping.version>2.0.0-SNAPSHOT</metadatamapping.version>
-    <metadatasharing.version>1.10.0</metadatasharing.version>
-    <o3forms.version>2.4.0-SNAPSHOT</o3forms.version>
-    <openconceptlab.version>2.6.0-SNAPSHOT</openconceptlab.version>
-    <ordertemplates.version>1.0.3-SNAPSHOT</ordertemplates.version>
-    <queue.version>2.9.0-SNAPSHOT</queue.version>
-    <!-- <reporting.version>2.1.0</reporting.version>  -->
-    <reportingcompatibility.version>2.10.0</reportingcompatibility.version>
-    <reportingrest.version>1.15.0</reportingrest.version>
-    <serialization-xstream.version>0.4.0-SNAPSHOT</serialization-xstream.version>
-    <teleconsultation.version>2.0.0</teleconsultation.version>
-    <uicommons.version>2.26.0</uicommons.version>
-    <uiframework.version>3.25.0</uiframework.version>
-    <webservices.rest.version>3.3.0</webservices.rest.version>
+        <!-- OpenMRS Modules community maintained modules -->
+        <addresshierarchy.version>2.21.0</addresshierarchy.version>
+        <appframework.version>2.18.0</appframework.version>
+        <appointments.version>2.1.0</appointments.version>
+        <appui.version>1.18.0</appui.version>
+        <attachments.version>4.0.0-SNAPSHOT</attachments.version>
+        <bedmanagement.version>7.2.0-SNAPSHOT</bedmanagement.version>
+        <calculation.version>1.3.0</calculation.version>
+        <dataexchange.version>1.3.9-SNAPSHOT</dataexchange.version>
+        <emrapi.version>3.2.1</emrapi.version>
+        <event.version>4.0.0-SNAPSHOT</event.version>
+        <fhir2.version>2.9.0-SNAPSHOT</fhir2.version>
+        <groovy.version>2.4.0-SNAPSHOT</groovy.version>
+        <htmlformentry.version>5.4.0</htmlformentry.version>
+        <htmlwidgets.version>2.0.1</htmlwidgets.version>
+        <idgen.version>4.15.0-SNAPSHOT</idgen.version>
+        <initializer.version>2.12.0</initializer.version>
+        <legacyui.version>2.0.0</legacyui.version>
+        <medicationadministration.version>2.0.0-SNAPSHOT</medicationadministration.version>
+        <metadatadeploy.version>1.13.1-SNAPSHOT</metadatadeploy.version>
+        <metadatamapping.version>2.0.0-SNAPSHOT</metadatamapping.version>
+        <metadatasharing.version>1.10.0</metadatasharing.version>
+        <o3forms.version>2.4.0-SNAPSHOT</o3forms.version>
+        <openconceptlab.version>2.6.0-SNAPSHOT</openconceptlab.version>
+        <ordertemplates.version>1.0.3-SNAPSHOT</ordertemplates.version>
+        <queue.version>2.9.0-SNAPSHOT</queue.version>
+        <!-- <reporting.version>2.1.0</reporting.version>  -->
+        <reportingcompatibility.version>2.10.0</reportingcompatibility.version>
+        <reportingrest.version>1.15.0</reportingrest.version>
+        <serialization-xstream.version>0.4.0-SNAPSHOT</serialization-xstream.version>
+        <teleconsultation.version>2.0.0</teleconsultation.version>
+        <uicommons.version>2.26.0</uicommons.version>
+        <uiframework.version>3.25.0</uiframework.version>
+        <webservices.rest.version>3.3.0</webservices.rest.version>
+        <owa.version>1.15.0</owa.version>
 
-    <!-- KenyaEMR Modules -->
-    <facilityreporting.version>1.2.2-SNAPSHOT</facilityreporting.version>
-    <hivtestingservices.version>1.5.7-SNAPSHOT</hivtestingservices.version>
-    <jasperreport.version>2.1.0-SNAPSHOT</jasperreport.version>
-    <kenyacore.version>3.0.2-SNAPSHOT</kenyacore.version>
-    <kenyaemr.cashier.version>4.2.7-SNAPSHOT</kenyaemr.cashier.version>
-    <kenyaemr.version>19.3.1-SNAPSHOT</kenyaemr.version>
-    <ethiopiaemr-labonfhir.version>1.5.4-SNAPSHOT</ethiopiaemr-labonfhir.version>
-    <kenyaemrCharts.version>1.6.8</kenyaemrCharts.version>
-    <kenyaemrextras.version>1.4.4-SNAPSHOT</kenyaemrextras.version>
-    <kenyaemrIL.version>1.3.9-SNAPSHOT</kenyaemrIL.version>
-    <kenyaemrml.version>1.4.1</kenyaemrml.version>
-    <kenyaemrorderentry.version>1.7.1</kenyaemrorderentry.version>
-    <kenyaui.version>3.0.1-SNAPSHOT</kenyaui.version>
-    <kenyakeypop.version>1.4.1-SNAPSHOT</kenyakeypop.version>
-    <prep.version>1.4.5-SNAPSHOT</prep.version>
-    <stockmanagement.version>2.1.0-SNAPSHOT</stockmanagement.version>
-    <orderexpansion.version>1.0.1-SNAPSHOT</orderexpansion.version>
-    <operationtheater.version>1.9.0-SNAPSHOT</operationtheater.version>
-    <atomfeed.version>2.6.3</atomfeed.version>
-    <insuranceclaims.version>1.2.1-SNAPSHOT</insuranceclaims.version>
+        <!-- KenyaEMR Modules -->
+        <facilityreporting.version>1.2.2-SNAPSHOT</facilityreporting.version>
+        <hivtestingservices.version>1.5.7-SNAPSHOT</hivtestingservices.version>
+        <jasperreport.version>2.1.0-SNAPSHOT</jasperreport.version>
+        <kenyacore.version>3.0.2-SNAPSHOT</kenyacore.version>
+        <kenyaemr.cashier.version>4.2.7-SNAPSHOT</kenyaemr.cashier.version>
+        <kenyaemr.version>19.3.1-SNAPSHOT</kenyaemr.version>
+        <ethiopiaemr-labonfhir.version>1.5.4-SNAPSHOT</ethiopiaemr-labonfhir.version>
+        <kenyaemrCharts.version>1.6.8</kenyaemrCharts.version>
+        <kenyaemrextras.version>1.4.4-SNAPSHOT</kenyaemrextras.version>
+        <kenyaemrIL.version>1.3.9-SNAPSHOT</kenyaemrIL.version>
+        <kenyaemrml.version>1.4.1</kenyaemrml.version>
+        <kenyaemrorderentry.version>1.7.1</kenyaemrorderentry.version>
+        <kenyaui.version>3.0.1-SNAPSHOT</kenyaui.version>
+        <kenyakeypop.version>1.4.1-SNAPSHOT</kenyakeypop.version>
+        <prep.version>1.4.5-SNAPSHOT</prep.version>
+        <stockmanagement.version>2.1.0-SNAPSHOT</stockmanagement.version>
+        <orderexpansion.version>1.0.1-SNAPSHOT</orderexpansion.version>
+        <operationtheater.version>1.9.0-SNAPSHOT</operationtheater.version>
+        <atomfeed.version>2.6.3</atomfeed.version>
+        <insuranceclaims.version>1.2.1-SNAPSHOT</insuranceclaims.version>
 
-    <!-- EthiopiaEMR Modules -->
-    <ethiopiaemrcustommodule.version>1.0.0-SNAPSHOT</ethiopiaemrcustommodule.version>
-    <ethiopiaemretl.version>1.0.0-SNAPSHOT</ethiopiaemretl.version>
-    <ethiopiaemrreports.version>1.0.1-SNAPSHOT</ethiopiaemrreports.version>
+        <!-- EthiopiaEMR Modules -->
+        <ethiopiaemrcustommodule.version>1.0.0-SNAPSHOT</ethiopiaemrcustommodule.version>
+        <ethiopiaemretl.version>1.0.0-SNAPSHOT</ethiopiaemretl.version>
+        <ethiopiaemrreports.version>1.0.1-SNAPSHOT</ethiopiaemrreports.version>
 
-    <!-- OpenMRS Core platform -->
-    <openmrs.version>2.8.6</openmrs.version>
-    <!-- Docker base image tag for openmrs-core -->
-    <docker.openmrs-core.tag>2.8.x</docker.openmrs-core.tag>
+        <!-- OpenMRS Core platform -->
+        <openmrs.version>2.8.6</openmrs.version>
+        <!-- Docker base image tag for openmrs-core -->
+        <docker.openmrs-core.tag>2.8.x</docker.openmrs-core.tag>
 
 
-    <!-- Content Packages -->
-    <ethiopiaemr-package.version>1.0.8</ethiopiaemr-package.version>
+        <!-- Content Packages -->
+        <ethiopiaemr-package.version>1.0.8</ethiopiaemr-package.version>
 
-    <!-- ========================================================== -->
-    <!-- Optional Module Versions (empty by default = not included) -->
-    <!-- ========================================================== -->
-    <!-- To include an optional module, either:                     -->
-    <!--   1. Activate its profile: mvn install -P with-spa         -->
-    <!--   2. Set property: mvn install -Dinclude.spa=true          -->
-    <!-- ========================================================== -->
-    <spa.version></spa.version>
-    <cohort.version></cohort.version>
+        <!-- ========================================================== -->
+        <!-- Optional Module Versions (empty by default = not included) -->
+        <!-- ========================================================== -->
+        <!-- To include an optional module, either:                     -->
+        <!--   1. Activate its profile: mvn install -P with-spa         -->
+        <!--   2. Set property: mvn install -Dinclude.spa=true          -->
+        <!-- ========================================================== -->
+        <spa.version></spa.version>
+        <cohort.version></cohort.version>
 
-    <!-- Conditional entries for distro.properties (empty = excluded) -->
-    <omod.spa.entry></omod.spa.entry>
-    <omod.cohort.entry></omod.cohort.entry>
+        <!-- Conditional entries for distro.properties (empty = excluded) -->
+        <omod.spa.entry></omod.spa.entry>
+        <omod.cohort.entry></omod.cohort.entry>
 
-    <!--EthiOhri properties  -->
-    <ethiohri.version>1.0.0</ethiohri.version>
-    <ethiohri-aop.version>1.0.1</ethiohri-aop.version>
-    <ethiohri.mamba.version>2.1.2</ethiohri.mamba.version>
-    <reporting.version>2.2.2</reporting.version>
-  </properties>
+        <!--EthiOhri properties  -->
+        <ethiohri.version>1.0.0</ethiohri.version>
+        <ethiohri-aop.version>1.0.1</ethiohri-aop.version>
+        <ethiohri.mamba.version>2.1.2</ethiohri.mamba.version>
+        <reporting.version>2.2.2</reporting.version>
+    </properties>
 
-  <dependencies>
-<!--This points to MOH nexus repository merged with ethipian content  -->
-    <dependency>
-      <groupId>io.github.abdi-icap</groupId>
-      <artifactId>ethiopiaemr-package</artifactId>
-      <version>${ethiopiaemr-package.version}</version>
-      <type>zip</type>
-    </dependency>
+    <dependencies>
+        <!--This points to MOH nexus repository merged with ethipian content  -->
+        <dependency>
+            <groupId>io.github.abdi-icap</groupId>
+            <artifactId>ethiopiaemr-package</artifactId>
+            <version>${ethiopiaemr-package.version}</version>
+            <type>zip</type>
+        </dependency>
 
-    <dependency>
-      <groupId>org.openmrs.web</groupId>
-      <artifactId>openmrs-webapp</artifactId>
-      <version>${openmrs.version}</version>
-      <type>war</type>
-      <scope>provided</scope>
-    </dependency>
-    <!-- Module dependencies -->
-    <dependency>
-      <groupId>org.openmrs.module</groupId>
-      <artifactId>initializer-omod</artifactId>
-      <version>${initializer.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.openmrs.module</groupId>
-      <artifactId>fhir2-omod</artifactId>
-      <version>${fhir2.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.openmrs.module</groupId>
-      <artifactId>ethiopiaemr-labonfhir-omod</artifactId>
-      <version>${ethiopiaemr-labonfhir.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.openmrs.module</groupId>
-      <artifactId>webservices.rest-omod</artifactId>
-      <version>${webservices.rest.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.openmrs.module</groupId>
-      <artifactId>idgen-omod</artifactId>
-      <version>${idgen.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.openmrs.module</groupId>
-      <artifactId>legacyui-omod</artifactId>
-      <version>${legacyui.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.openmrs.module</groupId>
-      <artifactId>addresshierarchy-omod</artifactId>
-      <version>${addresshierarchy.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.openmrs.module</groupId>
-      <artifactId>metadatamapping-omod</artifactId>
-      <version>${metadatamapping.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.openmrs.module</groupId>
-      <artifactId>openconceptlab-omod</artifactId>
-      <version>${openconceptlab.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.openmrs.module</groupId>
-      <artifactId>attachments-omod</artifactId>
-      <version>${attachments.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.kenyahmis.module</groupId>
-      <artifactId>medication-administration-api</artifactId>
-      <version>${medicationadministration.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.kenyahmis.module</groupId>
-      <artifactId>medication-administration-omod</artifactId>
-      <version>${medicationadministration.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.openmrs.module</groupId>
-      <artifactId>queue-omod</artifactId>
-      <version>${queue.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.bahmni.module</groupId>
-      <artifactId>appointments-omod</artifactId>
-      <version>${appointments.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.bahmni.module</groupId>
-      <artifactId>teleconsultation-omod</artifactId>
-      <version>${teleconsultation.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <!-- Please remove this because EthiOHri has already reporting module which implment ethiopian calendar  -->
-    <!-- <dependency>
-      <groupId>org.openmrs.module</groupId>
-      <artifactId>reporting-omod</artifactId>
-      <version>${reporting.version}</version>
-      <scope>provided</scope>
-      
-    </dependency> -->
-  
-    <dependency>
-      <groupId>org.openmrs.module</groupId>
-      <artifactId>reportingrest-omod</artifactId>
-      <version>${reportingrest.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.openmrs.module</groupId>
-      <artifactId>calculation-omod</artifactId>
-      <version>${calculation.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.openmrs.module</groupId>
-      <artifactId>htmlwidgets-omod</artifactId>
-      <version>${htmlwidgets.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.openmrs.module</groupId>
-      <artifactId>serialization.xstream-api</artifactId>
-      <version>${serialization-xstream.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.openmrs.module</groupId>
-      <artifactId>o3forms-omod</artifactId>
-      <version>${o3forms.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.openmrs.module</groupId>
-      <artifactId>emrapi-omod</artifactId>
-      <version>${emrapi.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.openmrs</groupId>
-      <artifactId>event-omod</artifactId>
-      <version>${event.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.openmrs.module</groupId>
-      <artifactId>bedmanagement-omod</artifactId>
-      <version>${bedmanagement.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.openmrs.module</groupId>
-      <artifactId>stockmanagement-omod</artifactId>
-      <version>${stockmanagement.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.openmrs.module</groupId>
-      <artifactId>htmlformentry-omod</artifactId>
-      <version>${htmlformentry.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.openmrs.module</groupId>
-      <artifactId>metadatadeploy-omod</artifactId>
-      <version>${metadatadeploy.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.openmrs.module</groupId>
-      <artifactId>metadatasharing-omod</artifactId>
-      <version>${metadatasharing.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.openmrs.module</groupId>
-      <artifactId>reportingcompatibility-omod</artifactId>
-      <version>${reportingcompatibility.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.openmrs.module</groupId>
-      <artifactId>uicommons-omod</artifactId>
-      <version>${uicommons.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.openmrs.module</groupId>
-      <artifactId>uiframework-omod</artifactId>
-      <version>${uiframework.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.openmrs.module</groupId>
-      <artifactId>facilityreporting-omod</artifactId>
-      <version>${facilityreporting.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.openmrs.module</groupId>
-      <artifactId>groovy-omod</artifactId>
-      <version>${groovy.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <!-- Add KenyaEMR Cashier dependency -->
-    <dependency>
-      <groupId>org.openmrs.module</groupId>
-      <artifactId>kenyaemr.cashier-omod</artifactId>
-      <version>${kenyaemr.cashier.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.openmrs.module</groupId>
-      <artifactId>hivtestingservices-omod</artifactId>
-      <version>${hivtestingservices.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.openmrs.module</groupId>
-      <artifactId>jasperreport-omod</artifactId>
-      <version>${jasperreport.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.openmrs.module</groupId>
-      <artifactId>kenyacore-omod</artifactId>
-      <version>${kenyacore.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.openmrs.module</groupId>
-      <artifactId>kenyaemr-omod</artifactId>
-      <version>${kenyaemr.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.openmrs.module</groupId>
-      <artifactId>kenyaemrCharts-omod</artifactId>
-      <version>${kenyaemrCharts.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.openmrs.module</groupId>
-      <artifactId>kenyaemrextras-omod</artifactId>
-      <version>${kenyaemrextras.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.openmrs.module</groupId>
-      <artifactId>kenyaemrIL-omod</artifactId>
-      <version>${kenyaemrIL.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.openmrs.module</groupId>
-      <artifactId>kenyaemrml-omod</artifactId>
-      <version>${kenyaemrml.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.openmrs.module</groupId>
-      <artifactId>kenyaemrorderentry-omod</artifactId>
-      <version>${kenyaemrorderentry.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.openmrs.module</groupId>
-      <artifactId>kenyaui-omod</artifactId>
-      <version>${kenyaui.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.openmrs.module</groupId>
-      <artifactId>prep-omod</artifactId>
-      <version>${prep.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.openmrs.module</groupId>
-      <artifactId>kenyakeypop-omod</artifactId>
-      <version>${kenyakeypop.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.openmrs.module</groupId>
-      <artifactId>orderexpansion-omod</artifactId>
-      <version>${orderexpansion.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.openmrs.module</groupId>
-      <artifactId>insuranceclaims-omod</artifactId>
-      <version>${insuranceclaims.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.openmrs.module</groupId>
-      <artifactId>dataexchange-omod</artifactId>
-      <version>${dataexchange.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.openmrs.module</groupId>
-      <artifactId>ethiopiaemr-custom-module-omod</artifactId>
-      <version>${ethiopiaemrcustommodule.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.openmrs.module</groupId>
-      <artifactId>ethiopiaemretl-omod</artifactId>
-      <version>${ethiopiaemretl.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.openmrs.module</groupId>
-      <artifactId>ethiopiaemrreports-omod</artifactId>
-      <version>${ethiopiaemrreports.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.openmrs.module</groupId>
-      <artifactId>operationtheater-omod</artifactId>
-      <version>${operationtheater.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.ict4h.openmrs</groupId>
-      <artifactId>openmrs-atomfeed-omod</artifactId>
-      <version>${atomfeed.version}</version>
-      <scope>provided</scope>
-    </dependency>
+        <dependency>
+            <groupId>org.openmrs.web</groupId>
+            <artifactId>openmrs-webapp</artifactId>
+            <version>${openmrs.version}</version>
+            <type>war</type>
+            <scope>provided</scope>
+        </dependency>
+        <!-- Module dependencies -->
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>initializer-omod</artifactId>
+            <version>${initializer.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>fhir2-omod</artifactId>
+            <version>${fhir2.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>ethiopiaemr-labonfhir-omod</artifactId>
+            <version>${ethiopiaemr-labonfhir.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>owa-omod</artifactId>
+            <version>${owa.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>webservices.rest-omod</artifactId>
+            <version>${webservices.rest.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>idgen-omod</artifactId>
+            <version>${idgen.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>legacyui-omod</artifactId>
+            <version>${legacyui.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>addresshierarchy-omod</artifactId>
+            <version>${addresshierarchy.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>metadatamapping-omod</artifactId>
+            <version>${metadatamapping.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>openconceptlab-omod</artifactId>
+            <version>${openconceptlab.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>attachments-omod</artifactId>
+            <version>${attachments.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.kenyahmis.module</groupId>
+            <artifactId>medication-administration-api</artifactId>
+            <version>${medicationadministration.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.kenyahmis.module</groupId>
+            <artifactId>medication-administration-omod</artifactId>
+            <version>${medicationadministration.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>queue-omod</artifactId>
+            <version>${queue.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.bahmni.module</groupId>
+            <artifactId>appointments-omod</artifactId>
+            <version>${appointments.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.bahmni.module</groupId>
+            <artifactId>teleconsultation-omod</artifactId>
+            <version>${teleconsultation.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- Please remove this because EthiOHri has already reporting module which implment ethiopian calendar  -->
+        <!-- <dependency>
+          <groupId>org.openmrs.module</groupId>
+          <artifactId>reporting-omod</artifactId>
+          <version>${reporting.version}</version>
+          <scope>provided</scope>
 
-    <!-- EthiOhri dependencies  -->
-    <dependency>
-      <groupId>io.github.abdi-icap</groupId>
-      <artifactId>aop-omod</artifactId>
-      <version>${ethiohri-aop.version}</version>
-      <scope>provided</scope>
-    </dependency>
-   
-    <dependency>
-      <groupId>io.github.abdi-icap</groupId>
-      <artifactId>ethiohri.api-omod</artifactId>
-      <version>${ethiohri.version}</version>
-      <scope>provided</scope>
-    </dependency>
+        </dependency> -->
 
-    <dependency>
-      <groupId>io.github.abdi-icap</groupId>
-      <artifactId>ethiohrihelper-omod</artifactId>
-      <version>${ethiohri-aop.version}</version>
-      <scope>provided</scope>
-    </dependency>
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>reportingrest-omod</artifactId>
+            <version>${reportingrest.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>calculation-omod</artifactId>
+            <version>${calculation.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>htmlwidgets-omod</artifactId>
+            <version>${htmlwidgets.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>serialization.xstream-api</artifactId>
+            <version>${serialization-xstream.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>o3forms-omod</artifactId>
+            <version>${o3forms.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>emrapi-omod</artifactId>
+            <version>${emrapi.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openmrs</groupId>
+            <artifactId>event-omod</artifactId>
+            <version>${event.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>bedmanagement-omod</artifactId>
+            <version>${bedmanagement.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>stockmanagement-omod</artifactId>
+            <version>${stockmanagement.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>htmlformentry-omod</artifactId>
+            <version>${htmlformentry.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>metadatadeploy-omod</artifactId>
+            <version>${metadatadeploy.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>metadatasharing-omod</artifactId>
+            <version>${metadatasharing.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>reportingcompatibility-omod</artifactId>
+            <version>${reportingcompatibility.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>uicommons-omod</artifactId>
+            <version>${uicommons.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>uiframework-omod</artifactId>
+            <version>${uiframework.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>facilityreporting-omod</artifactId>
+            <version>${facilityreporting.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>groovy-omod</artifactId>
+            <version>${groovy.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- Add KenyaEMR Cashier dependency -->
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>kenyaemr.cashier-omod</artifactId>
+            <version>${kenyaemr.cashier.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>hivtestingservices-omod</artifactId>
+            <version>${hivtestingservices.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>jasperreport-omod</artifactId>
+            <version>${jasperreport.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>kenyacore-omod</artifactId>
+            <version>${kenyacore.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>kenyaemr-omod</artifactId>
+            <version>${kenyaemr.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>kenyaemrCharts-omod</artifactId>
+            <version>${kenyaemrCharts.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>kenyaemrextras-omod</artifactId>
+            <version>${kenyaemrextras.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>kenyaemrIL-omod</artifactId>
+            <version>${kenyaemrIL.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>kenyaemrml-omod</artifactId>
+            <version>${kenyaemrml.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>kenyaemrorderentry-omod</artifactId>
+            <version>${kenyaemrorderentry.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>kenyaui-omod</artifactId>
+            <version>${kenyaui.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>prep-omod</artifactId>
+            <version>${prep.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>kenyakeypop-omod</artifactId>
+            <version>${kenyakeypop.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>orderexpansion-omod</artifactId>
+            <version>${orderexpansion.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>insuranceclaims-omod</artifactId>
+            <version>${insuranceclaims.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>dataexchange-omod</artifactId>
+            <version>${dataexchange.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>ethiopiaemr-custom-module-omod</artifactId>
+            <version>${ethiopiaemrcustommodule.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>ethiopiaemretl-omod</artifactId>
+            <version>${ethiopiaemretl.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>ethiopiaemrreports-omod</artifactId>
+            <version>${ethiopiaemrreports.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>operationtheater-omod</artifactId>
+            <version>${operationtheater.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.ict4h.openmrs</groupId>
+            <artifactId>openmrs-atomfeed-omod</artifactId>
+            <version>${atomfeed.version}</version>
+            <scope>provided</scope>
+        </dependency>
 
-    <dependency>
-      <groupId>io.github.abdi-icap</groupId>
-      <artifactId>ethiohri-mamba-omod</artifactId>
-      <version>${ethiohri.mamba.version}</version>
-      <scope>provided</scope>
-    </dependency>
+        <!-- EthiOhri dependencies  -->
+        <dependency>
+            <groupId>io.github.abdi-icap</groupId>
+            <artifactId>aop-omod</artifactId>
+            <version>${ethiohri-aop.version}</version>
+            <scope>provided</scope>
+        </dependency>
 
-   <dependency>
-    <groupId>io.github.abdi-icap</groupId>
-    <artifactId>reporting-omod</artifactId>
-    <version>${reporting.version}</version>
-    <scope>provided</scope>
-   </dependency>
+        <dependency>
+            <groupId>io.github.abdi-icap</groupId>
+            <artifactId>ethiohri.api-omod</artifactId>
+            <version>${ethiohri.version}</version>
+            <scope>provided</scope>
+        </dependency>
 
-    <!-- End of EthiOhri dependencie definition   -->
-  </dependencies>
+        <dependency>
+            <groupId>io.github.abdi-icap</groupId>
+            <artifactId>ethiohrihelper-omod</artifactId>
+            <version>${ethiohri-aop.version}</version>
+            <scope>provided</scope>
+        </dependency>
 
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-resources-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>populate-distro-properties</id>
-            <phase>generate-resources</phase>
-            <goals>
-              <goal>copy-resources</goal>
-            </goals>
-            <configuration>
-              <outputDirectory>
-                ${project.build.directory}
-              </outputDirectory>
-              <resources>
-                <resource>
-                  <directory>${project.basedir}</directory>
-                  <includes>
-                    <include>distro.properties</include>
-                  </includes>
-                  <filtering>true</filtering>
-                </resource>
-              </resources>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.openmrs.maven.plugins</groupId>
-        <artifactId>openmrs-sdk-maven-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>openmrs-sdk:build-distro</id>
-            <goals>
-              <goal>build-distro</goal>
-            </goals>
-            <phase>package</phase>
-            <configuration>
-              <distro>${project.build.directory}/distro.properties</distro>
-              <dir>${project.build.directory}/sdk-distro</dir>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <!-- Replace Docker base image in generated Dockerfile -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-antrun-plugin</artifactId>
-        <version>3.1.0</version>
-        <executions>
-          <execution>
-            <id>replace-docker-base-image</id>
-            <phase>package</phase>
-            <goals>
-              <goal>run</goal>
-            </goals>
-            <configuration>
-              <target>
-                <replace file="${project.build.directory}/sdk-distro/web/Dockerfile"
-                  token="FROM openmrs/openmrs-core:nightly-amazoncorretto-11"
-                  value="FROM openmrs/openmrs-core:${docker.openmrs-core.tag}" />
-              </target>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>package-distro-artifact</id>
-            <phase>package</phase>
-            <goals>
-              <goal>single</goal>
-            </goals>
-            <configuration>
-              <appendAssemblyId>false</appendAssemblyId>
-              <descriptors>
-                <descriptor>src/main/assembly/assembly.xml</descriptor>
-              </descriptors>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
-  </build>
+        <dependency>
+            <groupId>io.github.abdi-icap</groupId>
+            <artifactId>ethiohri-mamba-omod</artifactId>
+            <version>${ethiohri.mamba.version}</version>
+            <scope>provided</scope>
+        </dependency>
 
-  <profiles>
-    <profile>
-      <id>validator</id>
-      <build>
+        <dependency>
+            <groupId>io.github.abdi-icap</groupId>
+            <artifactId>reporting-omod</artifactId>
+            <version>${reporting.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- End of EthiOhri dependencie definition   -->
+    </dependencies>
+
+    <build>
         <plugins>
-          <plugin>
-            <groupId>org.openmrs.maven.plugins</groupId>
-            <artifactId>openmrs-packager-maven-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>validate-configurations</id>
-                <phase>verify</phase>
-                <goals>
-                  <goal>validate-configurations</goal>
-                </goals>
-                <configuration>
-                  <sourceDir>${project.build.directory}/sdk-distro/web/openmrs_config</sourceDir>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>populate-distro-properties</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>
+                                ${project.build.directory}
+                            </outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${project.basedir}</directory>
+                                    <includes>
+                                        <include>distro.properties</include>
+                                    </includes>
+                                    <filtering>true</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.openmrs.maven.plugins</groupId>
+                <artifactId>openmrs-sdk-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>openmrs-sdk:build-distro</id>
+                        <goals>
+                            <goal>build-distro</goal>
+                        </goals>
+                        <phase>package</phase>
+                        <configuration>
+                            <distro>${project.build.directory}/distro.properties</distro>
+                            <dir>${project.build.directory}/sdk-distro</dir>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- Replace Docker base image in generated Dockerfile -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>replace-docker-base-image</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <replace file="${project.build.directory}/sdk-distro/web/Dockerfile"
+                                         token="FROM openmrs/openmrs-core:nightly-amazoncorretto-11"
+                                         value="FROM openmrs/openmrs-core:${docker.openmrs-core.tag}"/>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>package-distro-artifact</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <appendAssemblyId>false</appendAssemblyId>
+                            <descriptors>
+                                <descriptor>src/main/assembly/assembly.xml</descriptor>
+                            </descriptors>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
-      </build>
-    </profile>
+    </build>
 
-    <!-- ================================================================== -->
-    <!-- Optional Module Profiles                                           -->
-    <!-- ================================================================== -->
-    <!-- Usage: mvn install -P with-spa                                     -->
-    <!--    or: mvn install -Dinclude.spa=true                              -->
-    <!-- Multiple profiles: mvn install -P with-spa,with-cohort             -->
-    <!-- ================================================================== -->
+    <profiles>
+        <profile>
+            <id>validator</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.openmrs.maven.plugins</groupId>
+                        <artifactId>openmrs-packager-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>validate-configurations</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>validate-configurations</goal>
+                                </goals>
+                                <configuration>
+                                    <sourceDir>${project.build.directory}/sdk-distro/web/openmrs_config</sourceDir>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
 
-    <!-- SPA Module Profile -->
-    <!-- Required for OpenMRS 3.x frontend - see README.md for details -->
-    <profile>
-      <id>with-spa</id>
-      <activation>
-        <property>
-          <name>include.spa</name>
-          <value>true</value>
-        </property>
-      </activation>
-      <properties>
-        <spa.version>3.0.0-SNAPSHOT</spa.version>
-        <omod.spa.entry>omod.spa=${spa.version}</omod.spa.entry>
-      </properties>
-      <dependencies>
-        <dependency>
-          <groupId>org.openmrs.module</groupId>
-          <artifactId>spa-omod</artifactId>
-          <version>${spa.version}</version>
-          <scope>provided</scope>
-        </dependency>
-      </dependencies>
-    </profile>
+        <!-- ================================================================== -->
+        <!-- Optional Module Profiles                                           -->
+        <!-- ================================================================== -->
+        <!-- Usage: mvn install -P with-spa                                     -->
+        <!--    or: mvn install -Dinclude.spa=true                              -->
+        <!-- Multiple profiles: mvn install -P with-spa,with-cohort             -->
+        <!-- ================================================================== -->
 
-    <!-- Cohort Module Profile (example for additional optional modules) -->
-    <profile>
-      <id>with-cohort</id>
-      <activation>
-        <property>
-          <name>include.cohort</name>
-          <value>true</value>
-        </property>
-      </activation>
-      <properties>
-        <cohort.version>3.0.0</cohort.version>
-        <omod.cohort.entry>omod.cohort=${cohort.version}</omod.cohort.entry>
-      </properties>
-      <dependencies>
-        <dependency>
-          <groupId>org.openmrs.module</groupId>
-          <artifactId>cohort-omod</artifactId>
-          <version>${cohort.version}</version>
-          <scope>provided</scope>
-        </dependency>
-      </dependencies>
-    </profile>
+        <!-- SPA Module Profile -->
+        <!-- Required for OpenMRS 3.x frontend - see README.md for details -->
+        <profile>
+            <id>with-spa</id>
+            <activation>
+                <property>
+                    <name>include.spa</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <properties>
+                <spa.version>3.0.0-SNAPSHOT</spa.version>
+                <omod.spa.entry>omod.spa=${spa.version}</omod.spa.entry>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>org.openmrs.module</groupId>
+                    <artifactId>spa-omod</artifactId>
+                    <version>${spa.version}</version>
+                    <scope>provided</scope>
+                </dependency>
+            </dependencies>
+        </profile>
 
-    <!-- ================================================================== -->
-    <!-- Add more optional module profiles below following the same pattern -->
-    <!-- ================================================================== -->
-  </profiles>
+        <!-- Cohort Module Profile (example for additional optional modules) -->
+        <profile>
+            <id>with-cohort</id>
+            <activation>
+                <property>
+                    <name>include.cohort</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <properties>
+                <cohort.version>3.0.0</cohort.version>
+                <omod.cohort.entry>omod.cohort=${cohort.version}</omod.cohort.entry>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>org.openmrs.module</groupId>
+                    <artifactId>cohort-omod</artifactId>
+                    <version>${cohort.version}</version>
+                    <scope>provided</scope>
+                </dependency>
+            </dependencies>
+        </profile>
 
-  <repositories>
-    <repository>
-      <id>github-palladiumkennya-initializer</id>
-      <name>Palladium Kenya Initializer Module Repository</name>
-      <url>https://maven.pkg.github.com/palladiumkenya/openmrs-module-initializer</url>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-    </repository>
-     <!--EthiOhri content  -->
-    <!-- <repository>
-      <id>nexus-snapshots</id>
-      <name>MOH Solutions Nexus Snapshots</name>
-      <url>https://maven-repo.dh.moh.gov.et/repository/maven-snapshots</url>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-      <snapshots>
-        <enabled>true</enabled>
-        <updatePolicy>always</updatePolicy>
-      </snapshots>
-    </repository> -->
-    
-    <repository>
-      <id>mks-repo</id>
-      <name>Mekom Solutions Nexus Releases</name>
-      <url>https://nexus.mekomsolutions.net/repository/maven-releases</url>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-    
-    <repository>
-      <id>mks-repo-snapshots</id>
-      <name>Mekom Solutions Nexus Snapshots</name>
-      <url>https://nexus.mekomsolutions.net/repository/maven-snapshots</url>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-      <snapshots>
-        <enabled>true</enabled>
-        <updatePolicy>always</updatePolicy>
-      </snapshots>
-    </repository>
+        <!-- ================================================================== -->
+        <!-- Add more optional module profiles below following the same pattern -->
+        <!-- ================================================================== -->
+    </profiles>
 
-    <repository>
-      <id>central</id>
-      <name>Maven Central</name>
-      <url>https://repo1.maven.org/maven2/</url>
-    </repository>
-    
-    <repository>
-      <id>openmrs-repo</id>
-      <name>OpenMRS Nexus Repository</name>
-      <url>https://mavenrepo.openmrs.org/public</url>
-    </repository>
-    
-    <repository>
-      <id>openmrs-mod-repo</id>
-      <name>OpenMRS Module Repository</name>
-      <url>https://mavenrepo.openmrs.org/modules</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-    <repository>
-      <id>repo.mybahmni.org</id>
-      <name>bahmni-artifactory-snapshots</name>
-      <url>https://repo.mybahmni.org/artifactory/snapshot</url>
-      <snapshots>
-        <enabled>true</enabled>
-        <updatePolicy>always</updatePolicy>
-      </snapshots>
-    </repository>
-    <repository>
-      <id>repo.mybahmni.org-release</id>
-      <name>bahmni-artifactory-release</name>
-      <url>https://repo.mybahmni.org/artifactory/release</url>
-    </repository>
-    <repository>
-      <id>openmrs-repo-snapshots</id>
-      <name>OpenMRS Snapshots</name>
-      <url>https://openmrs.jfrog.io/artifactory/snapshots</url>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-    </repository>
-    <repository>
-      <id>sonatype-oss-snapshots</id>
-      <name>Sonatype OSS Snapshots</name>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-      <snapshots>
-        <enabled>true</enabled>
-        <updatePolicy>always</updatePolicy>
-      </snapshots>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-    </repository>
-    
-  </repositories>
+    <repositories>
+        <repository>
+            <id>github-palladiumkennya-initializer</id>
+            <name>Palladium Kenya Initializer Module Repository</name>
+            <url>https://maven.pkg.github.com/palladiumkenya/openmrs-module-initializer</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </repository>
+        <!--EthiOhri content  -->
+        <!-- <repository>
+          <id>nexus-snapshots</id>
+          <name>MOH Solutions Nexus Snapshots</name>
+          <url>https://maven-repo.dh.moh.gov.et/repository/maven-snapshots</url>
+          <releases>
+            <enabled>false</enabled>
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+            <updatePolicy>always</updatePolicy>
+          </snapshots>
+        </repository> -->
 
-  <pluginRepositories>
-    <pluginRepository>
-      <id>mekom-nexus</id>
-      <name>Mekom Nexus Repository</name>
-      <url>https://nexus.mekomsolutions.net/repository/maven-public</url>
-    </pluginRepository>
-  </pluginRepositories>
+        <repository>
+            <id>mks-repo</id>
+            <name>Mekom Solutions Nexus Releases</name>
+            <url>https://nexus.mekomsolutions.net/repository/maven-releases</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+
+        <repository>
+            <id>mks-repo-snapshots</id>
+            <name>Mekom Solutions Nexus Snapshots</name>
+            <url>https://nexus.mekomsolutions.net/repository/maven-snapshots</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </repository>
+
+        <repository>
+            <id>central</id>
+            <name>Maven Central</name>
+            <url>https://repo1.maven.org/maven2/</url>
+        </repository>
+
+        <repository>
+            <id>openmrs-repo</id>
+            <name>OpenMRS Nexus Repository</name>
+            <url>https://mavenrepo.openmrs.org/public</url>
+        </repository>
+
+        <repository>
+            <id>openmrs-mod-repo</id>
+            <name>OpenMRS Module Repository</name>
+            <url>https://mavenrepo.openmrs.org/modules</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>repo.mybahmni.org</id>
+            <name>bahmni-artifactory-snapshots</name>
+            <url>https://repo.mybahmni.org/artifactory/snapshot</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>repo.mybahmni.org-release</id>
+            <name>bahmni-artifactory-release</name>
+            <url>https://repo.mybahmni.org/artifactory/release</url>
+        </repository>
+        <repository>
+            <id>openmrs-repo-snapshots</id>
+            <name>OpenMRS Snapshots</name>
+            <url>https://openmrs.jfrog.io/artifactory/snapshots</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>sonatype-oss-snapshots</id>
+            <name>Sonatype OSS Snapshots</name>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+        </repository>
+
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>mekom-nexus</id>
+            <name>Mekom Nexus Repository</name>
+            <url>https://nexus.mekomsolutions.net/repository/maven-public</url>
+        </pluginRepository>
+    </pluginRepositories>
 </project>
