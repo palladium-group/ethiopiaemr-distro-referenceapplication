@@ -303,7 +303,6 @@
   "@kenyaemr/esm-procedure-app": {
     "procedureOrderTypeUuid": "b4a7c280-369e-4d12-9ce8-18e36783fed6"
   },
-  "@kenyaemr/esm-shr-app": {},
   "@kenyaemr/esm-imaging-orders-app": {
     "extensionSlots": {
       "imaging-orders-action": {
