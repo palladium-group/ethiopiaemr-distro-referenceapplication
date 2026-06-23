@@ -57,7 +57,7 @@
         <uicommons.version>2.26.0</uicommons.version>
         <uiframework.version>3.25.0</uiframework.version>
         <webservices.rest.version>3.3.0</webservices.rest.version>
-<!--        <owa.version>1.15.0</owa.version>-->
+        <owa.version>1.15.0</owa.version>
 
         <!-- KenyaEMR Modules -->
         <facilityreporting.version>1.2.2-SNAPSHOT</facilityreporting.version>
@@ -93,7 +93,7 @@
 
 
         <!-- Content Packages -->
-        <ethiopiaemr-package.version>1.0.8</ethiopiaemr-package.version>
+        <ethiopiaemr-package.version>1.0.9</ethiopiaemr-package.version>
 
         <!-- ========================================================== -->
         <!-- Optional Module Versions (empty by default = not included) -->
@@ -102,12 +102,12 @@
         <!--   1. Activate its profile: mvn install -P with-spa         -->
         <!--   2. Set property: mvn install -Dinclude.spa=true          -->
         <!-- ========================================================== -->
-        <spa.version></spa.version>
-        <cohort.version></cohort.version>
+        <spa.version>3.0.0-SNAPSHOT</spa.version>
+        <cohort.version>3.0.0</cohort.version>
 
         <!-- Conditional entries for distro.properties (empty = excluded) -->
-        <omod.spa.entry></omod.spa.entry>
-        <omod.cohort.entry></omod.cohort.entry>
+        <omod.spa.entry>3.0.0-SNAPSHOT</omod.spa.entry>
+        <omod.cohort.entry>3.0.0</omod.cohort.entry>
 
         <!--EthiOhri properties  -->
         <ethiohri.version>1.0.0</ethiohri.version>
@@ -151,12 +151,6 @@
             <version>${ethiopiaemr-labonfhir.version}</version>
             <scope>provided</scope>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>org.openmrs.module</groupId>-->
-<!--            <artifactId>owa-omod</artifactId>-->
-<!--            <version>${owa.version}</version>-->
-<!--            <scope>provided</scope>-->
-<!--        </dependency>-->
         <dependency>
             <groupId>org.openmrs.module</groupId>
             <artifactId>webservices.rest-omod</artifactId>
@@ -237,6 +231,12 @@
           <scope>provided</scope>
 
         </dependency> -->
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>owa-omod</artifactId>
+            <version>${owa.version}</version>
+            <scope>provided</scope>
+        </dependency>
 
         <dependency>
             <groupId>org.openmrs.module</groupId>

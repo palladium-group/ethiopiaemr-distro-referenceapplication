@@ -78,8 +78,6 @@ PREPARE stmt
 FROM @sql;
 EXECUTE stmt;
 DEALLOCATE PREPARE stmt;
--- clean global_property
-delete  from global_property;
 
 -- Schema Modifications
 -- Fix role column character set and collation in stockmgmt_user_role_scope

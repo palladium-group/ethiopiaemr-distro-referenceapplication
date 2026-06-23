@@ -17,7 +17,7 @@ COPY frontend/content-package-pom.xml pom.xml
 #         -DoutputDirectory=/content/extracted
 
 RUN mvn -U -ntp dependency:unpack \
-    -Dartifact=io.github.abdi-icap:ethiopiaemr-package:1.0.8:zip \
+    -Dartifact=io.github.abdi-icap:ethiopiaemr-package:1.0.9:zip \
     -DoutputDirectory=/content/extracted || \
     (echo "ERROR: content-package download failed. Ensure MAVEN_SETTINGS_XML secret is set and Nexus is reachable." && exit 1)
 
