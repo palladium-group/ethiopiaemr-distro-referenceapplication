@@ -439,3 +439,4 @@ their original checksums; new procedures install on top).
 For support, please:
 1. Check the [Ethiopia EMR documentation](https://wiki.openmrs.org/display/projects/EthiopiaEMR)
 2. Report issues on the [GitHub repository](https://github.com/palladiumkenya/ethiopia-distro-referenceapplication/issues)
+
