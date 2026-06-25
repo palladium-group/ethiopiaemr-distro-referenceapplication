@@ -88,3 +88,19 @@ jobs:
           push: ${{ env.PUSH_IMAGE == 'true' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+  deploy:
+    name: "Restart EMR"
+    runs-on: ubuntu-latest
+    needs: [build]
+    steps:
+      - name: Restart Dembela via SSH
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.VM_HOST }}
+          username: ${{ secrets.VM_USER }}
+          password: ${{ secrets.VM_PASSWORD }}
+          script: |
+            NAMESPACE=ethioemr-tenant-dembelahc
+            kubectl rollout restart deployment/dembelahc-frontend -n $NAMESPACE
+            kubectl rollout restart deployment/dembelahc-backend -n $NAMESPACE
