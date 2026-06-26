@@ -97,7 +97,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: m2-cache
-          key: m2-${{ hashFiles('pom.xml', 'distro/pom.xml', 'distro/distro.properties', 'frontend/content-package-pom.xml') }}
+          key: m2-${{ hashFiles('pom.xml', 'distro/pom.xml', 'distro/distro.properties', 'frontend/content-package-pom.xml', 'frontend/spa-assemble-config.json', 'frontend/spa-build-config.json', 'purge-volatile-maven-cache.sh') }}
           restore-keys: |
             m2-
 
@@ -141,7 +141,8 @@ jobs:
           secret-files: |
             m2settings=/tmp/maven-settings.xml
           build-args: |
-            CONTENT_CACHE_BUST=${{ github.run_id }}
+            CONTENT_CACHE_BUST=${{ github.run_id }}-${{ github.run_attempt }}-${{ hashFiles('distro/pom.xml', 'distro/distro.properties', 'frontend/content-package-pom.xml') }}
+            FRONTEND_CACHE_BUST=${{ github.run_id }}-${{ github.run_attempt }}-${{ hashFiles('frontend/spa-assemble-config.json', 'frontend/spa-build-config.json', 'frontend/rename-packages.sh') }}
           no-cache: ${{ matrix.service == 'frontend' }}
           cache-from: type=gha,scope=${{ matrix.service }}
           cache-to: type=gha,mode=max,scope=${{ matrix.service }}
@@ -156,7 +157,8 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
-            CONTENT_CACHE_BUST=${{ github.run_id }}
+            CONTENT_CACHE_BUST=${{ github.run_id }}-${{ github.run_attempt }}-${{ hashFiles('distro/pom.xml', 'distro/distro.properties', 'frontend/content-package-pom.xml') }}
+            FRONTEND_CACHE_BUST=${{ github.run_id }}-${{ github.run_attempt }}-${{ hashFiles('frontend/spa-assemble-config.json', 'frontend/spa-build-config.json', 'frontend/rename-packages.sh') }}
           no-cache: ${{ matrix.service == 'frontend' }}
           cache-from: type=gha,scope=${{ matrix.service }}
           cache-to: type=gha,mode=max,scope=${{ matrix.service }}
