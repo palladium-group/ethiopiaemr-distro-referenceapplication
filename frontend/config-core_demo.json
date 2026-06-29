@@ -1109,7 +1109,7 @@
     }
   },
   "@openmrs/esm-app-shell": {
-    "Enabled feature flags": ["mpiFlag", "rde"]
+    "Enabled feature flags": ["rde"]
   },
   "@openmrs/esm-patient-attachments-app": {
     "maxFileSize": 5
