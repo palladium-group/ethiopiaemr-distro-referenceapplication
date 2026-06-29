@@ -9,9 +9,12 @@ FROM --platform=$BUILDPLATFORM maven:3.9-eclipse-temurin-21-alpine AS content-pa
 WORKDIR /content
 COPY frontend/content-package-pom.xml pom.xml
 
+ARG CONTENT_CACHE_BUST=local
+
 # Download and unpack the content-package from Mekom Nexus.
 # Build fails if download fails — never ship an empty/unbranded image.
 RUN --mount=type=secret,id=m2settings,target=/root/.m2/settings.xml,required=false \
+    echo "Content cache bust: ${CONTENT_CACHE_BUST}" && \
     mvn -U -ntp dependency:unpack \
         -Dartifact=org.ethiopiaemr.content:ethiopiaemr-package:1.0.3-SNAPSHOT:zip \
         -DoutputDirectory=/content/extracted || \
@@ -46,6 +49,7 @@ RUN echo "=== extracted content-package layout ===" && \
 FROM --platform=$BUILDPLATFORM node:20-alpine AS dev
 
 ARG APP_SHELL_VERSION=next
+ARG FRONTEND_CACHE_BUST=local
 
 RUN mkdir -p /app
 WORKDIR /app
@@ -55,7 +59,8 @@ COPY frontend/spa-build-config.json .
 COPY frontend/rename-packages.sh .
 COPY frontend/favicon.ico .
 
-RUN npx --legacy-peer-deps openmrs@${APP_SHELL_VERSION:-next} \
+RUN echo "Frontend cache bust: ${FRONTEND_CACHE_BUST}" && \
+    npx --legacy-peer-deps openmrs@${APP_SHELL_VERSION:-next} \
     assemble --manifest --mode config \
     --config spa-assemble-config.json \
     --target ./spa
@@ -106,4 +111,3 @@ RUN cp -r /tmp/spa-configs/. /usr/share/nginx/html/openmrs/spa/ && \
     rm -rf /tmp/spa-configs
 
 CMD ["/bin/sh", "-c", "/usr/local/bin/startup.sh"]
-
