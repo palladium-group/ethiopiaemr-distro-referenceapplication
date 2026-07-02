@@ -47,7 +47,7 @@
     <metadatasharing.version>1.10.0</metadatasharing.version>
     <o3forms.version>2.4.0-SNAPSHOT</o3forms.version>
     <openconceptlab.version>2.6.0-SNAPSHOT</openconceptlab.version>
-    <ordertemplates.version>1.0.3-SNAPSHOT</ordertemplates.version>
+    <ordertemplates.version>2.2.0</ordertemplates.version>
     <queue.version>2.9.0-SNAPSHOT</queue.version>
     <reporting.version>2.1.0-SNAPSHOT</reporting.version>
     <reportingcompatibility.version>2.10.0</reportingcompatibility.version>
