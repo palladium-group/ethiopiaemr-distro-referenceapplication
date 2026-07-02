@@ -143,7 +143,7 @@ jobs:
           build-args: |
             CONTENT_CACHE_BUST=${{ github.run_id }}-${{ github.run_attempt }}-${{ hashFiles('distro/pom.xml', 'distro/distro.properties', 'frontend/content-package-pom.xml') }}
             FRONTEND_CACHE_BUST=${{ github.run_id }}-${{ github.run_attempt }}-${{ hashFiles('frontend/spa-assemble-config.json', 'frontend/spa-build-config.json', 'frontend/rename-packages.sh') }}
-          no-cache: ${{ matrix.service == 'frontend' }}
+          no-cache-filters: ${{ matrix.service == 'frontend' && 'content-package' || '' }}
           cache-from: type=gha,scope=${{ matrix.service }}
           cache-to: type=gha,mode=max,scope=${{ matrix.service }}
 
@@ -159,7 +159,7 @@ jobs:
           build-args: |
             CONTENT_CACHE_BUST=${{ github.run_id }}-${{ github.run_attempt }}-${{ hashFiles('distro/pom.xml', 'distro/distro.properties', 'frontend/content-package-pom.xml') }}
             FRONTEND_CACHE_BUST=${{ github.run_id }}-${{ github.run_attempt }}-${{ hashFiles('frontend/spa-assemble-config.json', 'frontend/spa-build-config.json', 'frontend/rename-packages.sh') }}
-          no-cache: ${{ matrix.service == 'frontend' }}
+          no-cache-filters: ${{ matrix.service == 'frontend' && 'content-package' || '' }}
           cache-from: type=gha,scope=${{ matrix.service }}
           cache-to: type=gha,mode=max,scope=${{ matrix.service }}
 
