@@ -83,7 +83,7 @@
 
         <!-- EthiopiaEMR Modules -->
         <ethiopiaemrcustommodule.version>1.0.0-SNAPSHOT</ethiopiaemrcustommodule.version>
-<!--        <ethiopiaemretl.version>1.0.0-SNAPSHOT</ethiopiaemretl.version>-->
+       <ethiopiaemretl.version>1.0.0-SNAPSHOT</ethiopiaemretl.version>
         <ethiopiaemrreports.version>1.0.1-SNAPSHOT</ethiopiaemrreports.version>
 
         <!-- OpenMRS Core platform -->
@@ -93,7 +93,7 @@
 
 
         <!-- Content Packages -->
-        <ethiopiaemr-package.version>1.0.9</ethiopiaemr-package.version>
+        <ethiopiaemr-package.version>1.0.10</ethiopiaemr-package.version>
 
         <!-- ========================================================== -->
         <!-- Optional Module Versions (empty by default = not included) -->
@@ -111,7 +111,8 @@
 
         <!--EthiOhri properties  -->
         <ethiohri.version>1.0.0</ethiohri.version>
-        <ethiohri-aop.version>1.0.1</ethiohri-aop.version>
+        <ethiohri-api.version>1.0.2</ethiohri-api.version>
+        <ethiohri-aop.version>1.0.2</ethiohri-aop.version>
         <ethiohri.mamba.version>2.1.2</ethiohri.mamba.version>
         <reporting.version>2.2.2</reporting.version>
     </properties>
@@ -443,12 +444,12 @@
             <version>${ethiopiaemrcustommodule.version}</version>
             <scope>provided</scope>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>org.openmrs.module</groupId>-->
-<!--            <artifactId>ethiopiaemretl-omod</artifactId>-->
-<!--            <version>${ethiopiaemretl.version}</version>-->
-<!--            <scope>provided</scope>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>ethiopiaemretl-omod</artifactId>
+            <version>${ethiopiaemretl.version}</version>
+            <scope>provided</scope>
+        </dependency>
         <dependency>
             <groupId>org.openmrs.module</groupId>
             <artifactId>ethiopiaemrreports-omod</artifactId>
@@ -479,7 +480,7 @@
         <dependency>
             <groupId>io.github.abdi-icap</groupId>
             <artifactId>ethiohri.api-omod</artifactId>
-            <version>${ethiohri.version}</version>
+            <version>${ethiohri-api.version}</version>
             <scope>provided</scope>
         </dependency>
 
