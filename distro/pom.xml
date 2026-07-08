@@ -111,6 +111,7 @@
 
         <!--EthiOhri properties  -->
         <ethiohri.version>1.0.0</ethiohri.version>
+        <ethiohri-helper.version>1.0.1</ethiohri-helper.version>
         <ethiohri-api.version>1.0.2</ethiohri-api.version>
         <ethiohri-aop.version>1.0.2</ethiohri-aop.version>
         <ethiohri.mamba.version>2.1.2</ethiohri.mamba.version>
@@ -487,7 +488,7 @@
         <dependency>
             <groupId>io.github.abdi-icap</groupId>
             <artifactId>ethiohrihelper-omod</artifactId>
-            <version>${ethiohri-aop.version}</version>
+            <version>${ethiohri-helper.version}</version>
             <scope>provided</scope>
         </dependency>
 
