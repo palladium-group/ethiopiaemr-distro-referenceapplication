@@ -81,7 +81,7 @@
     <insuranceclaims.version>1.2.2-SNAPSHOT</insuranceclaims.version>
 
     <!-- EthiopiaEMR Modules -->
-    <ethiopiaemrcustommodule.version>1.0.1-SNAPSHOT</ethiopiaemrcustommodule.version>
+    <ethiopiaemrcustommodule.version>1.0.2-SNAPSHOT</ethiopiaemrcustommodule.version>
     <ethiopiaemretl.version>1.2.0-SNAPSHOT</ethiopiaemretl.version>
     <ethiopiaemrreports.version>1.2.0-SNAPSHOT</ethiopiaemrreports.version>
 
