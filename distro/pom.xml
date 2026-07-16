@@ -75,7 +75,7 @@
         <kenyaui.version>3.0.1-SNAPSHOT</kenyaui.version>
         <kenyakeypop.version>1.4.1-SNAPSHOT</kenyakeypop.version>
         <prep.version>1.4.5-SNAPSHOT</prep.version>
-        <stockmanagement.version>2.1.0-SNAPSHOT</stockmanagement.version>
+        <stockmanagement.version>2.1.0</stockmanagement.version>
         <orderexpansion.version>1.0.1-SNAPSHOT</orderexpansion.version>
         <operationtheater.version>1.9.0-SNAPSHOT</operationtheater.version>
         <atomfeed.version>2.6.3</atomfeed.version>
@@ -114,7 +114,7 @@
         <ethiohri-helper.version>1.0.1</ethiohri-helper.version>
         <ethiohri-api.version>1.0.2</ethiohri-api.version>
         <ethiohri-aop.version>1.0.2</ethiohri-aop.version>
-        <ethiohri.mamba.version>2.1.2</ethiohri.mamba.version>
+        <ethiohri.mamba.version>2.1.3</ethiohri.mamba.version>
         <reporting.version>2.2.2</reporting.version>
     </properties>
 
