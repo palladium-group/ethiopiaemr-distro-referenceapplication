@@ -70,6 +70,12 @@ RUN if [ ! -f ./spa/index.html ]; then \
 # Execute the rename script
 RUN chmod +x ./rename-packages.sh && ./rename-packages.sh
 
+# Inject the session-rotation race retry shim. It must be a synchronous <script> in <head> so it
+# wraps window.fetch before the app shell (loaded in <body>) makes its first API call. $SPA_PATH
+# is substituted by startup.sh at container start, same as the stylesheet link above.
+COPY frontend/session-race-retry.js ./spa/session-race-retry.js
+RUN sed -i 's|</head>|<script src="$SPA_PATH/session-race-retry.js"></script></head>|' ./spa/index.html
+
 #--------------------------------------------
 # Runtime Stage - Published Image
 #--------------------------------------------
