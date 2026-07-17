@@ -62,15 +62,15 @@
     "@icap-ethiopia/esm-ethiori-follow-up-app":"beta",
     "@icap-ethiopia/esm-ethiohri-intake":"beta",
     "@icap-ethiopia/esm-ethiohri-pep":"beta",
-    "@icap-ethiopia/esm-ethiohri-ncd":"beta",
     "@icap-ethiopia/esm-ethiohri-pmtct-app":"beta",
+    "@icap-ethiopia/esm-ethiohri-ncd":"beta",
     "@icap-ethiopia/esm-ethiori-hiv-testing-app":"beta",
     "@icap-ethiopia/esm-ethiori-prep-app":"beta",
     "@icap-ethiopia/esm-ethiohri-reporting-app":"next",
     "@icap-ethiopia/esm-ethiohri-phrh":"next",
-    "@icap-ethiopia/esm-ethiohri-ictservice-app":"next",
-    "@icap-ethiopia/esm-ethio-viral-load-app": "latest",
-    "@icap-ethiopia/esm-ethiohri-hei-app":"next"
+    "@icap-ethiopia/esm-ethiohri-ictservice-app":"beta",
+    "@icap-ethiopia/esm-ethio-viral-load-app": "beta",
+    "@icap-ethiopia/esm-ethiohri-hei-app":"beta"
   },
   "pageTitle": "$SPA_PAGE_TITLE"
 }
