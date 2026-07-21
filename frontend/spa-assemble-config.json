@@ -41,6 +41,7 @@
     "@palladium-ethiopia/esm-appointments-admin-app": "next",
     "@palladium-ethiopia/esm-appointments-quota-app": "next",
     "@palladium-ethiopia/esm-orders-admin-app": "next",
+    "@palladium-ethiopia/esm-surgery-schedule-app": "next",
 
     "@kenyaemr/esm-bed-management-app": "next",
     "@kenyaemr/esm-care-panel-app": "next",
