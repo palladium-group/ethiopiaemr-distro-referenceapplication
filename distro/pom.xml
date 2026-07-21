@@ -81,6 +81,7 @@
     <insuranceclaims.version>1.2.2-SNAPSHOT</insuranceclaims.version>
 
     <!-- EthiopiaEMR Modules -->
+    <ethiopiaemrcore.version>1.0.0-SNAPSHOT</ethiopiaemrcore.version>
     <ethiopiaemrcustommodule.version>1.0.2-SNAPSHOT</ethiopiaemrcustommodule.version>
     <ethiopiaemrshr.version>1.0.1-SNAPSHOT</ethiopiaemrshr.version>
     <ethiopiaemretl.version>1.2.0-SNAPSHOT</ethiopiaemretl.version>
@@ -420,6 +421,12 @@
       <groupId>org.openmrs.module</groupId>
       <artifactId>dataexchange-omod</artifactId>
       <version>${dataexchange.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.openmrs.module</groupId>
+      <artifactId>ethiopiaemrcore-omod</artifactId>
+      <version>${ethiopiaemrcore.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
