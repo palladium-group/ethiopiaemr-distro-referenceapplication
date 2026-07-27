@@ -70,12 +70,12 @@
       }
     ]
   },
-  "@openmrs/esm-login-app": {
+  "@palladium-ethiopia/esm-login-app": {
     "logo": {
-      "src": "/openmrs/spa/kenyaemr-login-logo.png"
+      "src": "/openmrs/spa/primary-logo.png"
     },
     "links": {
-      "loginSuccess": "${openmrsSpaBase}/home/service-queues"
+      "loginSuccess": "${openmrsSpaBase}/home/patient-scoreboard"
     }
   },
   "@kenyaemr/esm-patient-clinical-view-app": {
