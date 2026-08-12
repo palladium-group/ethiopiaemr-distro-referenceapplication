@@ -30,8 +30,8 @@
     "@openmrs/esm-user-onboarding-app": "4.0.1-pre.576",
 
     "@palladium-ethiopia/esm-patient-medications-ethio-app": "5.4.2-pre.185",
-    "@palladium-ethiopia/esm-patient-registration-app": "5.4.2-pre.185",
-    "@palladium-ethiopia/esm-clinical-workflow-app": "5.4.2-pre.185",
+    "@palladium-ethiopia/esm-patient-registration-app": "5.4.2-pre.350",
+    "@palladium-ethiopia/esm-clinical-workflow-app": "5.4.2-pre.350",
     "@palladium-ethiopia/esm-admin-app": "5.4.2-pre.185",
     "@palladium-ethiopia/esm-billing-app": "5.4.2-pre.185",
 
