@@ -85,7 +85,7 @@
     <ethiopiaemrcustommodule.version>1.0.2-SNAPSHOT</ethiopiaemrcustommodule.version>
     <ethiopiaemrshr.version>1.0.3-SNAPSHOT</ethiopiaemrshr.version>
     <ethiopiaemretl.version>1.6.0-SNAPSHOT</ethiopiaemretl.version>
-    <ethiopiaemrreports.version>1.2.0-SNAPSHOT</ethiopiaemrreports.version>
+    <ethiopiaemrreports.version>1.3.0-SNAPSHOT</ethiopiaemrreports.version>
 
     <!-- OpenMRS Core platform -->
     <openmrs.version>2.8.7</openmrs.version>
