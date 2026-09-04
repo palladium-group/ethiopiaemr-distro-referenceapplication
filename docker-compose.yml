@@ -51,10 +51,9 @@ services:
       OMRS_CONFIG_CONNECTION_DATABASE: openmrs
       OMRS_CONFIG_CONNECTION_USERNAME: ${OMRS_DB_USER:-openmrs}
       OMRS_CONFIG_CONNECTION_PASSWORD: ${OMRS_DB_PASSWORD:-openmrs}
-      OPENFN_API_KEY: ${OPENFN_API_KEY}
       # Password for the shr-pull-svc account the SHR module provisions on start, so OpenFn
-      # can claim outbox work. Unset means no account is created and the pull endpoints stay
-      # closed; the module's own push path is unaffected either way.
+      # can claim outbox work. Unset means no account is created, the pull endpoints stay
+      # closed, and nothing reaches the SHR — this is the only delivery path.
       SHR_PULL_PASSWORD: ${SHR_PULL_PASSWORD}
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/openmrs"]
