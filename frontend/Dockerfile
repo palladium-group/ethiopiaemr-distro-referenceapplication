@@ -49,8 +49,8 @@ RUN echo "=== extracted content-package layout ===" && \
 FROM --platform=$BUILDPLATFORM node:20-alpine AS dev
 
 # Pin the app-shell (never floating "next") and keep it in lockstep with the
-# patient-chart suite: 5309+ breaks stable 12.3.4 (assignedExtensions.flatMap).
-ARG APP_SHELL_VERSION=10.0.1-pre.5299
+# patient-chart suite: 5295+ breaks stable 12.3.4 (assignedExtensions.flatMap).
+ARG APP_SHELL_VERSION=10.0.1-pre.5263
 ARG FRONTEND_CACHE_BUST=local
 
 RUN mkdir -p /app
