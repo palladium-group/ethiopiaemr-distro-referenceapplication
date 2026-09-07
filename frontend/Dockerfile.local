@@ -6,7 +6,7 @@ FROM --platform=$BUILDPLATFORM node:20-alpine AS dev
 
 # Pin the app-shell (never "next"); must match frontend/Dockerfile so local
 # builds the same shell as prod. See Dockerfile for the rationale.
-ARG APP_SHELL_VERSION=10.0.1-pre.5299
+ARG APP_SHELL_VERSION=10.0.1-pre.5263
 
 RUN mkdir -p /app
 WORKDIR /app

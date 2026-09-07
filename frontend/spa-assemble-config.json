@@ -1,6 +1,6 @@
 {
-  "_buildRevision": "2026-09-07-shell-5299-1",
-  "_comment": "App-shell pinned to 10.0.1-pre.5299 (APP_SHELL_VERSION in Dockerfiles). Keep the @openmrs suite in lockstep with the shell: do NOT go to 10.0.1-pre.5309+, which changed the extension-store contract and white-screens patient-chart through stable 12.3.4 (assignedExtensions.flatMap). Community @openmrs apps pinned to stables; custom apps stay on 'next'.",
+  "_buildRevision": "2026-09-07-shell-5263-1",
+  "_comment": "App-shell pinned to 10.0.1-pre.5263 (APP_SHELL_VERSION in Dockerfiles). Keep the @openmrs suite in lockstep with the shell: do NOT go to 10.0.1-pre.5295+, which changed the extension-store contract and white-screens patient-chart through stable 12.3.4 (assignedExtensions.flatMap). Community @openmrs apps pinned to stables; custom apps stay on 'next'.",
   "frontendModules": {
     "@openmrs/esm-active-visits-app": "11.1.0",
     "@openmrs/esm-appointments-app": "11.1.0",
