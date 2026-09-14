@@ -45,7 +45,7 @@ RUN echo "=== extracted content-package layout ===" && \
 #--------------------------------------------
 FROM --platform=$BUILDPLATFORM node:20-alpine AS dev
 
-ARG APP_SHELL_VERSION=next
+ARG APP_SHELL_VERSION=10.0.1-pre.5263
 
 RUN mkdir -p /app
 WORKDIR /app
@@ -109,4 +109,3 @@ RUN cp -r /tmp/spa-configs/. /usr/share/nginx/html/openmrs/spa/ && \
     rm -rf /tmp/spa-configs
 
 CMD ["/bin/sh", "-c", "/usr/local/bin/startup.sh"]
-
