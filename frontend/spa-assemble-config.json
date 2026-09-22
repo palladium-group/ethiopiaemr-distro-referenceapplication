@@ -44,7 +44,7 @@
     "@palladium-ethiopia/esm-orders-admin-app": "5.4.2-pre.384",
     "@palladium-ethiopia/esm-surgery-schedule-app": "5.4.2-pre.384",
     "@palladium-ethiopia/esm-login-app": "5.4.2-pre.384",
-    "@palladium-ethiopia/esm-radiology-imaging-app": "5.4.2-pre.384",
+    "@palladium-ethiopia/esm-radiology-imaging-app": "5.4.2-pre.412",
 
     "@kenyaemr/esm-bed-management-app": "10.0.1-pre.31",
     "@kenyaemr/esm-care-panel-app": "5.4.5-pre.1043",
