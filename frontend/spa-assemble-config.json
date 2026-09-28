@@ -45,6 +45,8 @@
     "@palladium-ethiopia/esm-surgery-schedule-app": "next",
     "@palladium-ethiopia/esm-login-app": "next",
     "@palladium-ethiopia/esm-radiology-imaging-app": "next",
+    "@palladium-ethiopia/esm-pathology-app": "next",
+    "@palladium-ethiopia/esm-special-orders-app": "next",
 
     "@kenyaemr/esm-bed-management-app": "next",
     "@kenyaemr/esm-care-panel-app": "next",
