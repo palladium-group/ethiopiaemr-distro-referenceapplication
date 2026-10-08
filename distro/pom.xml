@@ -84,6 +84,7 @@
     <ethiopiaemrcore.version>1.0.0-SNAPSHOT</ethiopiaemrcore.version>
     <ethiopiaemrcustommodule.version>1.0.2-SNAPSHOT</ethiopiaemrcustommodule.version>
     <ethiopiaemrshr.version>1.0.25-SNAPSHOT</ethiopiaemrshr.version>
+    <ethiopiaemrshrclient.version>1.0.0-SNAPSHOT</ethiopiaemrshrclient.version>
     <ethiopiaemretl.version>1.8.0-SNAPSHOT</ethiopiaemretl.version>
     <ethiopiaemrreports.version>1.5.0-SNAPSHOT</ethiopiaemrreports.version>
 
@@ -439,6 +440,12 @@
       <groupId>org.openmrs.module</groupId>
       <artifactId>ethiopiaemr-module-shr-omod</artifactId>
       <version>${ethiopiaemrshr.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.openmrs.module</groupId>
+      <artifactId>ethiopiaemr-module-shr-client-omod</artifactId>
+      <version>${ethiopiaemrshrclient.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
