@@ -9,6 +9,8 @@
 -- Create supporting databases for ETL and datatools functionality
 create database if not exists kenyaemr_datatools;
 create database if not exists kenyaemr_etl;
+-- EthiopiaEMR ETL module schema (<openmrs-db>_etl), created by sp_init_etl on module start
+create database if not exists openmrs_etl;
 
 -- User Creation
 -- Create database users (empty passwords - configure for production)
@@ -19,6 +21,7 @@ CREATE USER IF NOT EXISTS 'openmrs_user' @'%' IDENTIFIED BY '';
 -- Grant database and system privileges
 GRANT ALL PRIVILEGES ON kenyaemr_datatools.* TO 'openmrs' @'%';
 GRANT ALL PRIVILEGES ON kenyaemr_etl.* TO 'openmrs' @'%';
+GRANT ALL PRIVILEGES ON openmrs_etl.* TO 'openmrs' @'%';
 GRANT ALL PRIVILEGES ON *.* TO 'openmrs_user' @'%';
 
 -- Grant SYSTEM_USER privilege (required for MySQL 8.0+ to drop procedures)
