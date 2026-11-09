@@ -34,6 +34,7 @@
     "@palladium-ethiopia/esm-clinical-workflow-app": "next",
     "@palladium-ethiopia/esm-etl-app": "next",
     "@palladium-ethiopia/esm-shr-app": "next",
+    "@palladium-ethiopia/esm-referral-app": "5.4.2-pre.495",
     "@palladium-ethiopia/esm-consultation-app": "next",
     "@palladium-ethiopia/esm-order-catalog-ethio-app": "next",
     "@palladium-ethiopia/esm-patient-medications-app": "next",
