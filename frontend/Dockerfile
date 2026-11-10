@@ -62,6 +62,10 @@ COPY frontend/rename-packages.sh .
 COPY frontend/favicon.ico .
 COPY frontend/repair-css-module-selectors.cjs .
 
+# Pin postcss-selector-parser: 7.2.0 double-escapes CSS-module classes (broken nav/headers).
+RUN printf '{"dependencies":{"openmrs":"%s"},"overrides":{"postcss-modules-scope":{"postcss-selector-parser":"7.1.8"},"postcss-modules-local-by-default":{"postcss-selector-parser":"7.1.8"}}}' \
+    "${APP_SHELL_VERSION}" > package.json && npm install --legacy-peer-deps --no-audit --no-fund
+
 RUN echo "Frontend cache bust: ${FRONTEND_CACHE_BUST}" && \
     npx --legacy-peer-deps openmrs@${APP_SHELL_VERSION:-next} \
     assemble --manifest --mode config \
