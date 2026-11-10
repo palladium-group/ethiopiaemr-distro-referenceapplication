@@ -60,6 +60,7 @@ COPY frontend/spa-assemble-config.json .
 COPY frontend/spa-build-config.json .
 COPY frontend/rename-packages.sh .
 COPY frontend/favicon.ico .
+COPY frontend/repair-css-module-selectors.cjs .
 
 RUN echo "Frontend cache bust: ${FRONTEND_CACHE_BUST}" && \
     npx --legacy-peer-deps openmrs@${APP_SHELL_VERSION:-next} \
@@ -69,6 +70,7 @@ RUN echo "Frontend cache bust: ${FRONTEND_CACHE_BUST}" && \
 RUN npx --legacy-peer-deps openmrs@${APP_SHELL_VERSION:-next} \
     build --build-config spa-build-config.json \
     --target ./spa
+RUN node ./repair-css-module-selectors.cjs ./spa
 RUN if [ ! -f ./spa/index.html ]; then \
     echo 'Build failed. Please check the logs above for details. This may have happened because of an update to a library that OpenMRS depends on.'; \
     exit 1; \
