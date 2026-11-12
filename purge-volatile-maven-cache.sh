@@ -7,7 +7,7 @@ M2_REPO="${M2_REPO:-${HOME}/.m2/repository}"
 for artifact_path in \
   org/ethiopiaemr/content/ethiopiaemr-package \
   org/openmrs/module/ethiopiaemr-custom-module-omod \
-  org/openmrs/module/kenyaemr.cashier-omod \
+  org/openmrs/module/ethiopiaemr-module-billing-omod \
   org/openmrs/module/ethiopiaemrreports-omod \
   org/openmrs/module/ethiopiaemretl-omod
 do
